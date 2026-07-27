@@ -69,9 +69,11 @@ class Uno24WallpaperService : WallpaperService() {
                     val offsetHours = now.offset.totalSeconds / 3600.0
                     val hourFraction = now.hour + now.minute / 60.0 + now.second / 3600.0 + now.nano / 3_600_000_000_000.0
 
+                    val (latitude, longitude) = LocationHelper.getSavedCoordinates(this@Uno24WallpaperService)
+
                     val sunTimes = SolarCalculator.calculateSunTimes(
-                        latitude = 52.52,
-                        longitude = 13.405,
+                        latitude = latitude,
+                        longitude = longitude,
                         date = date,
                         timeZoneOffsetHours = offsetHours
                     )
