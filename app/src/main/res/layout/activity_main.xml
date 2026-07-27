@@ -28,11 +28,51 @@
         android:textSize="13sp"
         android:textStyle="bold" />
 
-    <!-- Dropdown Spinners Row 1 (Digits filter & Size) -->
+    <!-- Background Selection Row (Background Mode Spinner & Pick Image Button) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Фон:"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/spinnerBgMode"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#FFFFFF" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPickImage"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginStart="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="Выбрать фото"
+            android:textAllCaps="false"
+            android:textColor="#FF3D00"
+            android:textSize="12sp"
+            app:strokeColor="#FF3D00" />
+    </LinearLayout>
+
+    <!-- Dropdown Spinners Row 1 (Digits filter & Size) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="8dp"
@@ -128,7 +168,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="4dp"
         android:checked="true"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
@@ -140,7 +180,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSetWallpaper"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="4dp"
         android:text="Установить как живые обои"
         android:textAllCaps="false"

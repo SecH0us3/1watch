@@ -2,6 +2,7 @@ package com.uno24.wallpaper
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 
@@ -16,6 +17,8 @@ object LocationHelper {
     private const val KEY_NUMERAL_DISPLAY_MODE = "key_numeral_display_mode"
     private const val KEY_NUMERAL_SIZE = "key_numeral_size"
     private const val KEY_NUMERAL_FONT = "key_numeral_font"
+    private const val KEY_BG_MODE = "key_bg_mode"
+    private const val KEY_CUSTOM_COLOR = "key_custom_color"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
@@ -109,6 +112,27 @@ object LocationHelper {
     fun saveNumeralFont(context: Context, font: NumeralFont) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_NUMERAL_FONT, font.name).apply()
+    }
+
+    fun getBackgroundMode(context: Context): BackgroundMode {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val name = prefs.getString(KEY_BG_MODE, BackgroundMode.THEME_DEFAULT.name)
+        return BackgroundMode.fromName(name)
+    }
+
+    fun saveBackgroundMode(context: Context, mode: BackgroundMode) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_BG_MODE, mode.name).apply()
+    }
+
+    fun getCustomColor(context: Context): Int {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getInt(KEY_CUSTOM_COLOR, Color.parseColor("#0A0F1D"))
+    }
+
+    fun saveCustomColor(context: Context, color: Int) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putInt(KEY_CUSTOM_COLOR, color).apply()
     }
 
     @SuppressLint("MissingPermission")

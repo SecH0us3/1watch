@@ -46,6 +46,11 @@ class Uno24DialRenderer {
         strokeCap = Paint.Cap.BUTT
     }
 
+    private val imageOverlayPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.parseColor("#40000000") // 25% dark tint over photo for legibility
+        style = Paint.Style.FILL
+    }
+
     fun draw(
         canvas: Canvas,
         width: Int,
@@ -59,7 +64,10 @@ class Uno24DialRenderer {
         numeralOrientation: NumeralOrientation = NumeralOrientation.UPRIGHT,
         numeralDisplayMode: NumeralDisplayMode = NumeralDisplayMode.EVEN_ONLY,
         numeralSize: NumeralSize = NumeralSize.MEDIUM,
-        numeralFont: NumeralFont = NumeralFont.SANS_SERIF
+        numeralFont: NumeralFont = NumeralFont.SANS_SERIF,
+        bgMode: BackgroundMode = BackgroundMode.THEME_DEFAULT,
+        customColor: Int = Color.parseColor("#0A0F1D"),
+        bgBitmap: Bitmap? = null
     ) {
         dialBackgroundPaint.color = theme.dialBgColor
         dayZonePaint.color = theme.dayZoneColor
@@ -70,7 +78,17 @@ class Uno24DialRenderer {
         handPaint.color = theme.handColor
         pivotPaint.color = theme.pivotColor
 
-        canvas.drawColor(dialBackgroundPaint.color)
+        // Draw Background
+        if (bgMode == BackgroundMode.CUSTOM_IMAGE && bgBitmap != null) {
+            val srcRect = Rect(0, 0, bgBitmap.width, bgBitmap.height)
+            val destRect = Rect(0, 0, width, height)
+            canvas.drawBitmap(bgBitmap, srcRect, destRect, null)
+            canvas.drawRect(destRect, imageOverlayPaint)
+        } else if (bgMode == BackgroundMode.CUSTOM_COLOR) {
+            canvas.drawColor(customColor)
+        } else {
+            canvas.drawColor(dialBackgroundPaint.color)
+        }
 
         val cx = width / 2f
         val cy = height / 2f

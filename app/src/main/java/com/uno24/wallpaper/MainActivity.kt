@@ -5,6 +5,7 @@ import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -15,9 +16,11 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlin.math.abs
 
@@ -30,6 +33,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var clockView: Uno24ClockView
     private lateinit var tvThemeTitle: TextView
     private lateinit var gestureDetector: GestureDetector
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            val success = BackgroundImageHelper.saveImageFromUri(this, uri)
+            if (success) {
+                LocationHelper.saveBackgroundMode(this, BackgroundMode.CUSTOM_IMAGE)
+                clockView.invalidate()
+                Toast.makeText(this, "Фоновое изображение установлено", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Не удалось загрузить изображение", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +84,32 @@ class MainActivity : AppCompatActivity() {
 
         clockView.setOnTouchListener(touchListener)
         findViewById<View>(R.id.mainRootLayout).setOnTouchListener(touchListener)
+
+        // Background Mode Spinner setup
+        val spinnerBgMode = findViewById<Spinner>(R.id.spinnerBgMode)
+        val bgModes = BackgroundMode.values()
+        val adapterBgMode = ArrayAdapter(this, android.R.layout.simple_spinner_item, bgModes.map { it.title })
+        adapterBgMode.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerBgMode.adapter = adapterBgMode
+        spinnerBgMode.setSelection(LocationHelper.getBackgroundMode(this).ordinal)
+        spinnerBgMode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedBgMode = bgModes[position]
+                if (selectedBgMode != LocationHelper.getBackgroundMode(this@MainActivity)) {
+                    if (selectedBgMode == BackgroundMode.CUSTOM_IMAGE && !BackgroundImageHelper.hasCustomImage(this@MainActivity)) {
+                        pickImageLauncher.launch("image/*")
+                    } else {
+                        LocationHelper.saveBackgroundMode(this@MainActivity, selectedBgMode)
+                        clockView.invalidate()
+                    }
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        findViewById<MaterialButton>(R.id.btnPickImage).setOnClickListener {
+            pickImageLauncher.launch("image/*")
+        }
 
         // Numeral Display Mode Spinner setup
         val spinnerDisplayMode = findViewById<Spinner>(R.id.spinnerDisplayMode)
