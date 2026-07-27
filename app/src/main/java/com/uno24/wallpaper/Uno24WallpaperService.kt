@@ -58,10 +58,21 @@ class Uno24WallpaperService : WallpaperService() {
 
                 val (lat, lon) = LocationHelper.getSavedCoordinates(this@Uno24WallpaperService)
                 val currentTheme = LocationHelper.getSavedTheme(this@Uno24WallpaperService)
+                val showUv = LocationHelper.getShowUv(this@Uno24WallpaperService)
 
                 val sunTimes = SolarCalculator.calculateSunTimes(lat, lon, date, zoneOffsetHours)
+                val uvData = if (showUv) UvRepository.getCachedOrFallbackUv(this@Uno24WallpaperService, lat, lon, date) else null
 
-                renderer.draw(canvas, canvas.width, canvas.height, hourFraction, sunTimes, currentTheme)
+                renderer.draw(
+                    canvas = canvas,
+                    width = canvas.width,
+                    height = canvas.height,
+                    timeHourFraction = hourFraction,
+                    sunTimes = sunTimes,
+                    theme = currentTheme,
+                    showUv = showUv,
+                    uvData = uvData
+                )
             } finally {
                 holder.unlockCanvasAndPost(canvas)
             }

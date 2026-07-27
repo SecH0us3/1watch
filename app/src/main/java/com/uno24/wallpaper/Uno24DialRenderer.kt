@@ -42,13 +42,20 @@ class Uno24DialRenderer {
         style = Paint.Style.FILL
     }
 
+    private val uvArcPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.BUTT
+    }
+
     fun draw(
         canvas: Canvas,
         width: Int,
         height: Int,
         timeHourFraction: Double,
         sunTimes: SunTimes,
-        theme: DialTheme = DialTheme.CLASSIC_DARK
+        theme: DialTheme = DialTheme.CLASSIC_DARK,
+        showUv: Boolean = true,
+        uvData: FloatArray? = null
     ) {
         dialBackgroundPaint.color = theme.dialBgColor
         dayZonePaint.color = theme.dayZoneColor
@@ -76,7 +83,27 @@ class Uno24DialRenderer {
 
         canvas.drawArc(dialRect, sunsetAngle, sweepAngle, true, nightZonePaint)
 
-        // 3. Draw Hour Markings & Numbers (0 to 23)
+        // 3. Draw UV Activity Arc on Daytime Sector if enabled
+        if (showUv && uvData != null && uvData.size >= 24) {
+            val uvArcRadius = radius * 0.94f
+            val uvRect = RectF(cx - uvArcRadius, cy - uvArcRadius, cx + uvArcRadius, cy + uvArcRadius)
+            uvArcPaint.strokeWidth = radius * 0.04f
+
+            for (h in 0 until 24) {
+                val uvVal = uvData[h]
+                if (uvVal >= 3.0f) {
+                    val startAngle = timeToAngle(h.toDouble()) - 90f
+                    uvArcPaint.color = when {
+                        uvVal >= 8.0f -> Color.parseColor("#D500F9") // Very High / Extreme
+                        uvVal >= 6.0f -> Color.parseColor("#FF6D00") // High
+                        else -> Color.parseColor("#FFD600")          // Moderate
+                    }
+                    canvas.drawArc(uvRect, startAngle, 15f, false, uvArcPaint)
+                }
+            }
+        }
+
+        // 4. Draw Hour Markings & Numbers (0 to 23)
         textPaint.textSize = radius * 0.08f
         for (h in 0 until 24) {
             val angle = timeToAngle(h.toDouble()) - 90f
@@ -100,7 +127,7 @@ class Uno24DialRenderer {
             }
         }
 
-        // 4. Draw Single Hour Hand
+        // 5. Draw Single Hour Hand
         val handAngle = timeToAngle(timeHourFraction) - 90f
         val handRad = Math.toRadians(handAngle.toDouble())
         val handLength = radius * 0.88f

@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +45,14 @@ class MainActivity : AppCompatActivity() {
             }
             LocationHelper.saveTheme(this, selectedTheme)
             Toast.makeText(this, "Theme updated: ${selectedTheme.title}", Toast.LENGTH_SHORT).show()
+        }
+
+        val switchUv = findViewById<SwitchMaterial>(R.id.switchUvArc)
+        switchUv.isChecked = LocationHelper.getShowUv(this)
+        switchUv.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveShowUv(this, isChecked)
+            val msg = if (isChecked) "UV Activity Arc Enabled" else "UV Activity Arc Disabled"
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         }
 
         findViewById<Button>(R.id.btnSetWallpaper).setOnClickListener {

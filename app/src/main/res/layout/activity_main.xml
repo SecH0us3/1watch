@@ -21,14 +21,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="24-Hour Single-Hand Live Wallpaper\nwith Dynamic Sunset/Sunrise Arc"
+        android:text="24-Hour Single-Hand Live Wallpaper\nwith Dynamic Solar Night Arc"
         android:textColor="#A0A0A0"
         android:textSize="14sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:text="Color Theme"
         android:textColor="#FF3D00"
         android:textSize="16sp"
@@ -38,7 +38,7 @@
         android:id="@+id/rgThemeSelector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="8dp">
 
         <RadioButton
             android:id="@+id/rbClassicDark"
@@ -69,11 +69,21 @@
             android:textColor="#FFFFFF" />
     </RadioGroup>
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchUvArc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:checked="true"
+        android:text="Show UV Activity Arc (Open-Meteo)"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSetWallpaper"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:text="Set Live Wallpaper"
         android:textAllCaps="false"
         android:textSize="16sp"

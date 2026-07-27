@@ -10,6 +10,7 @@ object LocationHelper {
     private const val KEY_LAT = "key_lat"
     private const val KEY_LON = "key_lon"
     private const val KEY_THEME = "key_theme"
+    private const val KEY_SHOW_UV = "key_show_uv"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
@@ -38,6 +39,16 @@ object LocationHelper {
     fun saveTheme(context: Context, theme: DialTheme) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_THEME, theme.name).apply()
+    }
+
+    fun getShowUv(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_SHOW_UV, true)
+    }
+
+    fun saveShowUv(context: Context, enabled: Boolean) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_SHOW_UV, enabled).apply()
     }
 
     @SuppressLint("MissingPermission")
