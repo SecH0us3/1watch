@@ -55,7 +55,7 @@ class Uno24ClockView @JvmOverloads constructor(
         val numeralStyle = LocationHelper.getNumeralStyle(context)
         val numeralOrientation = LocationHelper.getNumeralOrientation(context)
         val numeralDisplayMode = LocationHelper.getNumeralDisplayMode(context)
-        val numeralSize = LocationHelper.getNumeralSize(context)
+        val fontSizeScale = LocationHelper.getFontSizeScale(context)
         val numeralFont = LocationHelper.getNumeralFont(context)
         val bgMode = LocationHelper.getBackgroundMode(context)
         val customColor = LocationHelper.getCustomColor(context)
@@ -76,7 +76,7 @@ class Uno24ClockView @JvmOverloads constructor(
             numeralStyle = numeralStyle,
             numeralOrientation = numeralOrientation,
             numeralDisplayMode = numeralDisplayMode,
-            numeralSize = numeralSize,
+            fontSizeScale = fontSizeScale,
             numeralFont = numeralFont,
             bgMode = bgMode,
             customColor = customColor,

@@ -19,6 +19,7 @@ object LocationHelper {
     private const val KEY_NUMERAL_FONT = "key_numeral_font"
     private const val KEY_BG_MODE = "key_bg_mode"
     private const val KEY_CUSTOM_COLOR = "key_custom_color"
+    private const val KEY_FONT_SIZE_SCALE = "key_font_size_scale"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
@@ -92,15 +93,15 @@ object LocationHelper {
         prefs.edit().putString(KEY_NUMERAL_DISPLAY_MODE, mode.name).apply()
     }
 
-    fun getNumeralSize(context: Context): NumeralSize {
+    fun getFontSizeScale(context: Context): Float {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val name = prefs.getString(KEY_NUMERAL_SIZE, NumeralSize.MEDIUM.name)
-        return NumeralSize.fromName(name)
+        return prefs.getFloat(KEY_FONT_SIZE_SCALE, 1.0f)
     }
 
-    fun saveNumeralSize(context: Context, size: NumeralSize) {
+    fun saveFontSizeScale(context: Context, scale: Float) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        prefs.edit().putString(KEY_NUMERAL_SIZE, size.name).apply()
+        val clamped = scale.coerceIn(0.5f, 1.8f)
+        prefs.edit().putFloat(KEY_FONT_SIZE_SCALE, clamped).apply()
     }
 
     fun getNumeralFont(context: Context): NumeralFont {

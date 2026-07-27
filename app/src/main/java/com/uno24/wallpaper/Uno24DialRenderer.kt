@@ -63,7 +63,7 @@ class Uno24DialRenderer {
         numeralStyle: NumeralStyle = NumeralStyle.ARABIC,
         numeralOrientation: NumeralOrientation = NumeralOrientation.UPRIGHT,
         numeralDisplayMode: NumeralDisplayMode = NumeralDisplayMode.EVEN_ONLY,
-        numeralSize: NumeralSize = NumeralSize.MEDIUM,
+        fontSizeScale: Float = 1.0f,
         numeralFont: NumeralFont = NumeralFont.SANS_SERIF,
         bgMode: BackgroundMode = BackgroundMode.THEME_DEFAULT,
         customColor: Int = Color.parseColor("#0A0F1D"),
@@ -132,7 +132,10 @@ class Uno24DialRenderer {
             numeralStyle == NumeralStyle.ROMAN -> radius * 0.065f
             else -> radius * 0.075f
         }
-        textPaint.textSize = baseSize * numeralSize.scale
+        textPaint.textSize = baseSize * fontSizeScale
+
+        // Fixed constant radial distance for all numbers (odd and even sitting on the exact same concentric circle)
+        val labelRadius = radius * 0.74f
 
         for (h in 0 until 24) {
             val angle = timeToAngle(h.toDouble()) - 90f
@@ -157,7 +160,6 @@ class Uno24DialRenderer {
 
             if (shouldShowLabel) {
                 val labelText = if (numeralStyle == NumeralStyle.ROMAN) NumeralStyle.toRoman(h) else String.format("%02d", h)
-                val labelRadius = radius - tickLength - textPaint.textSize * 1.1f
                 val labelX = (cx + labelRadius * cos(rad)).toFloat()
                 val labelY = (cy + labelRadius * sin(rad)).toFloat()
 

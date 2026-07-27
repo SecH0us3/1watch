@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var clockView: Uno24ClockView
     private lateinit var tvThemeTitle: TextView
+    private lateinit var tvSizeValue: TextView
     private lateinit var gestureDetector: GestureDetector
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -55,8 +57,10 @@ class MainActivity : AppCompatActivity() {
 
         clockView = findViewById(R.id.clockView)
         tvThemeTitle = findViewById(R.id.tvThemeTitle)
+        tvSizeValue = findViewById(R.id.tvSizeValue)
 
         updateThemeTitle()
+        updateSizeLabel()
 
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
@@ -129,22 +133,21 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // Numeral Size Spinner setup
-        val spinnerNumeralSize = findViewById<Spinner>(R.id.spinnerNumeralSize)
-        val sizes = NumeralSize.values()
-        val adapterSize = ArrayAdapter(this, android.R.layout.simple_spinner_item, sizes.map { it.title })
-        adapterSize.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerNumeralSize.adapter = adapterSize
-        spinnerNumeralSize.setSelection(LocationHelper.getNumeralSize(this).ordinal)
-        spinnerNumeralSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedSize = sizes[position]
-                if (selectedSize != LocationHelper.getNumeralSize(this@MainActivity)) {
-                    LocationHelper.saveNumeralSize(this@MainActivity, selectedSize)
-                    clockView.invalidate()
-                }
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        // Font Size +/- Buttons setup
+        findViewById<MaterialButton>(R.id.btnSizeMinus).setOnClickListener {
+            val currentScale = LocationHelper.getFontSizeScale(this)
+            val newScale = (currentScale - 0.1f).coerceAtLeast(0.5f)
+            LocationHelper.saveFontSizeScale(this, newScale)
+            updateSizeLabel()
+            clockView.invalidate()
+        }
+
+        findViewById<MaterialButton>(R.id.btnSizePlus).setOnClickListener {
+            val currentScale = LocationHelper.getFontSizeScale(this)
+            val newScale = (currentScale + 0.1f).coerceAtMost(1.8f)
+            LocationHelper.saveFontSizeScale(this, newScale)
+            updateSizeLabel()
+            clockView.invalidate()
         }
 
         // Numeral Font Spinner setup
@@ -212,6 +215,12 @@ class MainActivity : AppCompatActivity() {
     private fun updateThemeTitle() {
         val currentTheme = LocationHelper.getSavedTheme(this)
         tvThemeTitle.text = "← Смахните для смены темы: ${currentTheme.title} →"
+    }
+
+    private fun updateSizeLabel() {
+        val scale = LocationHelper.getFontSizeScale(this)
+        val percent = (scale * 100).roundToInt()
+        tvSizeValue.text = "$percent%"
     }
 
     private fun checkLocationPermission() {

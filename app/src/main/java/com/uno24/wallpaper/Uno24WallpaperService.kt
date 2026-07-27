@@ -91,7 +91,7 @@ class Uno24WallpaperService : WallpaperService() {
                 val numeralStyle = LocationHelper.getNumeralStyle(this@Uno24WallpaperService)
                 val numeralOrientation = LocationHelper.getNumeralOrientation(this@Uno24WallpaperService)
                 val numeralDisplayMode = LocationHelper.getNumeralDisplayMode(this@Uno24WallpaperService)
-                val numeralSize = LocationHelper.getNumeralSize(this@Uno24WallpaperService)
+                val fontSizeScale = LocationHelper.getFontSizeScale(this@Uno24WallpaperService)
                 val numeralFont = LocationHelper.getNumeralFont(this@Uno24WallpaperService)
                 val bgMode = LocationHelper.getBackgroundMode(this@Uno24WallpaperService)
                 val customColor = LocationHelper.getCustomColor(this@Uno24WallpaperService)
@@ -112,7 +112,7 @@ class Uno24WallpaperService : WallpaperService() {
                     numeralStyle = numeralStyle,
                     numeralOrientation = numeralOrientation,
                     numeralDisplayMode = numeralDisplayMode,
-                    numeralSize = numeralSize,
+                    fontSizeScale = fontSizeScale,
                     numeralFont = numeralFont,
                     bgMode = bgMode,
                     customColor = customColor,
