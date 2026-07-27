@@ -28,11 +28,11 @@
         android:textSize="13sp"
         android:textStyle="bold" />
 
-    <!-- Dropdown Spinners Row (Digits filter & Size) -->
+    <!-- Dropdown Spinners Row 1 (Digits filter & Size) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="8dp"
@@ -48,7 +48,7 @@
         <Spinner
             android:id="@+id/spinnerDisplayMode"
             android:layout_width="0dp"
-            android:layout_height="44dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
             android:backgroundTint="#FFFFFF" />
@@ -64,9 +64,35 @@
         <Spinner
             android:id="@+id/spinnerNumeralSize"
             android:layout_width="0dp"
-            android:layout_height="44dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
+            android:backgroundTint="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- Dropdown Spinner Row 2 (Font Selection) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Шрифт:"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/spinnerNumeralFont"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
             android:backgroundTint="#FFFFFF" />
     </LinearLayout>
 
@@ -102,7 +128,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="6dp"
         android:checked="true"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
@@ -114,7 +140,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSetWallpaper"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="4dp"
         android:text="Установить как живые обои"
         android:textAllCaps="false"

@@ -30,7 +30,6 @@ class Uno24DialRenderer {
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
-        typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
     }
 
     private val handPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -59,13 +58,15 @@ class Uno24DialRenderer {
         numeralStyle: NumeralStyle = NumeralStyle.ARABIC,
         numeralOrientation: NumeralOrientation = NumeralOrientation.UPRIGHT,
         numeralDisplayMode: NumeralDisplayMode = NumeralDisplayMode.EVEN_ONLY,
-        numeralSize: NumeralSize = NumeralSize.MEDIUM
+        numeralSize: NumeralSize = NumeralSize.MEDIUM,
+        numeralFont: NumeralFont = NumeralFont.SANS_SERIF
     ) {
         dialBackgroundPaint.color = theme.dialBgColor
         dayZonePaint.color = theme.dayZoneColor
         nightZonePaint.color = theme.nightZoneColor
         tickPaint.color = theme.tickColor
         textPaint.color = theme.textColor
+        textPaint.typeface = numeralFont.typeface
         handPaint.color = theme.handColor
         pivotPaint.color = theme.pivotColor
 
@@ -138,7 +139,6 @@ class Uno24DialRenderer {
 
             if (shouldShowLabel) {
                 val labelText = if (numeralStyle == NumeralStyle.ROMAN) NumeralStyle.toRoman(h) else String.format("%02d", h)
-                // Inset numerals slightly further from edges (radius - tickLength - textPaint.textSize * 1.1f)
                 val labelRadius = radius - tickLength - textPaint.textSize * 1.1f
                 val labelX = (cx + labelRadius * cos(rad)).toFloat()
                 val labelY = (cy + labelRadius * sin(rad)).toFloat()

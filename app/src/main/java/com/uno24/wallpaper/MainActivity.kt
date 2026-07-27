@@ -105,6 +105,24 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
+        // Numeral Font Spinner setup
+        val spinnerNumeralFont = findViewById<Spinner>(R.id.spinnerNumeralFont)
+        val fonts = NumeralFont.values()
+        val adapterFont = ArrayAdapter(this, android.R.layout.simple_spinner_item, fonts.map { it.title })
+        adapterFont.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerNumeralFont.adapter = adapterFont
+        spinnerNumeralFont.setSelection(LocationHelper.getNumeralFont(this).ordinal)
+        spinnerNumeralFont.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedFont = fonts[position]
+                if (selectedFont != LocationHelper.getNumeralFont(this@MainActivity)) {
+                    LocationHelper.saveNumeralFont(this@MainActivity, selectedFont)
+                    clockView.invalidate()
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
         val switchRadial = findViewById<SwitchMaterial>(R.id.switchRadialOrientation)
         switchRadial.isChecked = LocationHelper.getNumeralOrientation(this) == NumeralOrientation.RADIAL
         switchRadial.setOnCheckedChangeListener { _, isChecked ->

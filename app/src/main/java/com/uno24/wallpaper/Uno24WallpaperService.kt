@@ -92,6 +92,7 @@ class Uno24WallpaperService : WallpaperService() {
                 val numeralOrientation = LocationHelper.getNumeralOrientation(this@Uno24WallpaperService)
                 val numeralDisplayMode = LocationHelper.getNumeralDisplayMode(this@Uno24WallpaperService)
                 val numeralSize = LocationHelper.getNumeralSize(this@Uno24WallpaperService)
+                val numeralFont = LocationHelper.getNumeralFont(this@Uno24WallpaperService)
 
                 val sunTimes = SolarCalculator.calculateSunTimes(lat, lon, date, zoneOffsetHours)
                 val uvData = if (showUv) UvRepository.getCachedOrFallbackUv(this@Uno24WallpaperService, lat, lon, date) else null
@@ -108,7 +109,8 @@ class Uno24WallpaperService : WallpaperService() {
                     numeralStyle = numeralStyle,
                     numeralOrientation = numeralOrientation,
                     numeralDisplayMode = numeralDisplayMode,
-                    numeralSize = numeralSize
+                    numeralSize = numeralSize,
+                    numeralFont = numeralFont
                 )
             } finally {
                 holder.unlockCanvasAndPost(canvas)

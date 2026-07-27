@@ -15,6 +15,7 @@ object LocationHelper {
     private const val KEY_NUMERAL_ORIENTATION = "key_numeral_orientation"
     private const val KEY_NUMERAL_DISPLAY_MODE = "key_numeral_display_mode"
     private const val KEY_NUMERAL_SIZE = "key_numeral_size"
+    private const val KEY_NUMERAL_FONT = "key_numeral_font"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
@@ -97,6 +98,17 @@ object LocationHelper {
     fun saveNumeralSize(context: Context, size: NumeralSize) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_NUMERAL_SIZE, size.name).apply()
+    }
+
+    fun getNumeralFont(context: Context): NumeralFont {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val name = prefs.getString(KEY_NUMERAL_FONT, NumeralFont.SANS_SERIF.name)
+        return NumeralFont.fromName(name)
+    }
+
+    fun saveNumeralFont(context: Context, font: NumeralFont) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_NUMERAL_FONT, font.name).apply()
     }
 
     @SuppressLint("MissingPermission")
