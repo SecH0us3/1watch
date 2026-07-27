@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.botta.uno24"
+    namespace = "com.uno24.wallpaper"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.botta.uno24"
+        applicationId = "com.uno24.wallpaper"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

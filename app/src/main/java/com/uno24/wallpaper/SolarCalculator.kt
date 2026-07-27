@@ -1,4 +1,4 @@
-package com.botta.uno24
+package com.uno24.wallpaper
 
 import java.time.LocalDate
 import kotlin.math.*
@@ -22,12 +22,10 @@ object SolarCalculator {
         val decl = 0.006918 - 0.399912 * cos(gamma) + 0.070257 * sin(gamma) - 0.006758 * cos(2 * gamma) + 0.000907 * sin(2 * gamma) - 0.002697 * cos(3 * gamma) + 0.00148 * sin(3 * gamma)
 
         val latRad = Math.toRadians(latitude)
-        // 90.833° zenith for official sunrise/sunset (90° + 50' refraction)
         val zenith = Math.toRadians(90.833)
         
         val cosHourAngle = (cos(zenith) / (cos(latRad) * cos(decl))) - (tan(latRad) * tan(decl))
         
-        // Clamp to [-1, 1] for extreme latitudes (midnight sun / polar night)
         val clampedCosHA = cosHourAngle.coerceIn(-1.0, 1.0)
         val hourAngle = Math.toDegrees(acos(clampedCosHA))
 

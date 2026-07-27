@@ -1,47 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0E1117"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="32dp">
+    android:padding="24dp">
 
     <TextView
-        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Botta UNO 24"
+        android:text="UNO 24"
         android:textColor="#FFFFFF"
-        android:textSize="30sp"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
-        android:lineSpacingExtra="4dp"
-        android:text="24-Hour Single-Hand Live Wallpaper with Dynamic Night Arc"
-        android:textColor="#9DA2B0"
-        android:textSize="15sp" />
+        android:text="24-Hour Single-Hand Live Wallpaper\nwith Dynamic Sunset/Sunrise Arc"
+        android:textColor="#A0A0A0"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Color Theme"
+        android:textColor="#FF3D00"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/rgThemeSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp">
+
+        <RadioButton
+            android:id="@+id/rbClassicDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Classic Dark"
+            android:textColor="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/rbSolarGold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Solar Twilight"
+            android:textColor="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/rbMonochromeLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Minimal Light"
+            android:textColor="#FFFFFF" />
+
+        <RadioButton
+            android:id="@+id/rbCyberpunk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cyberpunk Neon"
+            android:textColor="#FFFFFF" />
+    </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSetWallpaper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:layout_marginTop="40dp"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp"
         android:text="Set Live Wallpaper"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
         android:textSize="16sp"
-        app:backgroundTint="#2563EB"
-        app:cornerRadius="24dp" />
+        app:cornerRadius="12dp" />
 
 </LinearLayout>

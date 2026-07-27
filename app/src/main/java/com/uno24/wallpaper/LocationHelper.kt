@@ -1,0 +1,64 @@
+package com.uno24.wallpaper
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.location.Location
+import android.location.LocationManager
+
+object LocationHelper {
+    private const val PREFS_NAME = "Uno24Prefs"
+    private const val KEY_LAT = "key_lat"
+    private const val KEY_LON = "key_lon"
+    private const val KEY_THEME = "key_theme"
+
+    private const val DEFAULT_LAT = 55.7558 // Moscow default
+    private const val DEFAULT_LON = 37.6173
+
+    fun getSavedCoordinates(context: Context): Pair<Double, Double> {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val lat = prefs.getFloat(KEY_LAT, DEFAULT_LAT.toFloat()).toDouble()
+        val lon = prefs.getFloat(KEY_LON, DEFAULT_LON.toFloat()).toDouble()
+        return Pair(lat, lon)
+    }
+
+    fun saveCoordinates(context: Context, lat: Double, lon: Double) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit()
+            .putFloat(KEY_LAT, lat.toFloat())
+            .putFloat(KEY_LON, lon.toFloat())
+            .apply()
+    }
+
+    fun getSavedTheme(context: Context): DialTheme {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val themeName = prefs.getString(KEY_THEME, DialTheme.CLASSIC_DARK.name)
+        return DialTheme.fromName(themeName)
+    }
+
+    fun saveTheme(context: Context, theme: DialTheme) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_THEME, theme.name).apply()
+    }
+
+    @SuppressLint("MissingPermission")
+    fun updateLocationIfPermitted(context: Context) {
+        try {
+            val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val providers = lm.getProviders(true)
+            var bestLocation: Location? = null
+
+            for (provider in providers) {
+                val l = lm.getLastKnownLocation(provider) ?: continue
+                if (bestLocation == null || l.accuracy < bestLocation.accuracy) {
+                    bestLocation = l
+                }
+            }
+
+            bestLocation?.let {
+                saveCoordinates(context, it.latitude, it.longitude)
+            }
+        } catch (e: SecurityException) {
+            // Permission not granted, fallback to saved/default
+        }
+    }
+}
