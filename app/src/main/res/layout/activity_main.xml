@@ -21,62 +21,88 @@
         android:id="@+id/tvThemeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:text="← Смахните для смены темы: Classic Dark →"
         android:textColor="#A0A0A0"
-        android:textSize="14sp"
+        android:textSize="13sp"
         android:textStyle="bold" />
+
+    <!-- Dropdown / Spinner for Numeral Display Mode -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Цифры:"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/spinnerDisplayMode"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:backgroundTint="#FFFFFF" />
+    </LinearLayout>
 
     <!-- Radial Orientation Switch under the clock -->
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchRadialOrientation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="2dp"
         android:checked="false"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:text="Цифры повернуты к центру круга"
         android:textColor="#FFFFFF"
-        android:textSize="15sp" />
+        android:textSize="14sp" />
 
     <!-- Roman Numerals Switch under the clock -->
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchRomanNumerals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:checked="false"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:text="Римские цифры (I, II, IV ... XXIV)"
         android:textColor="#FFFFFF"
-        android:textSize="15sp" />
+        android:textSize="14sp" />
 
     <!-- UV Toggle Switch under the clock -->
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchUvArc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="8dp"
         android:checked="true"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:text="УФ-активность (Open-Meteo)"
         android:textColor="#FFFFFF"
-        android:textSize="15sp" />
+        android:textSize="14sp" />
 
     <!-- Set Live Wallpaper Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSetWallpaper"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="4dp"
         android:text="Установить как живые обои"
         android:textAllCaps="false"
-        android:textSize="16sp"
+        android:textSize="15sp"
         app:cornerRadius="12dp" />
 
 </LinearLayout>

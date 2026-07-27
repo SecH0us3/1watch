@@ -9,7 +9,10 @@ import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -65,6 +68,28 @@ class MainActivity : AppCompatActivity() {
 
         clockView.setOnTouchListener(touchListener)
         findViewById<View>(R.id.mainRootLayout).setOnTouchListener(touchListener)
+
+        // Numeral Display Mode Spinner setup
+        val spinnerDisplayMode = findViewById<Spinner>(R.id.spinnerDisplayMode)
+        val modes = NumeralDisplayMode.values()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, modes.map { it.title })
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerDisplayMode.adapter = adapter
+
+        val currentMode = LocationHelper.getNumeralDisplayMode(this)
+        spinnerDisplayMode.setSelection(currentMode.ordinal)
+
+        spinnerDisplayMode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedMode = modes[position]
+                if (selectedMode != LocationHelper.getNumeralDisplayMode(this@MainActivity)) {
+                    LocationHelper.saveNumeralDisplayMode(this@MainActivity, selectedMode)
+                    clockView.invalidate()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
         val switchRadial = findViewById<SwitchMaterial>(R.id.switchRadialOrientation)
         switchRadial.isChecked = LocationHelper.getNumeralOrientation(this) == NumeralOrientation.RADIAL
