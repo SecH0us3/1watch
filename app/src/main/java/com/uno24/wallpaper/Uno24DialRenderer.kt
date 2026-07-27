@@ -56,7 +56,8 @@ class Uno24DialRenderer {
         theme: DialTheme = DialTheme.CLASSIC_DARK,
         showUv: Boolean = true,
         uvData: FloatArray? = null,
-        numeralStyle: NumeralStyle = NumeralStyle.ARABIC
+        numeralStyle: NumeralStyle = NumeralStyle.ARABIC,
+        numeralOrientation: NumeralOrientation = NumeralOrientation.UPRIGHT
     ) {
         dialBackgroundPaint.color = theme.dialBgColor
         dayZonePaint.color = theme.dayZoneColor
@@ -125,9 +126,18 @@ class Uno24DialRenderer {
 
             if (isMajor) {
                 val labelText = if (numeralStyle == NumeralStyle.ROMAN) NumeralStyle.toRoman(h) else String.format("%02d", h)
-                val labelX = (cx + (radius - tickLength - textPaint.textSize * 0.9f) * cos(rad)).toFloat()
-                val labelY = (cy + (radius - tickLength - textPaint.textSize * 0.9f) * sin(rad) + textPaint.textSize * 0.35f).toFloat()
-                canvas.drawText(labelText, labelX, labelY, textPaint)
+                val labelRadius = radius - tickLength - textPaint.textSize * 0.9f
+                val labelX = (cx + labelRadius * cos(rad)).toFloat()
+                val labelY = (cy + labelRadius * sin(rad)).toFloat()
+
+                if (numeralOrientation == NumeralOrientation.RADIAL) {
+                    canvas.save()
+                    canvas.rotate(angle + 90f, labelX, labelY)
+                    canvas.drawText(labelText, labelX, labelY + textPaint.textSize * 0.35f, textPaint)
+                    canvas.restore()
+                } else {
+                    canvas.drawText(labelText, labelX, labelY + textPaint.textSize * 0.35f, textPaint)
+                }
             }
         }
 

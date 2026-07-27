@@ -66,6 +66,16 @@ class MainActivity : AppCompatActivity() {
         clockView.setOnTouchListener(touchListener)
         findViewById<View>(R.id.mainRootLayout).setOnTouchListener(touchListener)
 
+        val switchRadial = findViewById<SwitchMaterial>(R.id.switchRadialOrientation)
+        switchRadial.isChecked = LocationHelper.getNumeralOrientation(this) == NumeralOrientation.RADIAL
+        switchRadial.setOnCheckedChangeListener { _, isChecked ->
+            val orientation = if (isChecked) NumeralOrientation.RADIAL else NumeralOrientation.UPRIGHT
+            LocationHelper.saveNumeralOrientation(this, orientation)
+            clockView.invalidate()
+            val msg = if (isChecked) "Цифры повернуты к центру" else "Цифры смотрят прямо"
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        }
+
         val switchRoman = findViewById<SwitchMaterial>(R.id.switchRomanNumerals)
         switchRoman.isChecked = LocationHelper.getNumeralStyle(this) == NumeralStyle.ROMAN
         switchRoman.setOnCheckedChangeListener { _, isChecked ->

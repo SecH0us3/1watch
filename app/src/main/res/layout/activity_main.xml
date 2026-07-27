@@ -28,12 +28,25 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
+    <!-- Radial Orientation Switch under the clock -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchRadialOrientation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:checked="false"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="Цифры повернуты к центру круга"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
     <!-- Roman Numerals Switch under the clock -->
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchRomanNumerals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:checked="false"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
