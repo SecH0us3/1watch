@@ -15,7 +15,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import kotlin.math.abs
 
@@ -25,7 +24,8 @@ class MainActivity : AppCompatActivity() {
         private const val PERMISSION_REQUEST_LOCATION = 1001
     }
 
-    private lateinit var tvThemeName: TextView
+    private lateinit var clockView: Uno24ClockView
+    private lateinit var tvThemeTitle: TextView
     private lateinit var gestureDetector: GestureDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +34,10 @@ class MainActivity : AppCompatActivity() {
 
         checkLocationPermission()
 
-        tvThemeName = findViewById(R.id.tvCurrentThemeName)
-        val cardPreview = findViewById<MaterialCardView>(R.id.cardThemePreview)
+        clockView = findViewById(R.id.clockView)
+        tvThemeTitle = findViewById(R.id.tvThemeTitle)
 
-        updateThemeDisplay()
+        updateThemeTitle()
 
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
@@ -48,8 +48,9 @@ class MainActivity : AppCompatActivity() {
                     val currentTheme = LocationHelper.getSavedTheme(this@MainActivity)
                     val newTheme = if (diffX < 0) currentTheme.next() else currentTheme.previous()
                     LocationHelper.saveTheme(this@MainActivity, newTheme)
-                    updateThemeDisplay()
-                    Toast.makeText(this@MainActivity, "Theme: ${newTheme.title}", Toast.LENGTH_SHORT).show()
+                    updateThemeTitle()
+                    clockView.invalidate()
+                    Toast.makeText(this@MainActivity, "Тема: ${newTheme.title}", Toast.LENGTH_SHORT).show()
                     return true
                 }
                 return false
@@ -62,14 +63,15 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        cardPreview.setOnTouchListener(touchListener)
+        clockView.setOnTouchListener(touchListener)
         findViewById<View>(R.id.mainRootLayout).setOnTouchListener(touchListener)
 
         val switchUv = findViewById<SwitchMaterial>(R.id.switchUvArc)
         switchUv.isChecked = LocationHelper.getShowUv(this)
         switchUv.setOnCheckedChangeListener { _, isChecked ->
             LocationHelper.saveShowUv(this, isChecked)
-            val msg = if (isChecked) "UV Activity Arc Enabled" else "UV Activity Arc Disabled"
+            clockView.invalidate()
+            val msg = if (isChecked) "УФ-активность включена" else "УФ-активность выключена"
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         }
 
@@ -83,14 +85,14 @@ class MainActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             } catch (e: Exception) {
-                Toast.makeText(this, "Unable to launch wallpaper chooser", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Не удалось открыть выбор живых обоев", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun updateThemeDisplay() {
+    private fun updateThemeTitle() {
         val currentTheme = LocationHelper.getSavedTheme(this)
-        tvThemeName.text = currentTheme.title
+        tvThemeTitle.text = "← Смахните для смены темы: ${currentTheme.title} →"
     }
 
     private fun checkLocationPermission() {
@@ -117,6 +119,7 @@ class MainActivity : AppCompatActivity() {
             && grantResults[0] == PackageManager.PERMISSION_GRANTED
         ) {
             LocationHelper.updateLocationIfPermitted(this)
+            clockView.invalidate()
         }
     }
 }
