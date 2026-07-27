@@ -11,6 +11,7 @@ object LocationHelper {
     private const val KEY_LON = "key_lon"
     private const val KEY_THEME = "key_theme"
     private const val KEY_SHOW_UV = "key_show_uv"
+    private const val KEY_NUMERAL_STYLE = "key_numeral_style"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
@@ -49,6 +50,17 @@ object LocationHelper {
     fun saveShowUv(context: Context, enabled: Boolean) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putBoolean(KEY_SHOW_UV, enabled).apply()
+    }
+
+    fun getNumeralStyle(context: Context): NumeralStyle {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val name = prefs.getString(KEY_NUMERAL_STYLE, NumeralStyle.ARABIC.name)
+        return NumeralStyle.fromName(name)
+    }
+
+    fun saveNumeralStyle(context: Context, style: NumeralStyle) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_NUMERAL_STYLE, style.name).apply()
     }
 
     @SuppressLint("MissingPermission")

@@ -28,12 +28,25 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
+    <!-- Roman Numerals Switch under the clock -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchRomanNumerals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:checked="false"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="Римские цифры (I, II, IV ... XXIV)"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
     <!-- UV Toggle Switch under the clock -->
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchUvArc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="12dp"
         android:checked="true"
         android:paddingStart="8dp"

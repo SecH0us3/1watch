@@ -55,7 +55,8 @@ class Uno24DialRenderer {
         sunTimes: SunTimes,
         theme: DialTheme = DialTheme.CLASSIC_DARK,
         showUv: Boolean = true,
-        uvData: FloatArray? = null
+        uvData: FloatArray? = null,
+        numeralStyle: NumeralStyle = NumeralStyle.ARABIC
     ) {
         dialBackgroundPaint.color = theme.dialBgColor
         dayZonePaint.color = theme.dayZoneColor
@@ -104,7 +105,9 @@ class Uno24DialRenderer {
         }
 
         // 4. Draw Hour Markings & Numbers (0 to 23)
-        textPaint.textSize = radius * 0.08f
+        val baseTextSize = if (numeralStyle == NumeralStyle.ROMAN) radius * 0.065f else radius * 0.08f
+        textPaint.textSize = baseTextSize
+
         for (h in 0 until 24) {
             val angle = timeToAngle(h.toDouble()) - 90f
             val rad = Math.toRadians(angle.toDouble())
@@ -121,9 +124,10 @@ class Uno24DialRenderer {
             canvas.drawLine(x1, y1, x2, y2, tickPaint)
 
             if (isMajor) {
-                val labelX = (cx + (radius - tickLength - textPaint.textSize * 0.8f) * cos(rad)).toFloat()
-                val labelY = (cy + (radius - tickLength - textPaint.textSize * 0.8f) * sin(rad) + textPaint.textSize * 0.35f).toFloat()
-                canvas.drawText(String.format("%02d", h), labelX, labelY, textPaint)
+                val labelText = if (numeralStyle == NumeralStyle.ROMAN) NumeralStyle.toRoman(h) else String.format("%02d", h)
+                val labelX = (cx + (radius - tickLength - textPaint.textSize * 0.9f) * cos(rad)).toFloat()
+                val labelY = (cy + (radius - tickLength - textPaint.textSize * 0.9f) * sin(rad) + textPaint.textSize * 0.35f).toFloat()
+                canvas.drawText(labelText, labelX, labelY, textPaint)
             }
         }
 

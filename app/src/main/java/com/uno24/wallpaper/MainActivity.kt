@@ -66,6 +66,16 @@ class MainActivity : AppCompatActivity() {
         clockView.setOnTouchListener(touchListener)
         findViewById<View>(R.id.mainRootLayout).setOnTouchListener(touchListener)
 
+        val switchRoman = findViewById<SwitchMaterial>(R.id.switchRomanNumerals)
+        switchRoman.isChecked = LocationHelper.getNumeralStyle(this) == NumeralStyle.ROMAN
+        switchRoman.setOnCheckedChangeListener { _, isChecked ->
+            val style = if (isChecked) NumeralStyle.ROMAN else NumeralStyle.ARABIC
+            LocationHelper.saveNumeralStyle(this, style)
+            clockView.invalidate()
+            val msg = if (isChecked) "Римские цифры включены" else "Арабские цифры включены"
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        }
+
         val switchUv = findViewById<SwitchMaterial>(R.id.switchUvArc)
         switchUv.isChecked = LocationHelper.getShowUv(this)
         switchUv.setOnCheckedChangeListener { _, isChecked ->
