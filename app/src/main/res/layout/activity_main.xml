@@ -51,7 +51,8 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:backgroundTint="#FFFFFF" />
+            android:backgroundTint="#FFFFFF"
+            android:popupBackground="#1F2430" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPickImage"
@@ -91,7 +92,8 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:backgroundTint="#FFFFFF" />
+            android:backgroundTint="#FFFFFF"
+            android:popupBackground="#1F2430" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -161,7 +163,8 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_marginStart="12dp"
-            android:backgroundTint="#FFFFFF" />
+            android:backgroundTint="#FFFFFF"
+            android:popupBackground="#1F2430" />
     </LinearLayout>
 
     <!-- Radial Orientation Switch under the clock -->

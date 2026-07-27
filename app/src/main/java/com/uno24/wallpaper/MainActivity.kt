@@ -92,8 +92,8 @@ class MainActivity : AppCompatActivity() {
         // Background Mode Spinner setup
         val spinnerBgMode = findViewById<Spinner>(R.id.spinnerBgMode)
         val bgModes = BackgroundMode.values()
-        val adapterBgMode = ArrayAdapter(this, android.R.layout.simple_spinner_item, bgModes.map { it.title })
-        adapterBgMode.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapterBgMode = ArrayAdapter(this, R.layout.spinner_item, bgModes.map { it.title })
+        adapterBgMode.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinnerBgMode.adapter = adapterBgMode
         spinnerBgMode.setSelection(LocationHelper.getBackgroundMode(this).ordinal)
         spinnerBgMode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -118,8 +118,8 @@ class MainActivity : AppCompatActivity() {
         // Numeral Display Mode Spinner setup
         val spinnerDisplayMode = findViewById<Spinner>(R.id.spinnerDisplayMode)
         val modes = NumeralDisplayMode.values()
-        val adapterMode = ArrayAdapter(this, android.R.layout.simple_spinner_item, modes.map { it.title })
-        adapterMode.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapterMode = ArrayAdapter(this, R.layout.spinner_item, modes.map { it.title })
+        adapterMode.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinnerDisplayMode.adapter = adapterMode
         spinnerDisplayMode.setSelection(LocationHelper.getNumeralDisplayMode(this).ordinal)
         spinnerDisplayMode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -153,8 +153,8 @@ class MainActivity : AppCompatActivity() {
         // Numeral Font Spinner setup
         val spinnerNumeralFont = findViewById<Spinner>(R.id.spinnerNumeralFont)
         val fonts = NumeralFont.values()
-        val adapterFont = ArrayAdapter(this, android.R.layout.simple_spinner_item, fonts.map { it.title })
-        adapterFont.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapterFont = ArrayAdapter(this, R.layout.spinner_item, fonts.map { it.title })
+        adapterFont.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinnerNumeralFont.adapter = adapterFont
         spinnerNumeralFont.setSelection(LocationHelper.getNumeralFont(this).ordinal)
         spinnerNumeralFont.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
