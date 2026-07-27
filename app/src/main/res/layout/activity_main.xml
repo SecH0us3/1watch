@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0E1117"
@@ -25,55 +26,48 @@
         android:textColor="#A0A0A0"
         android:textSize="14sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Color Theme"
-        android:textColor="#FF3D00"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:id="@+id/rgThemeSelector"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardThemePreview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_height="140dp"
+        android:layout_marginTop="28dp"
+        app:cardBackgroundColor="#1A1F29"
+        app:cardCornerRadius="16dp"
+        app:strokeColor="#333333"
+        app:strokeWidth="1dp">
 
-        <RadioButton
-            android:id="@+id/rbClassicDark"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Classic Dark"
-            android:textColor="#FFFFFF" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <RadioButton
-            android:id="@+id/rbSolarGold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Solar Twilight"
-            android:textColor="#FFFFFF" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="←  Swipe Left / Right to Change Theme  →"
+                android:textColor="#FF3D00"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-        <RadioButton
-            android:id="@+id/rbMonochromeLight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Minimal Light"
-            android:textColor="#FFFFFF" />
-
-        <RadioButton
-            android:id="@+id/rbCyberpunk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cyberpunk Neon"
-            android:textColor="#FFFFFF" />
-    </RadioGroup>
+            <TextView
+                android:id="@+id/tvCurrentThemeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Classic Dark"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchUvArc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:checked="true"
         android:text="Show UV Activity Arc (Open-Meteo)"
         android:textColor="#FFFFFF"
@@ -83,7 +77,7 @@
         android:id="@+id/btnSetWallpaper"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:text="Set Live Wallpaper"
         android:textAllCaps="false"
         android:textSize="16sp"

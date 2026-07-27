@@ -6,13 +6,18 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.View
 import android.widget.Button
-import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,32 +25,45 @@ class MainActivity : AppCompatActivity() {
         private const val PERMISSION_REQUEST_LOCATION = 1001
     }
 
+    private lateinit var tvThemeName: TextView
+    private lateinit var gestureDetector: GestureDetector
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         checkLocationPermission()
 
-        val currentTheme = LocationHelper.getSavedTheme(this)
-        val rgTheme = findViewById<RadioGroup>(R.id.rgThemeSelector)
+        tvThemeName = findViewById(R.id.tvCurrentThemeName)
+        val cardPreview = findViewById<MaterialCardView>(R.id.cardThemePreview)
 
-        when (currentTheme) {
-            DialTheme.CLASSIC_DARK -> rgTheme.check(R.id.rbClassicDark)
-            DialTheme.SOLAR_GOLD -> rgTheme.check(R.id.rbSolarGold)
-            DialTheme.MONOCHROME_LIGHT -> rgTheme.check(R.id.rbMonochromeLight)
-            DialTheme.CYBERPUNK -> rgTheme.check(R.id.rbCyberpunk)
-        }
+        updateThemeDisplay()
 
-        rgTheme.setOnCheckedChangeListener { _, checkedId ->
-            val selectedTheme = when (checkedId) {
-                R.id.rbSolarGold -> DialTheme.SOLAR_GOLD
-                R.id.rbMonochromeLight -> DialTheme.MONOCHROME_LIGHT
-                R.id.rbCyberpunk -> DialTheme.CYBERPUNK
-                else -> DialTheme.CLASSIC_DARK
+        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+                if (e1 == null) return false
+                val diffX = e2.x - e1.x
+                val diffY = e2.y - e1.y
+                if (abs(diffX) > abs(diffY) && abs(diffX) > 80 && abs(velocityX) > 80) {
+                    val currentTheme = LocationHelper.getSavedTheme(this@MainActivity)
+                    val newTheme = if (diffX < 0) currentTheme.next() else currentTheme.previous()
+                    LocationHelper.saveTheme(this@MainActivity, newTheme)
+                    updateThemeDisplay()
+                    Toast.makeText(this@MainActivity, "Theme: ${newTheme.title}", Toast.LENGTH_SHORT).show()
+                    return true
+                }
+                return false
             }
-            LocationHelper.saveTheme(this, selectedTheme)
-            Toast.makeText(this, "Theme updated: ${selectedTheme.title}", Toast.LENGTH_SHORT).show()
+        })
+
+        val touchListener = View.OnTouchListener { v, event ->
+            gestureDetector.onTouchEvent(event)
+            v.performClick()
+            true
         }
+
+        cardPreview.setOnTouchListener(touchListener)
+        findViewById<View>(R.id.mainRootLayout).setOnTouchListener(touchListener)
 
         val switchUv = findViewById<SwitchMaterial>(R.id.switchUvArc)
         switchUv.isChecked = LocationHelper.getShowUv(this)
@@ -68,6 +86,11 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Unable to launch wallpaper chooser", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun updateThemeDisplay() {
+        val currentTheme = LocationHelper.getSavedTheme(this)
+        tvThemeName.text = currentTheme.title
     }
 
     private fun checkLocationPermission() {

@@ -53,6 +53,17 @@ enum class DialTheme(
         pivotColor = Color.parseColor("#FF007A")
     );
 
+    fun next(): DialTheme {
+        val vals = values()
+        return vals[(ordinal + 1) % vals.size]
+    }
+
+    fun previous(): DialTheme {
+        val vals = values()
+        val prevIdx = if (ordinal - 1 < 0) vals.size - 1 else ordinal - 1
+        return vals[prevIdx]
+    }
+
     companion object {
         fun fromName(name: String?): DialTheme {
             return values().firstOrNull { it.name == name } ?: CLASSIC_DARK

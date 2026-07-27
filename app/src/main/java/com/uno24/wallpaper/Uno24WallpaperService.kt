@@ -3,10 +3,13 @@ package com.uno24.wallpaper
 import android.os.Handler
 import android.os.Looper
 import android.service.wallpaper.WallpaperService
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
+import kotlin.math.abs
 
 class Uno24WallpaperService : WallpaperService() {
     override fun onCreateEngine(): Engine = Uno24Engine()
@@ -15,6 +18,32 @@ class Uno24WallpaperService : WallpaperService() {
         private val handler = Handler(Looper.getMainLooper())
         private val renderer = Uno24DialRenderer()
         private var visible = false
+
+        private val gestureDetector = GestureDetector(this@Uno24WallpaperService, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+                if (e1 == null) return false
+                val diffX = e2.x - e1.x
+                val diffY = e2.y - e1.y
+                if (abs(diffX) > abs(diffY) && abs(diffX) > 100 && abs(velocityX) > 100) {
+                    val currentTheme = LocationHelper.getSavedTheme(this@Uno24WallpaperService)
+                    val newTheme = if (diffX < 0) currentTheme.next() else currentTheme.previous()
+                    LocationHelper.saveTheme(this@Uno24WallpaperService, newTheme)
+                    drawFrame()
+                    return true
+                }
+                return false
+            }
+        })
+
+        override fun onCreate(surfaceHolder: SurfaceHolder) {
+            super.onCreate(surfaceHolder)
+            setTouchEventsEnabled(true)
+        }
+
+        override fun onTouchEvent(event: MotionEvent) {
+            super.onTouchEvent(event)
+            gestureDetector.onTouchEvent(event)
+        }
 
         private val drawRunnable = object : Runnable {
             override fun run() {
