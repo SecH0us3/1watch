@@ -72,13 +72,10 @@ class MainActivity : AppCompatActivity() {
         // Numeral Display Mode Spinner setup
         val spinnerDisplayMode = findViewById<Spinner>(R.id.spinnerDisplayMode)
         val modes = NumeralDisplayMode.values()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, modes.map { it.title })
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerDisplayMode.adapter = adapter
-
-        val currentMode = LocationHelper.getNumeralDisplayMode(this)
-        spinnerDisplayMode.setSelection(currentMode.ordinal)
-
+        val adapterMode = ArrayAdapter(this, android.R.layout.simple_spinner_item, modes.map { it.title })
+        adapterMode.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerDisplayMode.adapter = adapterMode
+        spinnerDisplayMode.setSelection(LocationHelper.getNumeralDisplayMode(this).ordinal)
         spinnerDisplayMode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedMode = modes[position]
@@ -87,7 +84,24 @@ class MainActivity : AppCompatActivity() {
                     clockView.invalidate()
                 }
             }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
+        // Numeral Size Spinner setup
+        val spinnerNumeralSize = findViewById<Spinner>(R.id.spinnerNumeralSize)
+        val sizes = NumeralSize.values()
+        val adapterSize = ArrayAdapter(this, android.R.layout.simple_spinner_item, sizes.map { it.title })
+        adapterSize.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerNumeralSize.adapter = adapterSize
+        spinnerNumeralSize.setSelection(LocationHelper.getNumeralSize(this).ordinal)
+        spinnerNumeralSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedSize = sizes[position]
+                if (selectedSize != LocationHelper.getNumeralSize(this@MainActivity)) {
+                    LocationHelper.saveNumeralSize(this@MainActivity, selectedSize)
+                    clockView.invalidate()
+                }
+            }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 

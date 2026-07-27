@@ -55,6 +55,7 @@ class Uno24ClockView @JvmOverloads constructor(
         val numeralStyle = LocationHelper.getNumeralStyle(context)
         val numeralOrientation = LocationHelper.getNumeralOrientation(context)
         val numeralDisplayMode = LocationHelper.getNumeralDisplayMode(context)
+        val numeralSize = LocationHelper.getNumeralSize(context)
 
         val sunTimes = SolarCalculator.calculateSunTimes(lat, lon, date, zoneOffsetHours)
         val uvData = if (showUv) UvRepository.getCachedOrFallbackUv(context, lat, lon, date) else null
@@ -70,7 +71,8 @@ class Uno24ClockView @JvmOverloads constructor(
             uvData = uvData,
             numeralStyle = numeralStyle,
             numeralOrientation = numeralOrientation,
-            numeralDisplayMode = numeralDisplayMode
+            numeralDisplayMode = numeralDisplayMode,
+            numeralSize = numeralSize
         )
     }
 }

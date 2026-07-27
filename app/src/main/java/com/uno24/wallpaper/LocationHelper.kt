@@ -14,6 +14,7 @@ object LocationHelper {
     private const val KEY_NUMERAL_STYLE = "key_numeral_style"
     private const val KEY_NUMERAL_ORIENTATION = "key_numeral_orientation"
     private const val KEY_NUMERAL_DISPLAY_MODE = "key_numeral_display_mode"
+    private const val KEY_NUMERAL_SIZE = "key_numeral_size"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
@@ -85,6 +86,17 @@ object LocationHelper {
     fun saveNumeralDisplayMode(context: Context, mode: NumeralDisplayMode) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_NUMERAL_DISPLAY_MODE, mode.name).apply()
+    }
+
+    fun getNumeralSize(context: Context): NumeralSize {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val name = prefs.getString(KEY_NUMERAL_SIZE, NumeralSize.MEDIUM.name)
+        return NumeralSize.fromName(name)
+    }
+
+    fun saveNumeralSize(context: Context, size: NumeralSize) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_NUMERAL_SIZE, size.name).apply()
     }
 
     @SuppressLint("MissingPermission")
