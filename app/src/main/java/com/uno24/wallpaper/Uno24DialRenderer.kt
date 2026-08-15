@@ -185,7 +185,7 @@ class Uno24DialRenderer {
 
         // 4 & 5. Draw Sub-Hour Ticks and Numerals with Dual-Mask Split-Contrast
         val baseSize = when {
-            numeralStyle == NumeralStyle.BINARY -> if (numeralDisplayMode == NumeralDisplayMode.ALL) radius * 0.046f else radius * 0.055f
+            numeralStyle == NumeralStyle.BINARY -> if (numeralDisplayMode == NumeralDisplayMode.ALL) radius * 0.040f else radius * 0.048f
             numeralStyle == NumeralStyle.KANJI || numeralStyle == NumeralStyle.GREEK || numeralStyle == NumeralStyle.HEBREW -> radius * 0.062f
             numeralStyle == NumeralStyle.ROMAN -> radius * 0.068f
             numeralDisplayMode == NumeralDisplayMode.ALL -> radius * 0.065f
@@ -195,8 +195,8 @@ class Uno24DialRenderer {
 
         val fontMetrics = textPaint.fontMetrics
         val textVerticalOffset = -(fontMetrics.descent + fontMetrics.ascent) / 2f
-        val labelRadius = if (numeralStyle == NumeralStyle.BINARY) radius * 0.72f else radius * 0.74f
-        val isRadial = numeralOrientation == NumeralOrientation.RADIAL || numeralStyle == NumeralStyle.BINARY
+        val labelRadius = radius * 0.74f
+        val isRadial = numeralOrientation == NumeralOrientation.RADIAL
 
         fun drawTicksAndNumerals(textColor: Int, tickColor: Int) {
             tickPaint.color = tickColor
@@ -242,18 +242,30 @@ class Uno24DialRenderer {
                 if (shouldShowLabel) {
                     val angle = timeToAngle(h.toDouble()) - 90f
                     val rad = Math.toRadians(angle.toDouble())
-
                     val labelText = numeralStyle.formatHour(h)
-                    val labelX = (cx + labelRadius * cos(rad)).toFloat()
-                    val labelY = (cy + labelRadius * sin(rad)).toFloat()
 
-                    if (isRadial) {
-                        canvas.save()
-                        canvas.rotate(angle + 90f, labelX, labelY)
-                        canvas.drawText(labelText, labelX, labelY + textVerticalOffset, textPaint)
-                        canvas.restore()
+                    if (numeralStyle == NumeralStyle.BINARY) {
+                        val tickLen = if (h % 2 == 0) radius * 0.08f else radius * 0.06f
+                        val rStart = radius - tickLen - textPaint.textSize * 0.8f
+                        val stepR = if (numeralDisplayMode == NumeralDisplayMode.ALL) radius * 0.038f else radius * 0.045f
+                        for (i in labelText.indices) {
+                            val charRadius = rStart - i * stepR
+                            val cxChar = (cx + charRadius * cos(rad)).toFloat()
+                            val cyChar = (cy + charRadius * sin(rad)).toFloat()
+                            canvas.drawText(labelText[i].toString(), cxChar, cyChar + textVerticalOffset, textPaint)
+                        }
                     } else {
-                        canvas.drawText(labelText, labelX, labelY + textVerticalOffset, textPaint)
+                        val labelX = (cx + labelRadius * cos(rad)).toFloat()
+                        val labelY = (cy + labelRadius * sin(rad)).toFloat()
+
+                        if (isRadial) {
+                            canvas.save()
+                            canvas.rotate(angle + 90f, labelX, labelY)
+                            canvas.drawText(labelText, labelX, labelY + textVerticalOffset, textPaint)
+                            canvas.restore()
+                        } else {
+                            canvas.drawText(labelText, labelX, labelY + textVerticalOffset, textPaint)
+                        }
                     }
                 }
             }
