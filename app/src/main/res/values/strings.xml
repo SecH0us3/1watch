@@ -2,4 +2,112 @@
 <resources>
     <string name="app_name">UNO 24</string>
     <string name="wallpaper_description">24-Hour Single-Hand Live Wallpaper with Solar Day/Night Dial</string>
+
+    <!-- Categories -->
+    <string name="category_appearance">Appearance</string>
+    <string name="category_typography">Typography &amp; Numerals</string>
+    <string name="category_parameters">Parameters</string>
+    <string name="category_language">Language</string>
+    <string name="label_language">App Language</string>
+
+    <!-- Appearance -->
+    <string name="label_dial_background">Dial Background</string>
+    <string name="btn_pick_image">Choose Image</string>
+    <string name="btn_pick_color">Choose Background Color</string>
+    <string name="dialog_title_pick_color">Select Background Color</string>
+    <string name="btn_cancel">Cancel</string>
+
+    <!-- Background Modes -->
+    <string name="bg_mode_theme_default">By Theme</string>
+    <string name="bg_mode_custom_image">Gallery Photo</string>
+    <string name="bg_mode_custom_color">Custom Color</string>
+
+    <!-- Typography -->
+    <string name="label_font">Font</string>
+    <string name="label_display_mode">Display</string>
+    <string name="label_font_size">Numeral Size</string>
+
+    <!-- Fonts -->
+    <string name="font_sans_serif">Sans-Serif (Default)</string>
+    <string name="font_serif">Serif</string>
+    <string name="font_monospace">Monospace</string>
+    <string name="font_cursive">Cursive</string>
+
+    <!-- Numeral Systems / Styles -->
+    <string name="label_numeral_style">Numeral System</string>
+    <string name="numeral_style_arabic">Arabic (00..23)</string>
+    <string name="numeral_style_roman">Roman (I..XXIV)</string>
+    <string name="numeral_style_hex">Hexadecimal HEX (00..17)</string>
+    <string name="numeral_style_binary">Binary (00000..10111)</string>
+    <string name="numeral_style_octal">Octal (00..27)</string>
+    <string name="numeral_style_kanji">Kanji / Hanzi (〇..二十三)</string>
+    <string name="numeral_style_devanagari">Devanagari (००..२३)</string>
+    <string name="numeral_style_eastern_arabic">Eastern Arabic (٠٠..٢٣)</string>
+    <string name="numeral_style_greek">Ancient Greek (Αʹ..ΚΔʹ)</string>
+    <string name="numeral_style_hebrew">Hebrew Gematria (א׳..כ״ד)</string>
+
+    <!-- Numeral Display Modes -->
+    <string name="display_mode_even">Even only (0, 2, 4…)</string>
+    <string name="display_mode_odd">Odd only (1, 3, 5…)</string>
+    <string name="display_mode_all">All numerals (0..23)</string>
+
+    <!-- Hand Style -->
+    <string name="label_hand_style">Hand Shape</string>
+    <string name="hand_style_botta_needle">Precision Needle (Botta)</string>
+    <string name="hand_style_bauhaus_baton">Bauhaus Baton</string>
+    <string name="hand_style_arrow_sport">Sport Arrow</string>
+    <string name="hand_style_sword_avio">Aviator Sword</string>
+    <string name="hand_style_skeleton_ring">Skeleton Ring</string>
+    <string name="hand_style_spiral_curve">Spiral Wave (Serpentine)</string>
+    <string name="hand_style_spiral_vortex">Archimedean Spiral (Vortex)</string>
+    <string name="hand_style_spiral_double_dna">Double Helix (Caduceus)</string>
+    <string name="hand_style_spiral_flame">Curved Flame Blade</string>
+
+    <!-- Parameters / Switches -->
+    <string name="switch_radial_orientation">Rotate numerals toward center</string>
+    <string name="switch_roman_numerals">Roman numerals (I, II … XXIV)</string>
+    <string name="switch_uv_arc">Display UV activity arc</string>
+    <string name="switch_show_date">Display date</string>
+    <string name="switch_show_uv_index">Display UV index</string>
+
+    <!-- Action Button -->
+    <string name="btn_set_wallpaper">Set as Wallpaper</string>
+
+    <!-- Toasts & Messages -->
+    <string name="toast_bg_image_set">Background image applied</string>
+    <string name="toast_bg_image_failed">Failed to load image</string>
+    <string name="toast_theme_prefix">Theme: %1$s</string>
+    <string name="toast_numerals_radial">Numerals rotated toward center</string>
+    <string name="toast_numerals_upright">Numerals upright</string>
+    <string name="toast_roman_enabled">Roman numerals enabled</string>
+    <string name="toast_arabic_enabled">Arabic numerals enabled</string>
+    <string name="toast_uv_enabled">UV activity arc enabled</string>
+    <string name="toast_uv_disabled">UV activity arc disabled</string>
+    <string name="toast_color_set">Color applied: %1$s</string>
+    <string name="toast_wallpaper_picker_failed">Unable to open live wallpaper selector</string>
+
+    <!-- Dial Themes -->
+    <string name="theme_classic_dark">Classic Dark</string>
+    <string name="theme_solar_gold">Solar Twilight</string>
+    <string name="theme_monochrome_light">Minimal Light</string>
+    <string name="theme_arctic_white">Arctic Silver</string>
+    <string name="theme_porcelain_blue">Porcelain Cobalt</string>
+    <string name="theme_desert_sand">Desert Linen</string>
+    <string name="theme_sakura_dawn">Sakura Dawn</string>
+    <string name="theme_sage_mint">Nordic Sage</string>
+    <string name="theme_cyberpunk">Cyberpunk Neon</string>
+
+    <!-- Color Preset Names -->
+    <string name="color_midnight_navy">Midnight Navy</string>
+    <string name="color_charcoal_dark">Charcoal Dark</string>
+    <string name="color_abyss_black">Abyss Black</string>
+    <string name="color_forest_deep">Forest Deep</string>
+    <string name="color_deep_burgundy">Deep Burgundy</string>
+    <string name="color_titanium_slate">Titanium Slate</string>
+    <string name="color_warm_espresso">Warm Espresso</string>
+    <string name="color_pure_light">Pure Light</string>
+    <string name="color_warm_linen">Warm Linen</string>
+    <string name="color_polar_ice">Polar Ice</string>
+    <string name="color_sage_mint">Nordic Sage</string>
+    <string name="color_rose_silk">Rose Silk</string>
 </resources>
