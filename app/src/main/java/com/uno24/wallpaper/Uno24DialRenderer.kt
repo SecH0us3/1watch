@@ -12,6 +12,17 @@ class Uno24DialRenderer {
             return (diff * 15.0).toFloat()
         }
 
+        fun getUvColor(uvVal: Float): Int {
+            return when {
+                uvVal >= 11.0f -> 0xFF8E24AA.toInt() // Extreme (Violet)
+                uvVal >= 8.0f -> 0xFFE53935.toInt()  // Very High (Red)
+                uvVal >= 6.0f -> 0xFFFB8C00.toInt()  // High (Orange)
+                uvVal >= 3.0f -> 0xFFFDD835.toInt()  // Moderate (Yellow)
+                uvVal >= 0.5f -> 0xFF4CAF50.toInt()  // Low (Green)
+                else -> 0
+            }
+        }
+
         private val ARABIC_LABELS = Array(24) { String.format("%02d", it) }
         private val ROMAN_LABELS = Array(24) { NumeralStyle.toRoman(it) }
     }
@@ -159,16 +170,14 @@ class Uno24DialRenderer {
             val uvArcRadius = radius * 0.94f
             uvRect.set(cx - uvArcRadius, cy - uvArcRadius, cx + uvArcRadius, cy + uvArcRadius)
             uvArcPaint.strokeWidth = radius * 0.04f
+            uvArcPaint.style = Paint.Style.STROKE
 
             for (h in 0 until 24) {
                 val uvVal = uvData[h]
-                if (uvVal >= 3.0f) {
+                val color = getUvColor(uvVal)
+                if (color != Color.TRANSPARENT) {
                     val startAngle = timeToAngle(h.toDouble()) - 90f
-                    uvArcPaint.color = when {
-                        uvVal >= 8.0f -> Color.parseColor("#D500F9") // Very High / Extreme
-                        uvVal >= 6.0f -> Color.parseColor("#FF6D00") // High
-                        else -> Color.parseColor("#FFD600")          // Moderate
-                    }
+                    uvArcPaint.color = color
                     canvas.drawArc(uvRect, startAngle, 15f, false, uvArcPaint)
                 }
             }
@@ -282,17 +291,13 @@ class Uno24DialRenderer {
                 val uMetrics = textPaint.fontMetrics
                 val uOffset = -(uMetrics.descent + uMetrics.ascent) / 2f
 
-                if (currentUv > 0.5f) {
+                val uvColor = getUvColor(currentUv)
+                if (uvColor != Color.TRANSPARENT) {
                     val textW = textPaint.measureText(uvStr)
                     val dotX = cx - (textW / 2f) - dotRadius * 2.2f
                     val dotPaint = uvArcPaint
                     dotPaint.style = Paint.Style.FILL
-                    dotPaint.color = when {
-                        currentUv >= 8.0f -> Color.parseColor("#D500F9")
-                        currentUv >= 6.0f -> Color.parseColor("#FF6D00")
-                        currentUv >= 3.0f -> Color.parseColor("#FFD600")
-                        else -> Color.parseColor("#4CAF50")
-                    }
+                    dotPaint.color = uvColor
                     canvas.drawCircle(dotX, uvY, dotRadius, dotPaint)
                 }
 

@@ -1,5 +1,6 @@
 package com.uno24.wallpaper
 
+import android.graphics.Color
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -135,5 +136,16 @@ class Uno24DialRendererTest {
         assertEquals("כ״ד", NumeralStyle.HEBREW.formatHour(0))
         assertEquals("י״ב", NumeralStyle.HEBREW.formatHour(12))
         assertEquals("כ״ג", NumeralStyle.HEBREW.formatHour(23))
+    }
+
+    @Test
+    fun testUvColorScale() {
+        assertEquals(0, Uno24DialRenderer.getUvColor(0.0f))
+        assertEquals(0, Uno24DialRenderer.getUvColor(0.4f))
+        assertEquals(0xFF4CAF50.toInt(), Uno24DialRenderer.getUvColor(1.5f)) // Low (Green)
+        assertEquals(0xFFFDD835.toInt(), Uno24DialRenderer.getUvColor(4.2f)) // Moderate (Yellow)
+        assertEquals(0xFFFB8C00.toInt(), Uno24DialRenderer.getUvColor(6.8f)) // High (Orange)
+        assertEquals(0xFFE53935.toInt(), Uno24DialRenderer.getUvColor(9.5f)) // Very High (Red)
+        assertEquals(0xFF8E24AA.toInt(), Uno24DialRenderer.getUvColor(11.5f)) // Extreme (Violet)
     }
 }
