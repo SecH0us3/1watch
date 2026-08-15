@@ -14,11 +14,18 @@ class Uno24DialRenderer {
 
         fun getUvColor(uvVal: Float): Int {
             return when {
-                uvVal >= 11.0f -> 0xFF8E24AA.toInt() // Extreme (Violet)
-                uvVal >= 8.0f -> 0xFFE53935.toInt()  // Very High (Red)
-                uvVal >= 6.0f -> 0xFFFB8C00.toInt()  // High (Orange)
-                uvVal >= 3.0f -> 0xFFFDD835.toInt()  // Moderate (Yellow)
-                uvVal >= 0.5f -> 0xFF4CAF50.toInt()  // Low (Green)
+                uvVal >= 11.5f -> 0xFF6A1B9A.toInt() // 11.5+ (Deep UV Violet)
+                uvVal >= 10.5f -> 0xFF9C27B0.toInt() // 10.5..11.4 (Amethyst Purple)
+                uvVal >= 9.5f  -> 0xFFD81B60.toInt() // 9.5..10.4 (Ruby Magenta)
+                uvVal >= 8.5f  -> 0xFFE53935.toInt() // 8.5..9.4 (Crimson Red)
+                uvVal >= 7.5f  -> 0xFFFF5722.toInt() // 7.5..8.4 (Flame Coral)
+                uvVal >= 6.5f  -> 0xFFFB8C00.toInt() // 6.5..7.4 (Tangerine Orange)
+                uvVal >= 5.5f  -> 0xFFFFB300.toInt() // 5.5..6.4 (Honey Amber)
+                uvVal >= 4.5f  -> 0xFFFDD835.toInt() // 4.5..5.4 (Amber Gold)
+                uvVal >= 3.5f  -> 0xFFFFEB3B.toInt() // 3.5..4.4 (Lemon Yellow)
+                uvVal >= 2.5f  -> 0xFFCDDC39.toInt() // 2.5..3.4 (Chartreuse)
+                uvVal >= 1.5f  -> 0xFF8BC34A.toInt() // 1.5..2.4 (Lime)
+                uvVal >= 0.5f  -> 0xFF4CAF50.toInt() // 0.5..1.4 (Emerald Green)
                 else -> 0
             }
         }

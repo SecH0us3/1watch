@@ -139,13 +139,20 @@ class Uno24DialRendererTest {
     }
 
     @Test
-    fun testUvColorScale() {
+    fun test12TierUvColorScale() {
         assertEquals(0, Uno24DialRenderer.getUvColor(0.0f))
         assertEquals(0, Uno24DialRenderer.getUvColor(0.4f))
-        assertEquals(0xFF4CAF50.toInt(), Uno24DialRenderer.getUvColor(1.5f)) // Low (Green)
-        assertEquals(0xFFFDD835.toInt(), Uno24DialRenderer.getUvColor(4.2f)) // Moderate (Yellow)
-        assertEquals(0xFFFB8C00.toInt(), Uno24DialRenderer.getUvColor(6.8f)) // High (Orange)
-        assertEquals(0xFFE53935.toInt(), Uno24DialRenderer.getUvColor(9.5f)) // Very High (Red)
-        assertEquals(0xFF8E24AA.toInt(), Uno24DialRenderer.getUvColor(11.5f)) // Extreme (Violet)
+        assertEquals(0xFF4CAF50.toInt(), Uno24DialRenderer.getUvColor(1.0f))  // 0.5..1.4 (Emerald Green)
+        assertEquals(0xFF8BC34A.toInt(), Uno24DialRenderer.getUvColor(2.0f))  // 1.5..2.4 (Lime)
+        assertEquals(0xFFCDDC39.toInt(), Uno24DialRenderer.getUvColor(3.0f))  // 2.5..3.4 (Chartreuse)
+        assertEquals(0xFFFFEB3B.toInt(), Uno24DialRenderer.getUvColor(4.0f))  // 3.5..4.4 (Lemon Yellow)
+        assertEquals(0xFFFDD835.toInt(), Uno24DialRenderer.getUvColor(5.0f))  // 4.5..5.4 (Amber Gold)
+        assertEquals(0xFFFFB300.toInt(), Uno24DialRenderer.getUvColor(6.0f))  // 5.5..6.4 (Honey Amber)
+        assertEquals(0xFFFB8C00.toInt(), Uno24DialRenderer.getUvColor(7.0f))  // 6.5..7.4 (Tangerine Orange)
+        assertEquals(0xFFFF5722.toInt(), Uno24DialRenderer.getUvColor(8.0f))  // 7.5..8.4 (Flame Coral - Paphos UV 8)
+        assertEquals(0xFFE53935.toInt(), Uno24DialRenderer.getUvColor(9.0f))  // 8.5..9.4 (Crimson Red)
+        assertEquals(0xFFD81B60.toInt(), Uno24DialRenderer.getUvColor(10.0f)) // 9.5..10.4 (Ruby Magenta)
+        assertEquals(0xFF9C27B0.toInt(), Uno24DialRenderer.getUvColor(11.0f)) // 10.5..11.4 (Amethyst Purple)
+        assertEquals(0xFF6A1B9A.toInt(), Uno24DialRenderer.getUvColor(12.0f)) // 11.5+ (Deep UV Violet)
     }
 }
