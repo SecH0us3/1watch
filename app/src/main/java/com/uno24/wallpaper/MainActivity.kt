@@ -76,8 +76,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        checkLocationPermission()
-
         clockView = findViewById(R.id.clockView)
         tvThemeTitle = findViewById(R.id.tvThemeTitle)
         tvSizeValue = findViewById(R.id.tvSizeValue)
@@ -86,6 +84,7 @@ class MainActivity : AppCompatActivity() {
 
         updateThemeTitle()
         updateSizeLabel()
+        checkLocationPermission()
 
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
@@ -362,7 +361,9 @@ class MainActivity : AppCompatActivity() {
             )
         } else {
             LocationHelper.updateLocationIfPermitted(this) {
-                clockView.refreshSettings()
+                if (::clockView.isInitialized) {
+                    clockView.refreshSettings()
+                }
             }
         }
     }
@@ -377,7 +378,9 @@ class MainActivity : AppCompatActivity() {
             && grantResults[0] == PackageManager.PERMISSION_GRANTED
         ) {
             LocationHelper.updateLocationIfPermitted(this) {
-                clockView.refreshSettings()
+                if (::clockView.isInitialized) {
+                    clockView.refreshSettings()
+                }
             }
         }
     }
