@@ -21,41 +21,9 @@
 **Files:**
 - Modify: `app/src/main/java/com/uno24/wallpaper/Uno24DialRenderer.kt`
 
-- [ ] **Step 1: Update `drawTicksAndNumerals` in `Uno24DialRenderer.kt`**
-
-When `numeralStyle == NumeralStyle.BINARY`:
-```kotlin
-if (numeralStyle == NumeralStyle.BINARY) {
-    val rStart = radius - tickLength - textPaint.textSize * 0.7f
-    val stepR = if (numeralDisplayMode == NumeralDisplayMode.ALL) radius * 0.038f else radius * 0.045f
-    val tOffset = textVerticalOffset
-    for (i in labelText.indices) {
-        val charRadius = rStart - i * stepR
-        val cxChar = (cx + charRadius * cos(rad)).toFloat()
-        val cyChar = (cy + charRadius * sin(rad)).toFloat()
-        canvas.drawText(labelText[i].toString(), cxChar, cyChar + tOffset, textPaint)
-    }
-} else if (isRadial) {
-    canvas.save()
-    canvas.rotate(angle + 90f, labelX, labelY)
-    canvas.drawText(labelText, labelX, labelY + textVerticalOffset, textPaint)
-    canvas.restore()
-} else {
-    canvas.drawText(labelText, labelX, labelY + textVerticalOffset, textPaint)
-}
-```
-
-- [ ] **Step 2: Run all unit tests**
-
-Run: `JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" rtk ./gradlew test`
-Expected: PASS.
-
-- [ ] **Step 3: Commit**
-
-```bash
-rtk git add app/src/main/java/com/uno24/wallpaper/Uno24DialRenderer.kt
-rtk git commit -m "feat: render binary numerals as radial columns descending to center with upright glyphs"
-```
+- [x] **Step 1: Update `drawTicksAndNumerals` in `Uno24DialRenderer.kt`**
+- [x] **Step 2: Run all unit tests**
+- [x] **Step 3: Commit**
 
 ---
 
@@ -64,10 +32,6 @@ rtk git commit -m "feat: render binary numerals as radial columns descending to 
 **Files:**
 - Target: `emulator-5554`
 
-- [ ] **Step 1: Build and reinstall debug APK on emulator**
-
-Run: `rtk orca emulator install ./app/build/outputs/apk/debug/app-debug.apk --reinstall --device emulator-5554 --json`
-
-- [ ] **Step 2: Launch `MainActivity` and capture screenshot with Binary numerals**
-
-- [ ] **Step 3: Visually verify upright glyphs descending radially to center**
+- [x] **Step 1: Build and reinstall debug APK on emulator**
+- [x] **Step 2: Launch `MainActivity` and capture screenshot with Binary numerals**
+- [x] **Step 3: Visually verify upright glyphs descending radially to center**
