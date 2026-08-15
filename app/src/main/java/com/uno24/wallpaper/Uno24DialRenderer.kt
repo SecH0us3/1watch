@@ -1,6 +1,7 @@
 package com.uno24.wallpaper
 
 import android.graphics.*
+import java.time.LocalDate
 import kotlin.math.*
 
 class Uno24DialRenderer {
@@ -10,6 +11,9 @@ class Uno24DialRenderer {
             val diff = (hourFraction - 12.0).mod(24.0)
             return (diff * 15.0).toFloat()
         }
+
+        private val ARABIC_LABELS = Array(24) { String.format("%02d", it) }
+        private val ROMAN_LABELS = Array(24) { NumeralStyle.toRoman(it) }
     }
 
     private val dialBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -33,11 +37,16 @@ class Uno24DialRenderer {
     }
 
     private val handPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        style = Paint.Style.STROKE
+        style = Paint.Style.FILL
         strokeCap = Paint.Cap.ROUND
     }
 
     private val pivotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+    }
+
+    private val spinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.parseColor("#33FFFFFF")
         style = Paint.Style.FILL
     }
 
@@ -51,6 +60,18 @@ class Uno24DialRenderer {
         style = Paint.Style.FILL
     }
 
+    // Zero-allocation reusable geometry buffers
+    private val dialRect = RectF()
+    private val uvRect = RectF()
+    private val srcRect = Rect()
+    private val destRect = Rect()
+    private val handPath = Path()
+    private val handSpinePath = Path()
+    private val handArrowPath = Path()
+    private val dayZonePath = Path()
+    private val nightZonePath = Path()
+    private val complicationPillRect = RectF()
+
     fun draw(
         canvas: Canvas,
         width: Int,
@@ -59,15 +80,20 @@ class Uno24DialRenderer {
         sunTimes: SunTimes,
         theme: DialTheme = DialTheme.CLASSIC_DARK,
         showUv: Boolean = true,
+        showDate: Boolean = true,
+        showUvIndex: Boolean = true,
+        date: LocalDate = LocalDate.now(),
         uvData: FloatArray? = null,
         numeralStyle: NumeralStyle = NumeralStyle.ARABIC,
         numeralOrientation: NumeralOrientation = NumeralOrientation.UPRIGHT,
-        numeralDisplayMode: NumeralDisplayMode = NumeralDisplayMode.EVEN_ONLY,
+        numeralDisplayMode: NumeralDisplayMode = NumeralDisplayMode.ALL,
         fontSizeScale: Float = 1.0f,
         numeralFont: NumeralFont = NumeralFont.SANS_SERIF,
+        handStyle: HandStyle = HandStyle.BOTTA_NEEDLE,
         bgMode: BackgroundMode = BackgroundMode.THEME_DEFAULT,
         customColor: Int = Color.parseColor("#0A0F1D"),
-        bgBitmap: Bitmap? = null
+        bgBitmap: Bitmap? = null,
+        isWallpaper: Boolean = false
     ) {
         dialBackgroundPaint.color = theme.dialBgColor
         dayZonePaint.color = theme.dayZoneColor
@@ -78,10 +104,10 @@ class Uno24DialRenderer {
         handPaint.color = theme.handColor
         pivotPaint.color = theme.pivotColor
 
-        // Draw Background
+        // 1. Draw Background
         if (bgMode == BackgroundMode.CUSTOM_IMAGE && bgBitmap != null) {
-            val srcRect = Rect(0, 0, bgBitmap.width, bgBitmap.height)
-            val destRect = Rect(0, 0, width, height)
+            srcRect.set(0, 0, bgBitmap.width, bgBitmap.height)
+            destRect.set(0, 0, width, height)
             canvas.drawBitmap(bgBitmap, srcRect, destRect, null)
             canvas.drawRect(destRect, imageOverlayPaint)
         } else if (bgMode == BackgroundMode.CUSTOM_COLOR) {
@@ -91,25 +117,47 @@ class Uno24DialRenderer {
         }
 
         val cx = width / 2f
-        val cy = height / 2f
-        val radius = min(width, height) * 0.42f
-        val dialRect = RectF(cx - radius, cy - radius, cx + radius, cy + radius)
+        val isPortraitWallpaper = isWallpaper && height > width * 1.25f
+        val radius = if (isPortraitWallpaper) width * 0.43f else min(width, height) * 0.42f
+        val cy = if (isPortraitWallpaper) (height * 0.10f + radius) else (height / 2f)
+        dialRect.set(cx - radius, cy - radius, cx + radius, cy + radius)
 
-        // 1. Draw Day Base
-        canvas.drawCircle(cx, cy, radius, dayZonePaint)
+        // 2. Draw Day/Night Sectors
+        dayZonePath.reset()
+        nightZonePath.reset()
 
-        // 2. Draw Night Arc (From Sunset angle to Sunrise angle across Midnight)
-        val sunsetAngle = timeToAngle(sunTimes.sunsetHour) - 90f
-        val sunriseAngle = timeToAngle(sunTimes.sunriseHour) - 90f
-        var sweepAngle = (sunriseAngle - sunsetAngle).mod(360f)
-        if (sweepAngle <= 0) sweepAngle += 360f
+        if (sunTimes.isPolarNight) {
+            nightZonePath.addCircle(cx, cy, radius, Path.Direction.CW)
+        } else if (sunTimes.isPolarDay) {
+            dayZonePath.addCircle(cx, cy, radius, Path.Direction.CW)
+        } else {
+            val sunsetAngle = timeToAngle(sunTimes.sunsetHour) - 90f
+            val sunriseAngle = timeToAngle(sunTimes.sunriseHour) - 90f
+            var sweepAngle = (sunriseAngle - sunsetAngle).mod(360f)
+            if (sweepAngle <= 0) sweepAngle += 360f
 
-        canvas.drawArc(dialRect, sunsetAngle, sweepAngle, true, nightZonePaint)
+            // Night Sector Arc Path
+            nightZonePath.moveTo(cx, cy)
+            nightZonePath.arcTo(dialRect, sunsetAngle, sweepAngle)
+            nightZonePath.close()
+
+            // Day Sector Arc Path
+            dayZonePath.moveTo(cx, cy)
+            dayZonePath.arcTo(dialRect, sunriseAngle, 360f - sweepAngle)
+            dayZonePath.close()
+        }
+
+        if (!dayZonePath.isEmpty) {
+            canvas.drawPath(dayZonePath, dayZonePaint)
+        }
+        if (!nightZonePath.isEmpty) {
+            canvas.drawPath(nightZonePath, nightZonePaint)
+        }
 
         // 3. Draw UV Activity Arc on Daytime Sector if enabled
-        if (showUv && uvData != null && uvData.size >= 24) {
+        if (showUv && uvData != null && uvData.size >= 24 && !sunTimes.isPolarNight) {
             val uvArcRadius = radius * 0.94f
-            val uvRect = RectF(cx - uvArcRadius, cy - uvArcRadius, cx + uvArcRadius, cy + uvArcRadius)
+            uvRect.set(cx - uvArcRadius, cy - uvArcRadius, cx + uvArcRadius, cy + uvArcRadius)
             uvArcPaint.strokeWidth = radius * 0.04f
 
             for (h in 0 until 24) {
@@ -126,64 +174,435 @@ class Uno24DialRenderer {
             }
         }
 
-        // 4. Draw Hour Markings & Numbers (0 to 23)
+        // 4 & 5. Draw Sub-Hour Ticks and Numerals with Dual-Mask Split-Contrast
         val baseSize = when {
-            numeralDisplayMode == NumeralDisplayMode.ALL -> radius * 0.055f
-            numeralStyle == NumeralStyle.ROMAN -> radius * 0.065f
-            else -> radius * 0.075f
+            numeralStyle == NumeralStyle.BINARY -> if (numeralDisplayMode == NumeralDisplayMode.ALL) radius * 0.046f else radius * 0.055f
+            numeralStyle == NumeralStyle.KANJI || numeralStyle == NumeralStyle.GREEK || numeralStyle == NumeralStyle.HEBREW -> radius * 0.062f
+            numeralStyle == NumeralStyle.ROMAN -> radius * 0.068f
+            numeralDisplayMode == NumeralDisplayMode.ALL -> radius * 0.065f
+            else -> radius * 0.082f
         }
         textPaint.textSize = baseSize * fontSizeScale
 
-        // Fixed constant radial distance for all numbers (odd and even sitting on the exact same concentric circle)
-        val labelRadius = radius * 0.74f
+        val fontMetrics = textPaint.fontMetrics
+        val textVerticalOffset = -(fontMetrics.descent + fontMetrics.ascent) / 2f
+        val labelRadius = if (numeralStyle == NumeralStyle.BINARY) radius * 0.72f else radius * 0.74f
+        val isRadial = numeralOrientation == NumeralOrientation.RADIAL || numeralStyle == NumeralStyle.BINARY
 
-        for (h in 0 until 24) {
-            val angle = timeToAngle(h.toDouble()) - 90f
-            val rad = Math.toRadians(angle.toDouble())
+        fun drawTicksAndNumerals(textColor: Int, tickColor: Int) {
+            tickPaint.color = tickColor
+            textPaint.color = textColor
 
-            val shouldShowLabel = when (numeralDisplayMode) {
-                NumeralDisplayMode.EVEN_ONLY -> h % 2 == 0
-                NumeralDisplayMode.ODD_ONLY -> h % 2 != 0
-                NumeralDisplayMode.ALL -> true
+            for (step in 0 until 96) {
+                val hourFraction = step * 0.25
+                val angle = timeToAngle(hourFraction) - 90f
+                val rad = Math.toRadians(angle.toDouble())
+
+                val tickLength: Float
+                val strokeW: Float
+
+                if (step % 4 == 0) {
+                    val h = step / 4
+                    val isEven = h % 2 == 0
+                    tickLength = if (isEven) radius * 0.08f else radius * 0.06f
+                    strokeW = if (isEven) radius * 0.012f else radius * 0.009f
+                } else if (step % 2 == 0) {
+                    tickLength = radius * 0.042f
+                    strokeW = radius * 0.006f
+                } else {
+                    tickLength = radius * 0.024f
+                    strokeW = radius * 0.004f
+                }
+
+                tickPaint.strokeWidth = strokeW
+                val x1 = (cx + (radius - tickLength) * cos(rad)).toFloat()
+                val y1 = (cy + (radius - tickLength) * sin(rad)).toFloat()
+                val x2 = (cx + radius * cos(rad)).toFloat()
+                val y2 = (cy + radius * sin(rad)).toFloat()
+
+                canvas.drawLine(x1, y1, x2, y2, tickPaint)
             }
 
-            val isMajor = h % 2 == 0
-            val tickLength = if (isMajor) radius * 0.08f else radius * 0.04f
-            tickPaint.strokeWidth = if (isMajor) radius * 0.012f else radius * 0.006f
-
-            val x1 = (cx + (radius - tickLength) * cos(rad)).toFloat()
-            val y1 = (cy + (radius - tickLength) * sin(rad)).toFloat()
-            val x2 = (cx + radius * cos(rad)).toFloat()
-            val y2 = (cy + radius * sin(rad)).toFloat()
-
-            canvas.drawLine(x1, y1, x2, y2, tickPaint)
-
-            if (shouldShowLabel) {
-                val labelText = if (numeralStyle == NumeralStyle.ROMAN) NumeralStyle.toRoman(h) else String.format("%02d", h)
-                val labelX = (cx + labelRadius * cos(rad)).toFloat()
-                val labelY = (cy + labelRadius * sin(rad)).toFloat()
-
-                if (numeralOrientation == NumeralOrientation.RADIAL) {
-                    canvas.save()
-                    canvas.rotate(angle + 90f, labelX, labelY)
-                    canvas.drawText(labelText, labelX, labelY + textPaint.textSize * 0.35f, textPaint)
-                    canvas.restore()
-                } else {
-                    canvas.drawText(labelText, labelX, labelY + textPaint.textSize * 0.35f, textPaint)
+            for (h in 0 until 24) {
+                val shouldShowLabel = when (numeralDisplayMode) {
+                    NumeralDisplayMode.EVEN_ONLY -> h % 2 == 0
+                    NumeralDisplayMode.ODD_ONLY -> h % 2 != 0
+                    NumeralDisplayMode.ALL -> true
                 }
+
+                if (shouldShowLabel) {
+                    val angle = timeToAngle(h.toDouble()) - 90f
+                    val rad = Math.toRadians(angle.toDouble())
+
+                    val labelText = numeralStyle.formatHour(h)
+                    val labelX = (cx + labelRadius * cos(rad)).toFloat()
+                    val labelY = (cy + labelRadius * sin(rad)).toFloat()
+
+                    if (isRadial) {
+                        canvas.save()
+                        canvas.rotate(angle + 90f, labelX, labelY)
+                        canvas.drawText(labelText, labelX, labelY + textVerticalOffset, textPaint)
+                        canvas.restore()
+                    } else {
+                        canvas.drawText(labelText, labelX, labelY + textVerticalOffset, textPaint)
+                    }
+                }
+            }
+
+            // Complication 1: Date (clean typography below center pivot)
+            if (showDate) {
+                val dateStr = "${date.dayOfMonth} ${date.month.name.take(3)}"
+                val dateY = cy + radius * 0.38f
+
+                // Date text
+                val oldSize = textPaint.textSize
+                val oldTracking = textPaint.letterSpacing
+                textPaint.textSize = radius * 0.048f * fontSizeScale
+                textPaint.letterSpacing = 0.08f
+                val dMetrics = textPaint.fontMetrics
+                val dOffset = -(dMetrics.descent + dMetrics.ascent) / 2f
+                canvas.drawText(dateStr, cx, dateY + dOffset, textPaint)
+                textPaint.textSize = oldSize
+                textPaint.letterSpacing = oldTracking
+            }
+
+            // Complication 2: UV Index (clean typography above center pivot)
+            if (showUvIndex) {
+                val currentHour = (timeHourFraction.toInt()).mod(24)
+                val currentUv = uvData?.getOrNull(currentHour) ?: 0.0f
+                val uvStr = if (currentUv > 0f) "UV %.1f".format(java.util.Locale.US, currentUv) else "UV 0"
+                val uvY = cy - radius * 0.38f
+
+                // Colored risk dot
+                val dotRadius = radius * 0.014f
+                val oldSize = textPaint.textSize
+                val oldTracking = textPaint.letterSpacing
+                textPaint.textSize = radius * 0.048f * fontSizeScale
+                textPaint.letterSpacing = 0.05f
+                val uMetrics = textPaint.fontMetrics
+                val uOffset = -(uMetrics.descent + uMetrics.ascent) / 2f
+
+                if (currentUv > 0.5f) {
+                    val textW = textPaint.measureText(uvStr)
+                    val dotX = cx - (textW / 2f) - dotRadius * 2.2f
+                    val dotPaint = uvArcPaint
+                    dotPaint.style = Paint.Style.FILL
+                    dotPaint.color = when {
+                        currentUv >= 8.0f -> Color.parseColor("#D500F9")
+                        currentUv >= 6.0f -> Color.parseColor("#FF6D00")
+                        currentUv >= 3.0f -> Color.parseColor("#FFD600")
+                        else -> Color.parseColor("#4CAF50")
+                    }
+                    canvas.drawCircle(dotX, uvY, dotRadius, dotPaint)
+                }
+
+                canvas.drawText(uvStr, cx, uvY + uOffset, textPaint)
+                textPaint.textSize = oldSize
+                textPaint.letterSpacing = oldTracking
             }
         }
 
-        // 5. Draw Single Hour Hand
-        val handAngle = timeToAngle(timeHourFraction) - 90f
-        val handRad = Math.toRadians(handAngle.toDouble())
+        // Pass 1: Day Sector (crisp Day colors clipped to Day Zone)
+        if (!dayZonePath.isEmpty) {
+            canvas.save()
+            canvas.clipPath(dayZonePath)
+            drawTicksAndNumerals(theme.dayTextColor, theme.dayTickColor)
+            canvas.restore()
+        }
+
+        // Pass 2: Night Sector (crisp Night colors clipped to Night Zone)
+        if (!nightZonePath.isEmpty) {
+            canvas.save()
+            canvas.clipPath(nightZonePath)
+            drawTicksAndNumerals(theme.nightTextColor, theme.nightTickColor)
+            canvas.restore()
+        }
+
+        // 6. Draw 24-Hour Single Hand based on selected HandStyle
+        val handAngle = timeToAngle(timeHourFraction)
         val handLength = radius * 0.88f
 
-        handPaint.strokeWidth = radius * 0.025f
-        val hx = (cx + handLength * cos(handRad)).toFloat()
-        val hy = (cy + handLength * sin(handRad)).toFloat()
+        canvas.save()
+        canvas.translate(cx, cy)
+        canvas.rotate(handAngle) // 0 deg is straight UP (-Y direction)
 
-        canvas.drawLine(cx, cy, hx, hy, handPaint)
-        canvas.drawCircle(cx, cy, radius * 0.04f, pivotPaint)
+        handPath.reset()
+        handSpinePath.reset()
+
+        when (handStyle) {
+            HandStyle.BOTTA_NEEDLE -> {
+                // Precision tapered needle with counterweight
+                handPaint.style = Paint.Style.FILL
+                val tailLength = radius * 0.20f
+                val tailWidth = radius * 0.024f
+                val baseWidth = radius * 0.028f
+                val needleStart = -radius * 0.65f
+                val needleWidth = radius * 0.005f
+                val tip = -handLength
+
+                handPath.moveTo(0f, tailLength)
+                handPath.lineTo(-tailWidth, tailLength * 0.6f)
+                handPath.lineTo(-baseWidth, 0f)
+                handPath.lineTo(-needleWidth, needleStart)
+                handPath.lineTo(0f, tip)
+                handPath.lineTo(needleWidth, needleStart)
+                handPath.lineTo(baseWidth, 0f)
+                handPath.lineTo(tailWidth, tailLength * 0.6f)
+                handPath.close()
+
+                canvas.drawPath(handPath, handPaint)
+
+                // Concentric dual pivot
+                canvas.drawCircle(0f, 0f, radius * 0.042f, pivotPaint)
+                dialBackgroundPaint.color = theme.dialBgColor
+                canvas.drawCircle(0f, 0f, radius * 0.016f, dialBackgroundPaint)
+            }
+            HandStyle.BAUHAUS_BATON -> {
+                // Minimalist straight baton
+                handPaint.style = Paint.Style.STROKE
+                handPaint.strokeCap = Paint.Cap.ROUND
+                handPaint.strokeWidth = radius * 0.022f
+
+                canvas.drawLine(0f, radius * 0.16f, 0f, -handLength, handPaint)
+                canvas.drawCircle(0f, 0f, radius * 0.048f, pivotPaint)
+                dialBackgroundPaint.color = theme.dialBgColor
+                canvas.drawCircle(0f, 0f, radius * 0.018f, dialBackgroundPaint)
+            }
+            HandStyle.ARROW_SPORT -> {
+                // Dynamic sport arrow with bold head and chevron tail
+                handPaint.style = Paint.Style.FILL
+                val stemWidth = radius * 0.016f
+                val arrowBase = -radius * 0.68f
+                val arrowWidth = radius * 0.055f
+                val tip = -radius * 0.90f
+                val tail = radius * 0.18f
+                val tailFin = radius * 0.03f
+
+                handPath.moveTo(0f, tail)
+                handPath.lineTo(-tailFin, tail * 0.7f)
+                handPath.lineTo(-stemWidth, 0f)
+                handPath.lineTo(-stemWidth, arrowBase)
+                handPath.lineTo(-arrowWidth, arrowBase)
+                handPath.lineTo(0f, tip)
+                handPath.lineTo(arrowWidth, arrowBase)
+                handPath.lineTo(stemWidth, arrowBase)
+                handPath.lineTo(stemWidth, 0f)
+                handPath.lineTo(tailFin, tail * 0.7f)
+                handPath.close()
+
+                canvas.drawPath(handPath, handPaint)
+                canvas.drawCircle(0f, 0f, radius * 0.042f, pivotPaint)
+            }
+            HandStyle.SWORD_AVIO -> {
+                // Aviator sword with beveled spine accent
+                handPaint.style = Paint.Style.FILL
+                val midY = -radius * 0.45f
+                val midWidth = radius * 0.035f
+                val tip = -handLength
+                val tail = radius * 0.18f
+                val tailWidth = radius * 0.018f
+
+                handPath.moveTo(0f, tail)
+                handPath.lineTo(-tailWidth, tail * 0.5f)
+                handPath.lineTo(-midWidth * 0.4f, 0f)
+                handPath.lineTo(-midWidth, midY)
+                handPath.lineTo(0f, tip)
+                handPath.lineTo(midWidth, midY)
+                handPath.lineTo(midWidth * 0.4f, 0f)
+                handPath.lineTo(tailWidth, tail * 0.5f)
+                handPath.close()
+
+                canvas.drawPath(handPath, handPaint)
+
+                // Half-blade specular spine
+                handSpinePath.moveTo(0f, tail)
+                handSpinePath.lineTo(midWidth * 0.4f, 0f)
+                handSpinePath.lineTo(midWidth, midY)
+                handSpinePath.lineTo(0f, tip)
+                handSpinePath.close()
+
+                canvas.drawPath(handSpinePath, spinePaint)
+                canvas.drawCircle(0f, 0f, radius * 0.042f, pivotPaint)
+            }
+            HandStyle.SKELETON_RING -> {
+                // Viewing ring framing dial markings
+                handPaint.style = Paint.Style.STROKE
+                handPaint.strokeWidth = radius * 0.018f
+                handPaint.strokeCap = Paint.Cap.ROUND
+
+                val ringCenterY = -radius * 0.76f
+                val ringRadius = radius * 0.065f
+                val tip = -radius * 0.90f
+
+                // Stem from counterweight to bottom of ring
+                canvas.drawLine(0f, radius * 0.16f, 0f, ringCenterY + ringRadius, handPaint)
+                // Ring
+                canvas.drawCircle(0f, ringCenterY, ringRadius, handPaint)
+                // Pointer tip from top of ring
+                handPaint.strokeWidth = radius * 0.010f
+                canvas.drawLine(0f, ringCenterY - ringRadius, 0f, tip, handPaint)
+
+                canvas.drawCircle(0f, 0f, radius * 0.042f, pivotPaint)
+            }
+            HandStyle.SPIRAL_CURVE -> {
+                // Avant-garde serpentine spiral wave with counterweight swirl and precision pointer
+                handPaint.style = Paint.Style.STROKE
+                handPaint.strokeWidth = radius * 0.022f
+                handPaint.strokeCap = Paint.Cap.ROUND
+
+                val tip = -handLength
+
+                // 1. Counterweight spiral curl
+                handPath.moveTo(0f, 0f)
+                handPath.cubicTo(
+                    -radius * 0.12f, radius * 0.05f,
+                    -radius * 0.12f, radius * 0.18f,
+                    -radius * 0.02f, radius * 0.18f
+                )
+                handPath.quadTo(radius * 0.04f, radius * 0.15f, radius * 0.01f, radius * 0.08f)
+
+                // 2. Main fluid S-spiral wave body sweeping outward and aligning to top tip
+                handPath.moveTo(0f, 0f)
+                handPath.cubicTo(
+                    radius * 0.32f, -radius * 0.22f,
+                    -radius * 0.16f, -radius * 0.60f,
+                    0f, tip
+                )
+                canvas.drawPath(handPath, handPaint)
+
+                // 3. Sharp arrow / flame pointer at tip
+                handPaint.style = Paint.Style.FILL
+                handArrowPath.reset()
+                handArrowPath.moveTo(0f, tip - radius * 0.035f)
+                handArrowPath.lineTo(-radius * 0.032f, tip + radius * 0.025f)
+                handArrowPath.lineTo(0f, tip + radius * 0.012f)
+                handArrowPath.lineTo(radius * 0.032f, tip + radius * 0.025f)
+                handArrowPath.close()
+                canvas.drawPath(handArrowPath, handPaint)
+
+                // 4. Concentric vortex pivot
+                canvas.drawCircle(0f, 0f, radius * 0.048f, pivotPaint)
+                dialBackgroundPaint.color = theme.dialBgColor
+                canvas.drawCircle(0f, 0f, radius * 0.024f, dialBackgroundPaint)
+                canvas.drawCircle(0f, 0f, radius * 0.012f, pivotPaint)
+            }
+            HandStyle.SPIRAL_VORTEX -> {
+                // Archimedean expanding galaxy vortex
+                handPaint.style = Paint.Style.STROKE
+                handPaint.strokeWidth = radius * 0.020f
+                handPaint.strokeCap = Paint.Cap.ROUND
+
+                handPath.reset()
+                val steps = 60
+                val targetR = handLength
+                for (i in 0..steps) {
+                    val t = i / steps.toFloat()
+                    val theta = (-Math.PI / 2.0 - 2.0 * Math.PI * (1.0 - t)).toFloat()
+                    val currentR = targetR * (0.06f + 0.94f * (t * t))
+                    val px = (currentR * cos(theta.toDouble())).toFloat()
+                    val py = (currentR * sin(theta.toDouble())).toFloat()
+                    if (i == 0) handPath.moveTo(px, py) else handPath.lineTo(px, py)
+                }
+                canvas.drawPath(handPath, handPaint)
+
+                // Arrow head at tip
+                handPaint.style = Paint.Style.FILL
+                handArrowPath.reset()
+                val tip = -handLength
+                handArrowPath.moveTo(0f, tip - radius * 0.035f)
+                handArrowPath.lineTo(-radius * 0.032f, tip + radius * 0.025f)
+                handArrowPath.lineTo(0f, tip + radius * 0.012f)
+                handArrowPath.lineTo(radius * 0.032f, tip + radius * 0.025f)
+                handArrowPath.close()
+                canvas.drawPath(handArrowPath, handPaint)
+
+                // Vortex concentric pivot
+                canvas.drawCircle(0f, 0f, radius * 0.052f, pivotPaint)
+                dialBackgroundPaint.color = theme.dialBgColor
+                canvas.drawCircle(0f, 0f, radius * 0.028f, dialBackgroundPaint)
+                canvas.drawCircle(0f, 0f, radius * 0.014f, pivotPaint)
+            }
+            HandStyle.SPIRAL_DOUBLE_DNA -> {
+                // Double Helix Caduceus Spiral
+                handPaint.style = Paint.Style.STROKE
+                handPaint.strokeWidth = radius * 0.016f
+                handPaint.strokeCap = Paint.Cap.ROUND
+
+                val tip = -handLength
+                val steps = 50
+
+                // Strand 1
+                handPath.reset()
+                for (i in 0..steps) {
+                    val t = i / steps.toFloat()
+                    val y = t * tip
+                    val waveAmp = (radius * 0.085f * (1.0f - (t - 0.5f) * (t - 0.5f) * 3f)).coerceAtLeast(radius * 0.01f)
+                    val x = waveAmp * sin(t * 3.0 * Math.PI).toFloat()
+                    if (i == 0) handPath.moveTo(x, y) else handPath.lineTo(x, y)
+                }
+                canvas.drawPath(handPath, handPaint)
+
+                // Strand 2
+                handPath.reset()
+                for (i in 0..steps) {
+                    val t = i / steps.toFloat()
+                    val y = t * tip
+                    val waveAmp = (radius * 0.085f * (1.0f - (t - 0.5f) * (t - 0.5f) * 3f)).coerceAtLeast(radius * 0.01f)
+                    val x = -waveAmp * sin(t * 3.0 * Math.PI).toFloat()
+                    if (i == 0) handPath.moveTo(x, y) else handPath.lineTo(x, y)
+                }
+                canvas.drawPath(handPath, handPaint)
+
+                // Diamond head
+                handPaint.style = Paint.Style.FILL
+                handArrowPath.reset()
+                handArrowPath.moveTo(0f, tip - radius * 0.035f)
+                handArrowPath.lineTo(-radius * 0.026f, tip)
+                handArrowPath.lineTo(0f, tip + radius * 0.035f)
+                handArrowPath.lineTo(radius * 0.026f, tip)
+                handArrowPath.close()
+                canvas.drawPath(handArrowPath, handPaint)
+
+                // Counterweight tail ring
+                canvas.drawCircle(0f, radius * 0.14f, radius * 0.032f, handPaint)
+                canvas.drawCircle(0f, 0f, radius * 0.046f, pivotPaint)
+            }
+            HandStyle.SPIRAL_FLAME -> {
+                // Curved flame / scimitar blade with aerodynamic cutout
+                handPaint.style = Paint.Style.FILL
+                val tip = -handLength
+                val tail = radius * 0.18f
+
+                handPath.reset()
+                handPath.moveTo(0f, tail)
+                handPath.cubicTo(
+                    -radius * 0.08f, tail * 0.5f,
+                    -radius * 0.16f, -radius * 0.30f,
+                    -radius * 0.08f, -radius * 0.65f
+                )
+                handPath.quadTo(-radius * 0.02f, -radius * 0.80f, 0f, tip)
+                handPath.quadTo(radius * 0.12f, -radius * 0.70f, radius * 0.07f, -radius * 0.40f)
+                handPath.cubicTo(
+                    radius * 0.05f, -radius * 0.15f,
+                    radius * 0.05f, 0f,
+                    0f, tail
+                )
+                handPath.close()
+                canvas.drawPath(handPath, handPaint)
+
+                // Inner flame cutout
+                handSpinePath.reset()
+                handSpinePath.moveTo(0f, -radius * 0.12f)
+                handSpinePath.quadTo(-radius * 0.07f, -radius * 0.42f, 0f, -radius * 0.68f)
+                handSpinePath.quadTo(radius * 0.03f, -radius * 0.42f, 0f, -radius * 0.12f)
+                handSpinePath.close()
+                dialBackgroundPaint.color = theme.dialBgColor
+                canvas.drawPath(handSpinePath, dialBackgroundPaint)
+
+                canvas.drawCircle(0f, 0f, radius * 0.044f, pivotPaint)
+            }
+        }
+
+        canvas.restore()
     }
 }
