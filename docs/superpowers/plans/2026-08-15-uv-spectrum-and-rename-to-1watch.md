@@ -30,95 +30,11 @@
 **Interfaces:**
 - Produces: `Uno24DialRenderer.getUvColor(uvVal: Float): Int`
 
-- [ ] **Step 1: Write failing unit test for `getUvColor`**
-
-In `app/src/test/java/com/uno24/wallpaper/Uno24DialRendererTest.kt`:
-```kotlin
-@Test
-fun testUvColorScale() {
-    assertEquals(Color.TRANSPARENT, Uno24DialRenderer.getUvColor(0.0f))
-    assertEquals(Color.parseColor("#4CAF50"), Uno24DialRenderer.getUvColor(1.5f)) // Low (Green)
-    assertEquals(Color.parseColor("#FDD835"), Uno24DialRenderer.getUvColor(4.2f)) // Moderate (Yellow)
-    assertEquals(Color.parseColor("#FB8C00"), Uno24DialRenderer.getUvColor(6.8f)) // High (Orange)
-    assertEquals(Color.parseColor("#E53935"), Uno24DialRenderer.getUvColor(9.5f)) // Very High (Red)
-    assertEquals(Color.parseColor("#8E24AA"), Uno24DialRenderer.getUvColor(11.5f)) // Extreme (Violet)
-}
-```
-
-- [ ] **Step 2: Run test to verify it fails**
-
-Run: `JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" rtk ./gradlew testDebugUnitTest --tests com.uno24.wallpaper.Uno24DialRendererTest.testUvColorScale`
-Expected: FAIL.
-
-- [ ] **Step 3: Implement `getUvColor` and update UV drawing in `Uno24DialRenderer.kt`**
-
-Add companion method:
-```kotlin
-fun getUvColor(uvVal: Float): Int {
-    return when {
-        uvVal >= 11.0f -> Color.parseColor("#8E24AA") // Extreme (Violet)
-        uvVal >= 8.0f -> Color.parseColor("#E53935")  // Very High (Red)
-        uvVal >= 6.0f -> Color.parseColor("#FB8C00")  // High (Orange)
-        uvVal >= 3.0f -> Color.parseColor("#FDD835")  // Moderate (Yellow)
-        uvVal >= 0.5f -> Color.parseColor("#4CAF50")  // Low (Green)
-        else -> Color.TRANSPARENT
-    }
-}
-```
-
-Update UV arc drawing loop:
-```kotlin
-        if (showUv && uvData != null && uvData.size >= 24 && !sunTimes.isPolarNight) {
-            val uvArcRadius = radius * 0.94f
-            uvRect.set(cx - uvArcRadius, cy - uvArcRadius, cx + uvArcRadius, cy + uvArcRadius)
-            uvArcPaint.strokeWidth = radius * 0.04f
-
-            for (h in 0 until 24) {
-                val uvVal = uvData[h]
-                val color = getUvColor(uvVal)
-                if (color != Color.TRANSPARENT) {
-                    val startAngle = timeToAngle(h.toDouble()) - 90f
-                    uvArcPaint.color = color
-                    canvas.drawArc(uvRect, startAngle, 15f, false, uvArcPaint)
-                }
-            }
-        }
-```
-
-Update complication dot:
-```kotlin
-        if (showUvIndex) {
-            val currentUv = uvData?.getOrNull(currentHour) ?: 0.0f
-            val uvStr = if (currentUv > 0f) "UV %.1f".format(java.util.Locale.US, currentUv) else "UV 0"
-            val uvY = cy - radius * 0.38f
-            val uOffset = (complicationPaint.textSize - complicationPaint.descent() - complicationPaint.ascent()) / 2f - complicationPaint.textSize / 2f
-            
-            val uvColor = getUvColor(currentUv)
-            if (uvColor != Color.TRANSPARENT) {
-                val textW = textPaint.measureText(uvStr)
-                val dotRadius = radius * 0.018f
-                val dotPaint = uvArcPaint
-                val dotX = cx - (textW / 2f) - (dotRadius * 3.0f)
-                dotPaint.color = uvColor
-                dotPaint.style = Paint.Style.FILL
-                canvas.drawCircle(dotX, uvY, dotRadius, dotPaint)
-                dotPaint.style = Paint.Style.STROKE
-            }
-            canvas.drawText(uvStr, cx, uvY + uOffset, textPaint)
-        }
-```
-
-- [ ] **Step 4: Run unit tests to verify they pass**
-
-Run: `JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" rtk ./gradlew testDebugUnitTest`
-Expected: PASS.
-
-- [ ] **Step 5: Commit**
-
-```bash
-rtk git add app/src/main/java/com/uno24/wallpaper/Uno24DialRenderer.kt app/src/test/java/com/uno24/wallpaper/Uno24DialRendererTest.kt
-rtk git commit -m "feat: implement WHO 5-tier UV color scale for dial arc and complication dot"
-```
+- [x] **Step 1: Write failing unit test for `getUvColor`**
+- [x] **Step 2: Run test to verify it fails**
+- [x] **Step 3: Implement `getUvColor` and update UV drawing in `Uno24DialRenderer.kt`**
+- [x] **Step 4: Run unit tests to verify they pass**
+- [x] **Step 5: Commit**
 
 ---
 
@@ -137,19 +53,9 @@ rtk git commit -m "feat: implement WHO 5-tier UV color scale for dial arc and co
 - Modify: `app/src/main/res/values-el/strings.xml`
 - Modify: `app/src/main/res/values-b+ang/strings.xml`
 
-- [ ] **Step 1: Replace `UNO 24` with `1watch` in all 12 strings.xml files**
-
-- [ ] **Step 2: Run build to verify resource compilation**
-
-Run: `JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" rtk ./gradlew test assembleDebug`
-Expected: BUILD SUCCESSFUL.
-
-- [ ] **Step 3: Commit**
-
-```bash
-rtk git add app/src/main/res/values*
-rtk git commit -m "feat: rename application to 1watch across all 12 localizations"
-```
+- [x] **Step 1: Replace `UNO 24` with `1watch` in all 12 strings.xml files**
+- [x] **Step 2: Run build to verify resource compilation**
+- [x] **Step 3: Commit**
 
 ---
 
@@ -158,12 +64,6 @@ rtk git commit -m "feat: rename application to 1watch across all 12 localization
 **Files:**
 - Target: `emulator-5554`
 
-- [ ] **Step 1: Install APK on Android emulator**
-
-Run: `rtk orca emulator install ./app/build/outputs/apk/debug/app-debug.apk --reinstall --device emulator-5554 --json`
-
-- [ ] **Step 2: Launch `MainActivity` and capture verification screenshot**
-
-Run: `rtk orca emulator launch com.uno24.wallpaper --activity .MainActivity --device emulator-5554 --json`
-
-- [ ] **Step 3: Verify UV arc multi-color spectrum and complication dot on screen**
+- [x] **Step 1: Install APK on Android emulator**
+- [x] **Step 2: Launch `MainActivity` and capture verification screenshot**
+- [x] **Step 3: Verify UV arc multi-color spectrum and complication dot on screen**
