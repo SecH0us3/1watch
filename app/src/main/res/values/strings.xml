@@ -96,6 +96,11 @@
     <string name="theme_sakura_dawn">Sakura Dawn</string>
     <string name="theme_sage_mint">Nordic Sage</string>
     <string name="theme_cyberpunk">Cyberpunk Neon</string>
+    <string name="theme_rose_gold_onyx">Rose Gold &amp; Onyx (Swiss Luxury)</string>
+    <string name="theme_royal_emerald">Royal Emerald &amp; Gold</string>
+    <string name="theme_urushi_japan">Japanese Urushi &amp; Cinnabar</string>
+    <string name="theme_arabian_lapis">Arabian Lapis Lazuli &amp; Gold</string>
+    <string name="theme_nordic_platinum">Nordic Platinum &amp; Titanium</string>
 
     <!-- Color Preset Names -->
     <string name="color_midnight_navy">Midnight Navy</string>

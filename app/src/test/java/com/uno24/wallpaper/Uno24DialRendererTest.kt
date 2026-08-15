@@ -65,6 +65,11 @@ class Uno24DialRendererTest {
         assertEquals(DialTheme.SAKURA_DAWN, DialTheme.fromName("SAKURA_DAWN"))
         assertEquals(DialTheme.SAGE_MINT, DialTheme.fromName("SAGE_MINT"))
         assertEquals(DialTheme.CYBERPUNK, DialTheme.fromName("CYBERPUNK"))
+        assertEquals(DialTheme.ROSE_GOLD_ONYX, DialTheme.fromName("ROSE_GOLD_ONYX"))
+        assertEquals(DialTheme.ROYAL_EMERALD, DialTheme.fromName("ROYAL_EMERALD"))
+        assertEquals(DialTheme.URUSHI_JAPAN, DialTheme.fromName("URUSHI_JAPAN"))
+        assertEquals(DialTheme.ARABIAN_LAPIS, DialTheme.fromName("ARABIAN_LAPIS"))
+        assertEquals(DialTheme.NORDIC_PLATINUM, DialTheme.fromName("NORDIC_PLATINUM"))
         // fallback
         assertEquals(DialTheme.CLASSIC_DARK, DialTheme.fromName("UNKNOWN"))
     }
