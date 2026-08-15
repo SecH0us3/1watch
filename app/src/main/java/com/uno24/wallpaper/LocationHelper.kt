@@ -6,23 +6,68 @@ import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 
+data class ClockConfig(
+    val lat: Double,
+    val lon: Double,
+    val theme: DialTheme,
+    val showUv: Boolean,
+    val showDate: Boolean = true,
+    val showUvIndex: Boolean = true,
+    val numeralStyle: NumeralStyle,
+    val numeralOrientation: NumeralOrientation,
+    val numeralDisplayMode: NumeralDisplayMode,
+    val fontSizeScale: Float,
+    val numeralFont: NumeralFont,
+    val handStyle: HandStyle,
+    val bgMode: BackgroundMode,
+    val customColor: Int
+)
+
 object LocationHelper {
-    private const val PREFS_NAME = "Uno24Prefs"
+    const val PREFS_NAME = "Uno24Prefs"
     private const val KEY_LAT = "key_lat"
     private const val KEY_LON = "key_lon"
     private const val KEY_THEME = "key_theme"
     private const val KEY_SHOW_UV = "key_show_uv"
+    private const val KEY_SHOW_DATE = "key_show_date"
+    private const val KEY_SHOW_UV_INDEX = "key_show_uv_index"
     private const val KEY_NUMERAL_STYLE = "key_numeral_style"
     private const val KEY_NUMERAL_ORIENTATION = "key_numeral_orientation"
     private const val KEY_NUMERAL_DISPLAY_MODE = "key_numeral_display_mode"
     private const val KEY_NUMERAL_SIZE = "key_numeral_size"
     private const val KEY_NUMERAL_FONT = "key_numeral_font"
+    private const val KEY_HAND_STYLE = "key_hand_style"
     private const val KEY_BG_MODE = "key_bg_mode"
     private const val KEY_CUSTOM_COLOR = "key_custom_color"
     private const val KEY_FONT_SIZE_SCALE = "key_font_size_scale"
+    private const val KEY_APP_LANGUAGE = "key_app_language"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
+
+    fun getPrefs(context: Context): android.content.SharedPreferences {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    }
+
+    fun loadConfig(context: Context): ClockConfig {
+        val (lat, lon) = getSavedCoordinates(context)
+        return ClockConfig(
+            lat = lat,
+            lon = lon,
+            theme = getSavedTheme(context),
+            showUv = getShowUv(context),
+            showDate = getShowDate(context),
+            showUvIndex = getShowUvIndex(context),
+            numeralStyle = getNumeralStyle(context),
+            numeralOrientation = getNumeralOrientation(context),
+            numeralDisplayMode = getNumeralDisplayMode(context),
+            fontSizeScale = getFontSizeScale(context),
+            numeralFont = getNumeralFont(context),
+            handStyle = getHandStyle(context),
+            bgMode = getBackgroundMode(context),
+            customColor = getCustomColor(context)
+        )
+    }
 
     fun getSavedCoordinates(context: Context): Pair<Double, Double> {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -60,6 +105,26 @@ object LocationHelper {
         prefs.edit().putBoolean(KEY_SHOW_UV, enabled).apply()
     }
 
+    fun getShowDate(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_SHOW_DATE, true)
+    }
+
+    fun saveShowDate(context: Context, enabled: Boolean) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_SHOW_DATE, enabled).apply()
+    }
+
+    fun getShowUvIndex(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_SHOW_UV_INDEX, true)
+    }
+
+    fun saveShowUvIndex(context: Context, enabled: Boolean) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_SHOW_UV_INDEX, enabled).apply()
+    }
+
     fun getNumeralStyle(context: Context): NumeralStyle {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val name = prefs.getString(KEY_NUMERAL_STYLE, NumeralStyle.ARABIC.name)
@@ -84,7 +149,7 @@ object LocationHelper {
 
     fun getNumeralDisplayMode(context: Context): NumeralDisplayMode {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val name = prefs.getString(KEY_NUMERAL_DISPLAY_MODE, NumeralDisplayMode.EVEN_ONLY.name)
+        val name = prefs.getString(KEY_NUMERAL_DISPLAY_MODE, NumeralDisplayMode.ALL.name)
         return NumeralDisplayMode.fromName(name)
     }
 
@@ -115,6 +180,17 @@ object LocationHelper {
         prefs.edit().putString(KEY_NUMERAL_FONT, font.name).apply()
     }
 
+    fun getHandStyle(context: Context): HandStyle {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val name = prefs.getString(KEY_HAND_STYLE, HandStyle.BOTTA_NEEDLE.name)
+        return HandStyle.fromName(name)
+    }
+
+    fun saveHandStyle(context: Context, style: HandStyle) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_HAND_STYLE, style.name).apply()
+    }
+
     fun getBackgroundMode(context: Context): BackgroundMode {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val name = prefs.getString(KEY_BG_MODE, BackgroundMode.THEME_DEFAULT.name)
@@ -136,10 +212,31 @@ object LocationHelper {
         prefs.edit().putInt(KEY_CUSTOM_COLOR, color).apply()
     }
 
+    fun getAppLanguage(context: Context): AppLanguage {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val code = prefs.getString(KEY_APP_LANGUAGE, AppLanguage.SYSTEM.code)
+        return AppLanguage.fromCode(code)
+    }
+
+    fun saveAppLanguage(context: Context, language: AppLanguage) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_APP_LANGUAGE, language.code).apply()
+        applyAppLanguage(language)
+    }
+
+    fun applyAppLanguage(language: AppLanguage) {
+        val appLocales = if (language == AppLanguage.SYSTEM || language.code.isEmpty()) {
+            androidx.core.os.LocaleListCompat.getEmptyLocaleList()
+        } else {
+            androidx.core.os.LocaleListCompat.forLanguageTags(language.code)
+        }
+        androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(appLocales)
+    }
+
     @SuppressLint("MissingPermission")
-    fun updateLocationIfPermitted(context: Context) {
+    fun updateLocationIfPermitted(context: Context, onLocationUpdated: (() -> Unit)? = null) {
         try {
-            val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val lm = context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager ?: return
             val providers = lm.getProviders(true)
             var bestLocation: Location? = null
 
@@ -152,6 +249,29 @@ object LocationHelper {
 
             bestLocation?.let {
                 saveCoordinates(context, it.latitude, it.longitude)
+                onLocationUpdated?.invoke()
+            }
+
+            // Also actively request fresh location updates from available providers
+            for (provider in listOf(LocationManager.NETWORK_PROVIDER, LocationManager.GPS_PROVIDER)) {
+                if (lm.isProviderEnabled(provider)) {
+                    val listener = object : android.location.LocationListener {
+                        override fun onLocationChanged(loc: Location) {
+                            saveCoordinates(context, loc.latitude, loc.longitude)
+                            onLocationUpdated?.invoke()
+                            try {
+                                lm.removeUpdates(this)
+                            } catch (e: Exception) {
+                                // Ignore
+                            }
+                        }
+                        @Deprecated("Deprecated in Java")
+                        override fun onStatusChanged(provider: String?, status: Int, extras: android.os.Bundle?) {}
+                        override fun onProviderEnabled(provider: String) {}
+                        override fun onProviderDisabled(provider: String) {}
+                    }
+                    lm.requestLocationUpdates(provider, 0L, 0f, listener, android.os.Looper.getMainLooper())
+                }
             }
         } catch (e: SecurityException) {
             // Permission not granted, fallback to saved/default

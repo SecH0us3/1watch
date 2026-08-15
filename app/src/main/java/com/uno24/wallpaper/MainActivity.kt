@@ -361,7 +361,9 @@ class MainActivity : AppCompatActivity() {
                 PERMISSION_REQUEST_LOCATION
             )
         } else {
-            LocationHelper.updateLocationIfPermitted(this)
+            LocationHelper.updateLocationIfPermitted(this) {
+                clockView.refreshSettings()
+            }
         }
     }
 
@@ -374,8 +376,9 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == PERMISSION_REQUEST_LOCATION && grantResults.isNotEmpty()
             && grantResults[0] == PackageManager.PERMISSION_GRANTED
         ) {
-            LocationHelper.updateLocationIfPermitted(this)
-            clockView.refreshSettings()
+            LocationHelper.updateLocationIfPermitted(this) {
+                clockView.refreshSettings()
+            }
         }
     }
 }

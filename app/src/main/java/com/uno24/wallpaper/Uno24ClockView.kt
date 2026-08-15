@@ -1,6 +1,7 @@
 package com.uno24.wallpaper
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Handler
 import android.os.Looper
@@ -20,6 +21,13 @@ class Uno24ClockView @JvmOverloads constructor(
     private val handler = Handler(Looper.getMainLooper())
     private var isAttached = false
 
+    private var config: ClockConfig = LocationHelper.loadConfig(context)
+    private var bgBitmap: Bitmap? = null
+
+    private val uvListener: () -> Unit = {
+        postInvalidate()
+    }
+
     private val updateRunnable = object : Runnable {
         override fun run() {
             invalidate()
@@ -29,15 +37,28 @@ class Uno24ClockView @JvmOverloads constructor(
         }
     }
 
+    fun refreshSettings() {
+        config = LocationHelper.loadConfig(context)
+        bgBitmap = if (config.bgMode == BackgroundMode.CUSTOM_IMAGE) {
+            BackgroundImageHelper.loadBitmap(context)
+        } else {
+            null
+        }
+        invalidate()
+    }
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         isAttached = true
+        UvRepository.addListener(uvListener)
+        refreshSettings()
         handler.post(updateRunnable)
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         isAttached = false
+        UvRepository.removeListener(uvListener)
         handler.removeCallbacks(updateRunnable)
     }
 
@@ -49,20 +70,8 @@ class Uno24ClockView @JvmOverloads constructor(
         val hourFraction = now.hour + now.minute / 60.0 + now.second / 3600.0
         val zoneOffsetHours = ZoneId.systemDefault().rules.getOffset(java.time.Instant.now()).totalSeconds / 3600.0
 
-        val (lat, lon) = LocationHelper.getSavedCoordinates(context)
-        val currentTheme = LocationHelper.getSavedTheme(context)
-        val showUv = LocationHelper.getShowUv(context)
-        val numeralStyle = LocationHelper.getNumeralStyle(context)
-        val numeralOrientation = LocationHelper.getNumeralOrientation(context)
-        val numeralDisplayMode = LocationHelper.getNumeralDisplayMode(context)
-        val fontSizeScale = LocationHelper.getFontSizeScale(context)
-        val numeralFont = LocationHelper.getNumeralFont(context)
-        val bgMode = LocationHelper.getBackgroundMode(context)
-        val customColor = LocationHelper.getCustomColor(context)
-        val bgBitmap = if (bgMode == BackgroundMode.CUSTOM_IMAGE) BackgroundImageHelper.loadBitmap(context) else null
-
-        val sunTimes = SolarCalculator.calculateSunTimes(lat, lon, date, zoneOffsetHours)
-        val uvData = if (showUv) UvRepository.getCachedOrFallbackUv(context, lat, lon, date) else null
+        val sunTimes = SolarCalculator.calculateSunTimes(config.lat, config.lon, date, zoneOffsetHours)
+        val uvData = if (config.showUv || config.showUvIndex) UvRepository.getCachedOrFallbackUv(context, config.lat, config.lon, date) else null
 
         renderer.draw(
             canvas = canvas,
@@ -70,17 +79,22 @@ class Uno24ClockView @JvmOverloads constructor(
             height = height,
             timeHourFraction = hourFraction,
             sunTimes = sunTimes,
-            theme = currentTheme,
-            showUv = showUv,
+            theme = config.theme,
+            showUv = config.showUv,
+            showDate = config.showDate,
+            showUvIndex = config.showUvIndex,
+            date = date,
             uvData = uvData,
-            numeralStyle = numeralStyle,
-            numeralOrientation = numeralOrientation,
-            numeralDisplayMode = numeralDisplayMode,
-            fontSizeScale = fontSizeScale,
-            numeralFont = numeralFont,
-            bgMode = bgMode,
-            customColor = customColor,
-            bgBitmap = bgBitmap
+            numeralStyle = config.numeralStyle,
+            numeralOrientation = config.numeralOrientation,
+            numeralDisplayMode = config.numeralDisplayMode,
+            fontSizeScale = config.fontSizeScale,
+            numeralFont = config.numeralFont,
+            handStyle = config.handStyle,
+            bgMode = config.bgMode,
+            customColor = config.customColor,
+            bgBitmap = bgBitmap,
+            isWallpaper = false
         )
     }
 }

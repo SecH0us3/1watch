@@ -1,23 +1,58 @@
 package com.uno24.wallpaper
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.time.LocalDate
+import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.Executors
 import kotlin.math.*
 
 object UvRepository {
     private const val PREFS_NAME = "Uno24UvCache"
-    private const val KEY_UV_DATA = "key_uv_data"
-    private const val KEY_LAST_FETCH = "key_last_fetch"
     private val executor = Executors.newSingleThreadExecutor()
+    private val listeners = CopyOnWriteArrayList<() -> Unit>()
+
+    fun addListener(listener: () -> Unit) {
+        if (!listeners.contains(listener)) {
+            listeners.add(listener)
+        }
+    }
+
+    fun removeListener(listener: () -> Unit) {
+        listeners.remove(listener)
+    }
+
+    private fun notifyListeners() {
+        val action = Runnable {
+            listeners.forEach {
+                try {
+                    it.invoke()
+                } catch (e: Exception) {
+                    // Ignore listener error
+                }
+            }
+        }
+        try {
+            val looper = Looper.getMainLooper()
+            if (looper != null) {
+                Handler(looper).post(action)
+            } else {
+                action.run()
+            }
+        } catch (e: Throwable) {
+            action.run()
+        }
+    }
 
     fun estimateUvFromSolarAngle(lat: Double, lon: Double, date: LocalDate, hour: Int): Float {
-        val sunTimes = SolarCalculator.calculateSunTimes(lat, lon, date, 0.0)
+        val localOffset = lon / 15.0
+        val sunTimes = SolarCalculator.calculateSunTimes(lat, lon, date, localOffset)
         if (hour < sunTimes.sunriseHour || hour > sunTimes.sunsetHour) return 0f
 
         val noon = (sunTimes.sunriseHour + sunTimes.sunsetHour) / 2.0
@@ -26,24 +61,34 @@ object UvRepository {
         if (distFromNoon >= halfDay) return 0f
 
         val factor = cos((distFromNoon / halfDay) * (PI / 2.0))
-        return (10.0 * factor).toFloat().coerceIn(0f, 12f)
+        val latRad = Math.toRadians(abs(lat))
+        val peakUv = (13.0 * cos(latRad)).coerceIn(4.0, 13.0)
+        return (peakUv * factor).toFloat().coerceIn(0f, 14f)
+    }
+
+    private fun getCacheKey(lat: Double, lon: Double, date: LocalDate): String {
+        val latKey = "%.1f".format(java.util.Locale.US, lat)
+        val lonKey = "%.1f".format(java.util.Locale.US, lon)
+        return "key_uv_${latKey}_${lonKey}_${date}"
     }
 
     fun getCachedOrFallbackUv(context: Context, lat: Double, lon: Double, date: LocalDate): FloatArray {
-        val cached = getCachedUv(context)
+        val cached = getCachedUv(context, lat, lon, date)
         if (cached != null) return cached
 
         val fallback = FloatArray(24)
         for (h in 0 until 24) {
             fallback[h] = estimateUvFromSolarAngle(lat, lon, date, h)
         }
-        fetchAsync(context, lat, lon)
+        fetchAsync(context, lat, lon, date)
         return fallback
     }
 
-    private fun fetchAsync(context: Context, lat: Double, lon: Double) {
+    private fun fetchAsync(context: Context, lat: Double, lon: Double, date: LocalDate) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val lastFetch = prefs.getLong(KEY_LAST_FETCH, 0L)
+        val cacheKey = getCacheKey(lat, lon, date)
+        val lastFetchKey = "${cacheKey}_last_fetch"
+        val lastFetch = prefs.getLong(lastFetchKey, 0L)
         if (System.currentTimeMillis() - lastFetch < 3 * 3600 * 1000L) return
 
         executor.execute {
@@ -72,7 +117,8 @@ object UvRepository {
                         for (i in 0 until 24) {
                             result[i] = uvArray.optDouble(i, 0.0).toFloat()
                         }
-                        saveCache(context, result)
+                        saveCache(context, cacheKey, lastFetchKey, result)
+                        notifyListeners()
                     }
                 }
                 conn.disconnect()
@@ -82,21 +128,22 @@ object UvRepository {
         }
     }
 
-    private fun saveCache(context: Context, uvData: FloatArray) {
+    private fun saveCache(context: Context, cacheKey: String, lastFetchKey: String, uvData: FloatArray) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val sb = StringBuilder()
         for (i in uvData.indices) {
             sb.append(uvData[i]).append(",")
         }
         prefs.edit()
-            .putString(KEY_UV_DATA, sb.toString())
-            .putLong(KEY_LAST_FETCH, System.currentTimeMillis())
+            .putString(cacheKey, sb.toString())
+            .putLong(lastFetchKey, System.currentTimeMillis())
             .apply()
     }
 
-    private fun getCachedUv(context: Context): FloatArray? {
+    private fun getCachedUv(context: Context, lat: Double, lon: Double, date: LocalDate): FloatArray? {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val str = prefs.getString(KEY_UV_DATA, null) ?: return null
+        val cacheKey = getCacheKey(lat, lon, date)
+        val str = prefs.getString(cacheKey, null) ?: return null
         val parts = str.split(",")
         if (parts.size < 24) return null
 

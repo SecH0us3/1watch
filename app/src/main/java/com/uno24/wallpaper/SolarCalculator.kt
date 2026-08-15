@@ -3,7 +3,12 @@ package com.uno24.wallpaper
 import java.time.LocalDate
 import kotlin.math.*
 
-data class SunTimes(val sunriseHour: Double, val sunsetHour: Double)
+data class SunTimes(
+    val sunriseHour: Double,
+    val sunsetHour: Double,
+    val isPolarDay: Boolean = false,
+    val isPolarNight: Boolean = false
+)
 
 object SolarCalculator {
     fun calculateSunTimes(
@@ -26,8 +31,16 @@ object SolarCalculator {
         
         val cosHourAngle = (cos(zenith) / (cos(latRad) * cos(decl))) - (tan(latRad) * tan(decl))
         
-        val clampedCosHA = cosHourAngle.coerceIn(-1.0, 1.0)
-        val hourAngle = Math.toDegrees(acos(clampedCosHA))
+        if (cosHourAngle < -1.0) {
+            // Sun never sets -> Polar Day
+            return SunTimes(sunriseHour = 0.0, sunsetHour = 24.0, isPolarDay = true, isPolarNight = false)
+        }
+        if (cosHourAngle > 1.0) {
+            // Sun never rises -> Polar Night
+            return SunTimes(sunriseHour = 12.0, sunsetHour = 12.0, isPolarDay = false, isPolarNight = true)
+        }
+
+        val hourAngle = Math.toDegrees(acos(cosHourAngle))
 
         val sunriseMinutes = 720.0 - 4.0 * (longitude + hourAngle) - eqTime + (timeZoneOffsetHours * 60.0)
         val sunsetMinutes = 720.0 - 4.0 * (longitude - hourAngle) - eqTime + (timeZoneOffsetHours * 60.0)
@@ -35,6 +48,6 @@ object SolarCalculator {
         val sunriseHour = (sunriseMinutes / 60.0).mod(24.0)
         val sunsetHour = (sunsetMinutes / 60.0).mod(24.0)
 
-        return SunTimes(sunriseHour, sunsetHour)
+        return SunTimes(sunriseHour, sunsetHour, isPolarDay = false, isPolarNight = false)
     }
 }
