@@ -22,6 +22,7 @@ Enhance Uno24 with 5 authentic ethnic numeral systems and 5 luxury watchmaker th
 
 ### Sizing and Radial Scaling
 - In `Uno24DialRenderer`:
+  - `BINARY`: Binary digits are strictly rendered radially directed towards the center (`numeralOrientation == NumeralOrientation.RADIAL || numeralStyle == NumeralStyle.BINARY`) so 5 digits (`00000`..`10111`) fit seamlessly without horizontal overlaps.
   - `KANJI`: Scaled appropriately for 1 to 3 characters (`二十三`).
   - `DEVANAGARI` & `EASTERN_ARABIC`: Scaled similarly to Arabic 2-digit pairs.
   - `GREEK` & `HEBREW`: Scaled appropriately for 2 to 3 glyphs with gershayim / keraia punctuation.
