@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
                 LocationHelper.saveBackgroundMode(this, BackgroundMode.CUSTOM_IMAGE)
                 clockView.refreshSettings()
                 updateBackgroundButtonsVisibility(BackgroundMode.CUSTOM_IMAGE)
-                Toast.makeText(this, getString(R.string.toast_bg_image_set), Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, getString(R.string.toast_bg_image_failed), Toast.LENGTH_SHORT).show()
             }
@@ -97,7 +96,6 @@ class MainActivity : AppCompatActivity() {
                     LocationHelper.saveTheme(this@MainActivity, newTheme)
                     updateThemeTitle()
                     clockView.refreshSettings()
-                    Toast.makeText(this@MainActivity, getString(R.string.toast_theme_prefix, newTheme.getTitle(this@MainActivity)), Toast.LENGTH_SHORT).show()
                     return true
                 }
                 return false
@@ -264,8 +262,6 @@ class MainActivity : AppCompatActivity() {
             val orientation = if (isChecked) NumeralOrientation.RADIAL else NumeralOrientation.UPRIGHT
             LocationHelper.saveNumeralOrientation(this, orientation)
             clockView.refreshSettings()
-            val msg = if (isChecked) getString(R.string.toast_numerals_radial) else getString(R.string.toast_numerals_upright)
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         }
 
         val switchUv = findViewById<SwitchMaterial>(R.id.switchUvArc)
@@ -273,8 +269,6 @@ class MainActivity : AppCompatActivity() {
         switchUv.setOnCheckedChangeListener { _, isChecked ->
             LocationHelper.saveShowUv(this, isChecked)
             clockView.refreshSettings()
-            val msg = if (isChecked) getString(R.string.toast_uv_enabled) else getString(R.string.toast_uv_disabled)
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         }
 
         val switchDate = findViewById<SwitchMaterial>(R.id.switchShowDate)
@@ -333,7 +327,6 @@ class MainActivity : AppCompatActivity() {
                 LocationHelper.saveCustomColor(this, colorInt)
                 LocationHelper.saveBackgroundMode(this, BackgroundMode.CUSTOM_COLOR)
                 clockView.refreshSettings()
-                Toast.makeText(this, getString(R.string.toast_color_set, getString(preset.titleResId)), Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton(getString(R.string.btn_cancel), null)
             .show()
