@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UNO 24</string>
+    <string name="wallpaper_description">24-часовые однострелочные живые обои с секторами дня и ночи</string>
+
+    <!-- Categories -->
+    <string name="category_appearance">Внешний вид</string>
+    <string name="category_typography">Типографика и цифры</string>
+    <string name="category_parameters">Параметры</string>
+    <string name="category_language">Язык приложения</string>
+    <string name="label_language">Язык</string>
+
+    <!-- Appearance -->
+    <string name="label_dial_background">Фон циферблата</string>
+    <string name="btn_pick_image">Выбрать изображение</string>
+    <string name="btn_pick_color">Выбрать цвет фона</string>
+    <string name="dialog_title_pick_color">Выберите цвет фона</string>
+    <string name="btn_cancel">Отмена</string>
+
+    <!-- Background Modes -->
+    <string name="bg_mode_theme_default">По теме</string>
+    <string name="bg_mode_custom_image">Фото из галереи</string>
+    <string name="bg_mode_custom_color">Свой цвет</string>
+
+    <!-- Typography -->
+    <string name="label_font">Шрифт</string>
+    <string name="label_display_mode">Отображать</string>
+    <string name="label_font_size">Размер цифр</string>
+
+    <!-- Fonts -->
+    <string name="font_sans_serif">Sans-Serif (Стандартный)</string>
+    <string name="font_serif">Serif (С засечками)</string>
+    <string name="font_monospace">Monospace (Моноширинный)</string>
+    <string name="font_cursive">Cursive (Курсив)</string>
+
+    <!-- Numeral Systems / Styles -->
+    <string name="label_numeral_style">Система цифр</string>
+    <string name="numeral_style_arabic">Арабские (00..23)</string>
+    <string name="numeral_style_roman">Римские (I..XXIV)</string>
+    <string name="numeral_style_hex">Шестнадцатеричные HEX (00..17)</string>
+    <string name="numeral_style_binary">Двоичные Binary (00000..10111)</string>
+    <string name="numeral_style_octal">Восьмеричные Octal (00..27)</string>
+    <string name="numeral_style_kanji">Кандзи / Ханьцзы (〇..二十三)</string>
+    <string name="numeral_style_devanagari">Деванагари (००..२३)</string>
+    <string name="numeral_style_eastern_arabic">Арабская вязь (٠٠..٢٣)</string>
+    <string name="numeral_style_greek">Древнегреческие (Αʹ..ΚΔʹ)</string>
+    <string name="numeral_style_hebrew">Иврит / Гематрия (א׳..כ״ד)</string>
+
+    <!-- Numeral Display Modes -->
+    <string name="display_mode_even">Только четные (0, 2, 4…)</string>
+    <string name="display_mode_odd">Только нечетные (1, 3, 5…)</string>
+    <string name="display_mode_all">Все цифры (0..23)</string>
+
+    <!-- Hand Style -->
+    <string name="label_hand_style">Форма стрелки</string>
+    <string name="hand_style_botta_needle">Игла с противовесом (Botta)</string>
+    <string name="hand_style_bauhaus_baton">Прямой баухаус (Baton)</string>
+    <string name="hand_style_arrow_sport">Спортивная стрела</string>
+    <string name="hand_style_sword_avio">Авиатор (Меч)</string>
+    <string name="hand_style_skeleton_ring">Кольцевой фокус</string>
+    <string name="hand_style_spiral_curve">Спиральная волна (Spiral)</string>
+    <string name="hand_style_spiral_vortex">Спираль Архимеда (Vortex)</string>
+    <string name="hand_style_spiral_double_dna">Двойная спираль (Кадуцей)</string>
+    <string name="hand_style_spiral_flame">Изогнутое пламя (Пламенеющий)</string>
+
+    <!-- Parameters / Switches -->
+    <string name="switch_rotate_with_dial">Цифры повернуты к центру</string>
+    <string name="switch_show_uv_arc">Отображать шкалу активности UV</string>
+    <string name="switch_show_date">Отображать дату</string>
+    <string name="switch_show_uv_index">Отображать UV индекс</string>
+
+    <!-- Buttons & Toasts -->
+    <string name="btn_set_wallpaper">Установить как обои</string>
+    <string name="toast_theme_prefix">Тема: %1$s</string>
+    <string name="toast_font_prefix">Шрифт: %1$s</string>
+    <string name="toast_style_prefix">Стиль цифр: %1$s</string>
+    <string name="toast_hand_style_prefix">Стрелка: %1$s</string>
+    <string name="toast_display_mode_prefix">Режим: %1$s</string>
+    <string name="toast_font_size_prefix">Размер шрифта: %1$s</string>
+    <string name="toast_rotate_on">Цифры повернуты к центру</string>
+    <string name="toast_rotate_off">Цифры смотрят прямо</string>
+    <string name="toast_uv_arc_on">Шкала активности UV включена</string>
+    <string name="toast_uv_arc_off">Шкала активности UV выключена</string>
+    <string name="toast_date_on">Дата отображается</string>
+    <string name="toast_date_off">Дата скрыта</string>
+    <string name="toast_uv_index_on">UV индекс отображается</string>
+    <string name="toast_uv_index_off">UV индекс скрыт</string>
+    <string name="toast_uv_disabled">Шкала UV отключена</string>
+    <string name="toast_color_set">Цвет применен: %1$s</string>
+    <string name="toast_wallpaper_picker_failed">Не удалось открыть выбор живых обоев</string>
+
+    <!-- Dial Themes -->
+    <string name="theme_classic_dark">Classic Dark (Тёмная)</string>
+    <string name="theme_solar_gold">Solar Twilight (Сумерки)</string>
+    <string name="theme_monochrome_light">Minimal Light (Светлый минимал)</string>
+    <string name="theme_arctic_white">Arctic Silver (Арктический белый)</string>
+    <string name="theme_porcelain_blue">Porcelain Cobalt (Фарфор и кобальт)</string>
+    <string name="theme_desert_sand">Desert Linen (Песчаный лён)</string>
+    <string name="theme_sakura_dawn">Sakura Dawn (Рассвет сакуры)</string>
+    <string name="theme_sage_mint">Nordic Sage (Скандинавский шалфей)</string>
+    <string name="theme_cyberpunk">Cyberpunk Neon (Киберпанк неон)</string>
+
+    <!-- Color Preset Names -->
+    <string name="color_midnight_navy">Глубокий синий (Midnight Navy)</string>
+    <string name="color_charcoal_dark">Графитовый черный (Charcoal Dark)</string>
+    <string name="color_abyss_black">Глубокая бездна (Abyss Black)</string>
+    <string name="color_forest_deep">Ночной изумруд (Forest Deep)</string>
+    <string name="color_deep_burgundy">Винный бордо (Deep Burgundy)</string>
+    <string name="color_titanium_slate">Титановый серый (Titanium Slate)</string>
+    <string name="color_warm_espresso">Шоколадный мокко (Warm Espresso)</string>
+    <string name="color_pure_light">Минималистичный светлый (Pure Light)</string>
+    <string name="color_warm_linen">Теплый лен / кремовый (Warm Linen)</string>
+    <string name="color_polar_ice">Полярный лед (Polar Ice)</string>
+    <string name="color_sage_mint">Мятный шалфей (Nordic Sage)</string>
+    <string name="color_rose_silk">Розовый шелк (Rose Silk)</string>
+</resources>

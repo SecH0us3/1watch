@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UNO 24</string>
+    <string name="wallpaper_description">XXIV-tīda ānes-handa līffæst dægmǣl mid sunnan dæge &amp; nihte</string>
+
+    <!-- Categories -->
+    <string name="category_appearance">Wlite &amp; Ansȳn</string>
+    <string name="category_typography">Stæfcræft &amp; Rīmcræft</string>
+    <string name="category_parameters">Settunga</string>
+    <string name="category_language">Geþēode</string>
+    <string name="label_language">Ambihtes Geþēode</string>
+
+    <!-- Appearance -->
+    <string name="label_dial_background">Dægmēles Grund</string>
+    <string name="btn_pick_image">Geċēos Biliþ</string>
+    <string name="btn_pick_color">Geċēos Grundblēoh</string>
+    <string name="dialog_title_pick_color">Geċēos Grundes Blēoh</string>
+    <string name="btn_cancel">Onwendan</string>
+
+    <!-- Background Modes -->
+    <string name="bg_mode_theme_default">Be Wīsan</string>
+    <string name="bg_mode_custom_image">Blæcgestrēon</string>
+    <string name="bg_mode_custom_color">Āgen Blēoh</string>
+
+    <!-- Hand Style -->
+    <string name="label_hand_style">Hande Hiw</string>
+    <string name="hand_style_botta_needle">Botta Nǣdl mid Hefe</string>
+    <string name="hand_style_bauhaus_baton">Riht Bauhaus Treow</string>
+    <string name="hand_style_arrow_sport">Gamen Strǣl</string>
+    <string name="hand_style_sword_avio">Lyftflēogendes Sweord</string>
+    <string name="hand_style_skeleton_ring">Þyrel Hringtācn</string>
+    <string name="hand_style_spiral_curve">Wōh Wyrm-tācn (Spiral)</string>
+    <string name="hand_style_spiral_vortex">Archimedes Wringstæf (Vortex)</string>
+    <string name="hand_style_spiral_double_dna">Twi-heolca Wyrm (Caduceus)</string>
+    <string name="hand_style_spiral_flame">Wōh Lēġ-sweord (Flame)</string>
+
+    <!-- Typography -->
+    <string name="label_font">Stæfhiw</string>
+    <string name="label_display_mode">Ēowian</string>
+    <string name="label_font_size">Rīma Micelnes</string>
+
+    <!-- Fonts -->
+    <string name="font_sans_serif">Efene Stæfas</string>
+    <string name="font_serif">Hyrnede Stæfas</string>
+    <string name="font_monospace">Efenspēdende Stæfas</string>
+    <string name="font_cursive">Rinnende Stæfas</string>
+
+    <!-- Numeral Systems / Styles -->
+    <string name="label_numeral_style">Rīmcræft</string>
+    <string name="numeral_style_arabic">Arabisce rīm (00..23)</string>
+    <string name="numeral_style_roman">Rōmānisce rīm (I..XXIV)</string>
+    <string name="numeral_style_hex">Siextēonerīm HEX (00..17)</string>
+    <string name="numeral_style_binary">Twifeald rīm Binary (00000..10111)</string>
+    <string name="numeral_style_octal">Eahtorīm Octal (00..27)</string>
+    <string name="numeral_style_kanji">Sērisce rīm Kanji (〇..二十三)</string>
+    <string name="numeral_style_devanagari">Indisce rīm Devanagari (००..२३)</string>
+    <string name="numeral_style_eastern_arabic">Ēast-Arabisce rīm (٠٠..٢٣)</string>
+    <string name="numeral_style_greek">Crēcisce rīm (Αʹ..ΚΔʹ)</string>
+    <string name="numeral_style_hebrew">Ebrēisce rīm Gematria (א׳..כ״ד)</string>
+
+    <!-- Numeral Display Modes -->
+    <string name="display_mode_even">Efene rīm āna (0, 2, 4…)</string>
+    <string name="display_mode_odd">Un-efene rīm āna (1, 3, 5…)</string>
+    <string name="display_mode_all">Ealle rīm (0..23)</string>
+
+
+    <!-- Parameters / Switches -->
+    <string name="switch_rotate_with_dial">Wendan rīmtācn tō middan</string>
+    <string name="switch_show_uv_arc">Ætīewan sunnan UV-boga</string>
+    <string name="switch_show_date">Ætīewan dæġ on dægmǣle</string>
+    <string name="switch_show_uv_index">Ætīewan UV-mearc</string>
+
+    <!-- Action Button -->
+    <string name="btn_set_wallpaper">Settan tō Grundweorce</string>
+
+    <!-- Dial Themes -->
+    <string name="theme_classic_dark">Classic Dark (Eald Deorc)</string>
+    <string name="theme_solar_gold">Solar Twilight (Sunnan Ǣfenglōmung)</string>
+    <string name="theme_monochrome_light">Minimal Light (Smylte Lēoht)</string>
+    <string name="theme_arctic_white">Arctic Silver (Norðan Seolfor)</string>
+    <string name="theme_porcelain_blue">Porcelain Cobalt (Stǣnen &amp; Hæwen)</string>
+    <string name="theme_desert_sand">Desert Linen (Wēsten Līn)</string>
+    <string name="theme_sakura_dawn">Sakura Dawn (Blōstm Dægrēd)</string>
+    <string name="theme_sage_mint">Nordic Sage (Norðerne Salfīe)</string>
+    <string name="theme_cyberpunk">Cyberpunk Neon</string>
+    <string name="theme_rose_gold_onyx">Rose Gold &amp; Onyx (Rōsen Gold &amp; Onyx)</string>
+    <string name="theme_royal_emerald">Royal Emerald &amp; Gold (Cynegold &amp; Smaragd)</string>
+    <string name="theme_urushi_japan">Japanese Urushi &amp; Cinnabar (Iapanisc Teoru &amp; Zinnober)</string>
+    <string name="theme_arabian_lapis">Arabian Lapis Lazuli &amp; Gold (Arabisc Eorcnanstān &amp; Gold)</string>
+    <string name="theme_nordic_platinum">Nordic Platinum &amp; Titanium (Norðisc Hwītgold)</string>
+
+    <!-- Toasts & Messages -->
+    <string name="toast_bg_image_set">Grundbiliþ is ġeseted</string>
+    <string name="toast_bg_image_failed">Ne mihte biliþ hlādan</string>
+    <string name="toast_theme_prefix">Wīse: %1$s</string>
+    <string name="toast_numerals_radial">Rīm sind tō middele ġeċierred</string>
+    <string name="toast_numerals_upright">Rīm sind rihte</string>
+    <string name="toast_roman_enabled">Rōmānisce rīm onbēacnode</string>
+    <string name="toast_arabic_enabled">Arabisce rīm onbēacnode</string>
+    <string name="toast_uv_enabled">Sunnan boga onbēacnod</string>
+    <string name="toast_uv_disabled">Sunnan boga ādilegod</string>
+    <string name="toast_color_set">Blēoh ġeseted: %1$s</string>
+    <string name="toast_wallpaper_picker_failed">Ne mihte weorc-ċēosend opnian</string>
+
+    <!-- Color Preset Names -->
+    <string name="color_midnight_navy">Midniht Hæwen</string>
+    <string name="color_charcoal_dark">Colblæc</string>
+    <string name="color_abyss_black">Nihtlic Grunt</string>
+    <string name="color_forest_deep">Deop Wudublēoh</string>
+    <string name="color_deep_burgundy">Wīnblōd</string>
+    <string name="color_titanium_slate">Stīelhār</string>
+    <string name="color_warm_espresso">Wearm Mocca</string>
+    <string name="color_pure_light">Hlūttor Lēoht</string>
+</resources>

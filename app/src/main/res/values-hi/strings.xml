@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UNO 24</string>
+    <string name="wallpaper_description">सौर दिन/रात डायल के साथ 24 घंटे का एकल-सुई लाइव वॉलपेपर</string>
+
+    <!-- Categories -->
+    <string name="category_appearance">दिखावट (Appearance)</string>
+    <string name="category_typography">टाइपोग्राफी और अंक</string>
+    <string name="category_parameters">पैरामीटर</string>
+    <string name="category_language">भाषा (Language)</string>
+    <string name="label_language">ऐप की भाषा</string>
+
+    <!-- Appearance -->
+    <string name="label_dial_background">डायल पृष्ठभूमि</string>
+    <string name="btn_pick_image">चित्र चुनें</string>
+    <string name="btn_pick_color">पृष्ठभूमि रंग चुनें</string>
+    <string name="dialog_title_pick_color">पृष्ठभूमि का रंग चुनें</string>
+    <string name="btn_cancel">रद्द करें</string>
+
+    <!-- Background Modes -->
+    <string name="bg_mode_theme_default">थीम अनुसार</string>
+    <string name="bg_mode_custom_image">गैलरी फ़ोटो</string>
+    <string name="bg_mode_custom_color">कस्टम रंग</string>
+
+    <!-- Hand Style -->
+    <string name="label_hand_style">सुई का आकार</string>
+    <string name="hand_style_botta_needle">प्रेसिजन सुई (Botta)</string>
+    <string name="hand_style_bauhaus_baton">बॉहॉस बैटन</string>
+    <string name="hand_style_arrow_sport">स्पोर्ट एरो</string>
+    <string name="hand_style_sword_avio">एविएटर तलवार</string>
+    <string name="hand_style_skeleton_ring">कंकाल रिंग</string>
+    <string name="hand_style_spiral_curve">सर्पिल तरंग (Spiral Wave)</string>
+    <string name="hand_style_spiral_vortex">आर्किमिडीज सर्पिल (Vortex)</string>
+    <string name="hand_style_spiral_double_dna">दोहरी कुंडली (Double Helix)</string>
+    <string name="hand_style_spiral_flame">घुमावदार ज्वाला (Flame)</string>
+
+    <!-- Typography -->
+    <string name="label_font">फ़ॉन्ट</string>
+    <string name="label_display_mode">प्रदर्शन</string>
+    <string name="label_font_size">अंकों का आकार</string>
+
+    <!-- Fonts -->
+    <string name="font_sans_serif">Sans-Serif (मानक)</string>
+    <string name="font_serif">Serif (सेरिफ़)</string>
+    <string name="font_monospace">Monospace (मोनोस्पेस)</string>
+    <string name="font_cursive">Cursive (हस्तलिखित)</string>
+
+    <!-- Numeral Systems / Styles -->
+    <string name="label_numeral_style">संख्या प्रणाली</string>
+    <string name="numeral_style_arabic">अरबी अंक (00..23)</string>
+    <string name="numeral_style_roman">रोमन अंक (I..XXIV)</string>
+    <string name="numeral_style_hex">हेक्साडेसिमल HEX (00..17)</string>
+    <string name="numeral_style_binary">बाइनरी Binary (00000..10111)</string>
+    <string name="numeral_style_octal">ऑक्टल Octal (00..27)</string>
+    <string name="numeral_style_kanji">कांजी / चीनी अंक (〇..二十三)</string>
+    <string name="numeral_style_devanagari">देवनागरी (००..२३)</string>
+    <string name="numeral_style_eastern_arabic">पूर्वी अरबी लिपि (٠٠..٢٣)</string>
+    <string name="numeral_style_greek">प्राचीन ग्रीक अंक (Αʹ..ΚΔʹ)</string>
+    <string name="numeral_style_hebrew">हिब्रू जेमेट्रिया (א׳..כ״ד)</string>
+
+    <!-- Numeral Display Modes -->
+    <string name="display_mode_even">केवल सम (0, 2, 4…)</string>
+    <string name="display_mode_odd">केवल विषम (1, 3, 5…)</string>
+    <string name="display_mode_all">सभी अंक (0..23)</string>
+
+
+    <!-- Parameters / Switches -->
+    <string name="switch_rotate_with_dial">अंकों को केंद्र की ओर घुमाएं</string>
+    <string name="switch_show_uv_arc">यूवी गतिविधि चाप दिखाएं</string>
+    <string name="switch_show_date">दिनांक दिखाएं</string>
+    <string name="switch_show_uv_index">यूवी सूचकांक दिखाएं</string>
+
+    <!-- Action Button -->
+    <string name="btn_set_wallpaper">वॉलपेपर के रूप में सेट करें</string>
+
+    <!-- Dial Themes -->
+    <string name="theme_classic_dark">क्लासिक डार्क (Classic Dark)</string>
+    <string name="theme_solar_gold">सौर गोधूलि (Solar Twilight)</string>
+    <string name="theme_monochrome_light">न्यूनतम लाइट (Minimal Light)</string>
+    <string name="theme_arctic_white">आर्कटिक सिल्वर (Arctic Silver)</string>
+    <string name="theme_porcelain_blue">पोर्सिलेन कोबाल्ट (Porcelain Cobalt)</string>
+    <string name="theme_desert_sand">रेगिस्तानी लिनन (Desert Linen)</string>
+    <string name="theme_sakura_dawn">सकुरा भोर (Sakura Dawn)</string>
+    <string name="theme_sage_mint">नॉर्डिक सेज (Nordic Sage)</string>
+    <string name="theme_cyberpunk">साइबरपंक नियॉन (Cyberpunk Neon)</string>
+    <string name="theme_rose_gold_onyx">स्विस रोज़ गोल्ड और ओनिक्स (Rose Gold &amp; Onyx)</string>
+    <string name="theme_royal_emerald">रॉयल एमराल्ड और गोल्ड (Royal Emerald)</string>
+    <string name="theme_urushi_japan">जापानी उरुशी लाह और सिंदूर (Urushi &amp; Cinnabar)</string>
+    <string name="theme_arabian_lapis">अरबी लापीस लाजुली और सोना (Arabian Lapis)</string>
+    <string name="theme_nordic_platinum">नॉर्डिक प्लैटिनम और टाइटेनियम (Nordic Platinum)</string>
+
+    <!-- Toasts & Messages -->
+    <string name="toast_bg_image_set">पृष्ठभूमि चित्र लागू किया गया</string>
+    <string name="toast_bg_image_failed">चित्र लोड करने में विफल</string>
+    <string name="toast_theme_prefix">थीम: %1$s</string>
+    <string name="toast_numerals_radial">अंक केंद्र की ओर घूमे</string>
+    <string name="toast_numerals_upright">अंक सीधे संरेखित</string>
+    <string name="toast_roman_enabled">रोमन अंक सक्षम</string>
+    <string name="toast_arabic_enabled">अरबी अंक सक्षम</string>
+    <string name="toast_uv_enabled">यूवी आर्क सक्षम</string>
+    <string name="toast_uv_disabled">यूवी आर्क अक्षम</string>
+    <string name="toast_color_set">रंग सेट किया गया: %1$s</string>
+    <string name="toast_wallpaper_picker_failed">लाइव वॉलपेपर चयनकर्ता खोलने में असमर्थ</string>
+
+    <!-- Color Preset Names -->
+    <string name="color_midnight_navy">मध्यरात्रि नीला (Midnight Navy)</string>
+    <string name="color_charcoal_dark">गहरा चारकोल (Charcoal Dark)</string>
+    <string name="color_abyss_black">गहरा काला (Abyss Black)</string>
+    <string name="color_forest_deep">गहरा पन्ना (Forest Deep)</string>
+    <string name="color_deep_burgundy">गहरा बरगंडी (Deep Burgundy)</string>
+    <string name="color_titanium_slate">टाइटेनियम स्लेट (Titanium Slate)</string>
+    <string name="color_warm_espresso">वार्म एस्प्रेसो (Warm Espresso)</string>
+    <string name="color_pure_light">शुद्ध हल्का (Pure Light)</string>
+</resources>

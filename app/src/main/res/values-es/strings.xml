@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UNO 24</string>
+    <string name="wallpaper_description">Fondo de pantalla animado de 24 horas con esfera solar día/noche</string>
+
+    <!-- Categories -->
+    <string name="category_appearance">Aspecto</string>
+    <string name="category_typography">Tipografía y números</string>
+    <string name="category_parameters">Parámetros</string>
+    <string name="category_language">Idioma</string>
+    <string name="label_language">Idioma de la aplicación</string>
+
+    <!-- Appearance -->
+    <string name="label_dial_background">Fondo de la esfera</string>
+    <string name="btn_pick_image">Elegir imagen</string>
+    <string name="btn_pick_color">Elegir color de fondo</string>
+    <string name="dialog_title_pick_color">Seleccionar color de fondo</string>
+    <string name="btn_cancel">Cancelar</string>
+
+    <!-- Background Modes -->
+    <string name="bg_mode_theme_default">Por tema</string>
+    <string name="bg_mode_custom_image">Foto de la galería</string>
+    <string name="bg_mode_custom_color">Color personalizado</string>
+
+    <!-- Hand Style -->
+    <string name="label_hand_style">Forma de la aguja</string>
+    <string name="hand_style_botta_needle">Aguja de precisión (Botta)</string>
+    <string name="hand_style_bauhaus_baton">Bastón Bauhaus</string>
+    <string name="hand_style_arrow_sport">Flecha deportiva</string>
+    <string name="hand_style_sword_avio">Espada de aviador</string>
+    <string name="hand_style_skeleton_ring">Anillo calado</string>
+    <string name="hand_style_spiral_curve">Espiral ondulada (Serpentine)</string>
+    <string name="hand_style_spiral_vortex">Espiral de Arquímedes (Vortex)</string>
+    <string name="hand_style_spiral_double_dna">Doble Hélice (Caduceo)</string>
+    <string name="hand_style_spiral_flame">Hoja de Llama Curva</string>
+
+    <!-- Typography -->
+    <string name="label_font">Fuente</string>
+    <string name="label_display_mode">Mostrar</string>
+    <string name="label_font_size">Tamaño de números</string>
+
+    <!-- Fonts -->
+    <string name="font_sans_serif">Sans-Serif (Estándar)</string>
+    <string name="font_serif">Serif (Con remates)</string>
+    <string name="font_monospace">Monospace (Monoespaciada)</string>
+    <string name="font_cursive">Cursive (Cursiva)</string>
+
+    <!-- Numeral Systems / Styles -->
+    <string name="label_numeral_style">Sistema numérico</string>
+    <string name="numeral_style_arabic">Arábigo (00..23)</string>
+    <string name="numeral_style_roman">Romano (I..XXIV)</string>
+    <string name="numeral_style_hex">Hexadecimal HEX (00..17)</string>
+    <string name="numeral_style_binary">Binario Binary (00000..10111)</string>
+    <string name="numeral_style_octal">Octal Octal (00..27)</string>
+    <string name="numeral_style_kanji">Kanji / Hanzi (〇..二十三)</string>
+    <string name="numeral_style_devanagari">Devanagari (००..२३)</string>
+    <string name="numeral_style_eastern_arabic">Árabe oriental (٠٠..٢٣)</string>
+    <string name="numeral_style_greek">Griego clásico (Αʹ..ΚΔʹ)</string>
+    <string name="numeral_style_hebrew">Hebreo Gematría (א׳..כ״ד)</string>
+
+    <!-- Numeral Display Modes -->
+    <string name="display_mode_even">Solo pares (0, 2, 4…)</string>
+    <string name="display_mode_odd">Solo impares (1, 3, 5…)</string>
+    <string name="display_mode_all">Todos los números (0..23)</string>
+
+    <!-- Parameters / Switches -->
+    <string name="switch_radial_orientation">Girar números hacia el centro</string>
+    <string name="switch_roman_numerals">Números romanos (I, II … XXIV)</string>
+    <string name="switch_uv_arc">Mostrar arco de actividad UV</string>
+    <string name="switch_show_date">Mostrar fecha</string>
+    <string name="switch_show_uv_index">Mostrar índice UV</string>
+
+    <!-- Action Button -->
+    <string name="btn_set_wallpaper">Establecer como fondo</string>
+
+    <!-- Dial Themes -->
+    <string name="theme_classic_dark">Classic Dark (Oscuro)</string>
+    <string name="theme_solar_gold">Solar Twilight (Crepúsculo)</string>
+    <string name="theme_monochrome_light">Minimal Light (Claro)</string>
+    <string name="theme_arctic_white">Arctic Silver (Plata ártica)</string>
+    <string name="theme_porcelain_blue">Porcelain Cobalt (Porcelana y cobalto)</string>
+    <string name="theme_desert_sand">Desert Linen (Lino desértico)</string>
+    <string name="theme_sakura_dawn">Sakura Dawn (Amanecer sakura)</string>
+    <string name="theme_sage_mint">Nordic Sage (Salvia nórdica)</string>
+    <string name="theme_cyberpunk">Cyberpunk Neon (Neón ciberpunk)</string>
+    <string name="theme_rose_gold_onyx">Rose Gold &amp; Onyx (Oro rosa y ónix)</string>
+    <string name="theme_royal_emerald">Royal Emerald &amp; Gold (Esmeralda real y oro)</string>
+    <string name="theme_urushi_japan">Japanese Urushi &amp; Cinnabar (Laca Urushi y cinabrio)</string>
+    <string name="theme_arabian_lapis">Arabian Lapis Lazuli &amp; Gold (Lapislázuli y oro)</string>
+    <string name="theme_nordic_platinum">Nordic Platinum &amp; Titanium (Platino nórdico)</string>
+
+    <!-- Toasts & Messages -->
+    <string name="toast_bg_image_set">Imagen de fondo aplicada</string>
+    <string name="toast_bg_image_failed">Error al cargar la imagen</string>
+    <string name="toast_theme_prefix">Tema: %1$s</string>
+    <string name="toast_numerals_radial">Números orientados al centro</string>
+    <string name="toast_numerals_upright">Números orientados hacia arriba</string>
+    <string name="toast_roman_enabled">Números romanos activados</string>
+    <string name="toast_arabic_enabled">Números arábigos activados</string>
+    <string name="toast_uv_enabled">Arco UV activado</string>
+    <string name="toast_uv_disabled">Arco UV desactivado</string>
+    <string name="toast_color_set">Color aplicado: %1$s</string>
+    <string name="toast_wallpaper_picker_failed">No se pudo abrir el selector de fondos animados</string>
+
+    <!-- Color Preset Names -->
+    <string name="color_midnight_navy">Azul medianoche (Midnight Navy)</string>
+    <string name="color_charcoal_dark">Negro carbón (Charcoal Dark)</string>
+    <string name="color_abyss_black">Negro abismo (Abyss Black)</string>
+    <string name="color_forest_deep">Esmeralda oscuro (Forest Deep)</string>
+    <string name="color_deep_burgundy">Borgoña profundo (Deep Burgundy)</string>
+    <string name="color_titanium_slate">Gris titanio (Titanium Slate)</string>
+    <string name="color_warm_espresso">Café moca cálido (Warm Espresso)</string>
+    <string name="color_pure_light">Blanco minimalista (Pure Light)</string>
+</resources>

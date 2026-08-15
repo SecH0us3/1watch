@@ -65,8 +65,10 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_radial_orientation">Rotate numerals toward center</string>
+    <string name="switch_rotate_with_dial">Rotate numerals toward center</string>
     <string name="switch_roman_numerals">Roman numerals (I, II … XXIV)</string>
     <string name="switch_uv_arc">Display UV activity arc</string>
+    <string name="switch_show_uv_arc">Display UV activity arc</string>
     <string name="switch_show_date">Display date</string>
     <string name="switch_show_uv_index">Display UV index</string>
 
@@ -77,6 +79,19 @@
     <string name="toast_bg_image_set">Background image applied</string>
     <string name="toast_bg_image_failed">Failed to load image</string>
     <string name="toast_theme_prefix">Theme: %1$s</string>
+    <string name="toast_font_prefix">Font: %1$s</string>
+    <string name="toast_style_prefix">Numeral system: %1$s</string>
+    <string name="toast_hand_style_prefix">Hand: %1$s</string>
+    <string name="toast_display_mode_prefix">Mode: %1$s</string>
+    <string name="toast_font_size_prefix">Font size: %1$s</string>
+    <string name="toast_rotate_on">Numerals rotated toward center</string>
+    <string name="toast_rotate_off">Numerals upright</string>
+    <string name="toast_uv_arc_on">UV activity arc enabled</string>
+    <string name="toast_uv_arc_off">UV activity arc disabled</string>
+    <string name="toast_date_on">Date displayed</string>
+    <string name="toast_date_off">Date hidden</string>
+    <string name="toast_uv_index_on">UV index displayed</string>
+    <string name="toast_uv_index_off">UV index hidden</string>
     <string name="toast_numerals_radial">Numerals rotated toward center</string>
     <string name="toast_numerals_upright">Numerals upright</string>
     <string name="toast_roman_enabled">Roman numerals enabled</string>
