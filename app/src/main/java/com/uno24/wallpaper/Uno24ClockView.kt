@@ -45,6 +45,11 @@ class Uno24ClockView @JvmOverloads constructor(
             null
         }
         invalidate()
+        try {
+            Uno24AppWidgetProvider.updateAllWidgets(context)
+        } catch (e: Exception) {
+            // Ignore in environments where widget manager is unavailable
+        }
     }
 
     override fun onAttachedToWindow() {
