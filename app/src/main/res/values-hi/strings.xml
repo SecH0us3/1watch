@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">1watch</string>
     <string name="wallpaper_description">सौर दिन/रात डायल के साथ 24 घंटे का एकल-सुई लाइव वॉलपेपर</string>
+    <string name="widget_description">दिन/रात विभाजन और यूवी स्पेक्ट्रम के साथ 24 घंटे का सिंगल-हैंड डायल</string>
 
     <!-- Categories -->
     <string name="category_appearance">दिखावट (Appearance)</string>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">1watch</string>
-    <string name="wallpaper_description">24小时单指针昼夜太阳动态壁纸</string>
+    <string name="wallpaper_description">带昼夜分界线的24小时单针动态壁纸</string>
+    <string name="widget_description">带昼夜分界线和紫外线光谱的24小时单针表盘</string>
 
     <!-- Categories -->
     <string name="category_appearance">外观设计</string>

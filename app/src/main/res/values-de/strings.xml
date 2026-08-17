@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">1watch</string>
     <string name="wallpaper_description">24-Stunden-Einzeiger-Live-Hintergrund mit Tag-/Nacht-Zifferblatt</string>
+    <string name="widget_description">24-Stunden-Einzeiger-Zifferblatt mit Tag/Nacht-Horizont und UV-Skala</string>
 
     <!-- Categories -->
     <string name="category_appearance">Erscheinungsbild</string>

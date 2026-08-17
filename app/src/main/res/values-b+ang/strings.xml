@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">1watch</string>
     <string name="wallpaper_description">XXIV-tīda ānes-handa līffæst dægmǣl mid sunnan dæge &amp; nihte</string>
+    <string name="widget_description">24-tīd ān-hand dægmǣl mid dæg-niht dǣlunge and UV stæfe</string>
 
     <!-- Categories -->
     <string name="category_appearance">Wlite &amp; Ansȳn</string>

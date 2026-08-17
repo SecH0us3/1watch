@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">1watch</string>
     <string name="wallpaper_description">24-Hour Single-Hand Live Wallpaper with Solar Day/Night Dial</string>
+    <string name="widget_description">24-Hour Single-Hand Dial with Solar Day/Night Division and UV Spectrum</string>
 
     <!-- Categories -->
     <string name="category_appearance">Appearance</string>

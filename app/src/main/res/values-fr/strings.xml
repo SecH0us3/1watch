@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">1watch</string>
     <string name="wallpaper_description">Fond d\'écran animé mono-aiguille 24 heures avec cadran solaire jour/nuit</string>
+    <string name="widget_description">Cadran 24 heures mono-aiguille avec division jour/nuit et spectre UV</string>
 
     <!-- Categories -->
     <string name="category_appearance">Apparence</string>

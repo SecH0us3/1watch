@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">1watch</string>
-    <string name="wallpaper_description">24-часовые однострелочные живые обои с секторами дня и ночи</string>
+    <string name="wallpaper_description">24-часовые живые обои с солярным циферблатом дня и ночи</string>
+    <string name="widget_description">24-часовой однострелочный циферблат с солярным горизонтом и УФ-шкалой</string>
 
     <!-- Categories -->
     <string name="category_appearance">Внешний вид</string>

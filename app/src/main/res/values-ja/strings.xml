@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">1watch</string>
-    <string name="wallpaper_description">24時間単針ソーラーデイ/ナイトライブ壁紙</string>
+    <string name="wallpaper_description">太陽の昼夜境界を備えた24時間1本針ライブ壁紙</string>
+    <string name="widget_description">太陽の昼夜境界とUVスペクトルを備えた24時間1本針ダイヤル</string>
 
     <!-- Categories -->
     <string name="category_appearance">外観</string>

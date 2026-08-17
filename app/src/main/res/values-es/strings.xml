@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">1watch</string>
-    <string name="wallpaper_description">Fondo de pantalla animado de 24 horas con esfera solar día/noche</string>
+    <string name="wallpaper_description">Fondo animado de 24 horas con una sola aguja y esfera solar día/noche</string>
+    <string name="widget_description">Esfera de 24 horas de una sola aguja con división día/noche y espectro UV</string>
 
     <!-- Categories -->
     <string name="category_appearance">Aspecto</string>

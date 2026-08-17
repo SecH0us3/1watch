@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">1watch</string>
     <string name="wallpaper_description">24-ωρη μονοδείκτης ζωντανὴ ταπετσαρία μεθ\' ἡλιακοῦ καντράν</string>
+    <string name="widget_description">24ωρο καντράν με έναν δείκτη, διαχωρισμό ημέρας/νύχτας και φάσμα UV</string>
 
     <!-- Categories -->
     <string name="category_appearance">Ἐμφάνισις</string>

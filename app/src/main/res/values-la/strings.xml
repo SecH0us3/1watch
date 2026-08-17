@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">1watch</string>
-    <string name="wallpaper_description">Horologium 24 horarum unius indicis cum facie solari diei et noctis</string>
+    <string name="wallpaper_description">Fundus Vivus XXIV Horarum cum Horologio Solari Diei Noctisque</string>
+    <string name="widget_description">Horologium XXIV horarum una cum divisione diei noctisque et spectro UV</string>
 
     <!-- Categories -->
     <string name="category_appearance">Aspectus</string>
