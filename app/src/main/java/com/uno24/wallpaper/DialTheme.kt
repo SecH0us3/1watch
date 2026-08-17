@@ -71,15 +71,15 @@ enum class DialTheme(
     PORCELAIN_BLUE(
         titleResId = R.string.theme_porcelain_blue,
         title = "Porcelain Cobalt",
-        dialBgColor = 0xFFDCE4EC.toInt(),
-        dayZoneColor = 0xFFFFFFFF.toInt(),
-        nightZoneColor = 0xFF0A192F.toInt(),
-        dayTickColor = 0xFF0A192F.toInt(),
-        nightTickColor = 0xFFE0E7FF.toInt(),
-        dayTextColor = 0xFF0A192F.toInt(),
-        nightTextColor = 0xFFE0E7FF.toInt(),
-        handColor = 0xFF0047AB.toInt(),
-        pivotColor = 0xFF0047AB.toInt()
+        dialBgColor = 0xFF0B0E14.toInt(),
+        dayZoneColor = 0xFFF5F2EB.toInt(),
+        nightZoneColor = 0xFF0E1B2D.toInt(),
+        dayTickColor = 0xFF14202E.toInt(),
+        nightTickColor = 0xFFE2E8F0.toInt(),
+        dayTextColor = 0xFF14202E.toInt(),
+        nightTextColor = 0xFFE2E8F0.toInt(),
+        handColor = 0xFF0066FF.toInt(),
+        pivotColor = 0xFF0052CC.toInt()
     ),
     DESERT_SAND(
         titleResId = R.string.theme_desert_sand,

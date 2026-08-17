@@ -113,4 +113,11 @@
     <string name="color_titanium_slate">टाइटेनियम स्लेट (Titanium Slate)</string>
     <string name="color_warm_espresso">वार्म एस्प्रेसो (Warm Espresso)</string>
     <string name="color_pure_light">शुद्ध हल्का (Pure Light)</string>
+    <!-- Bezel & Branding -->
+    <string name="label_bezel_style">घड़ी का बेज़ेल</string>
+    <string name="bezel_none">कोई नहीं</string>
+    <string name="bezel_titanium_brushed">सैटिन टाइटेनियम</string>
+    <string name="bezel_black_ceramic">ब्लैक सिरेमिक</string>
+    <string name="bezel_polished_gold">पॉलिश सोना</string>
+    <string name="switch_show_brand_logo">1watch ब्रांड लोगो</string>
 </resources>

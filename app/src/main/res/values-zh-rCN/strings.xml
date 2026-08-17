@@ -113,4 +113,11 @@
     <string name="color_titanium_slate">钛灰 (Titanium Slate)</string>
     <string name="color_warm_espresso">浓缩摩卡 (Warm Espresso)</string>
     <string name="color_pure_light">极简极白 (Pure Light)</string>
+    <!-- Bezel & Branding -->
+    <string name="label_bezel_style">表壳表圈</string>
+    <string name="bezel_none">无表圈</string>
+    <string name="bezel_titanium_brushed">拉丝钛金属</string>
+    <string name="bezel_black_ceramic">黑色陶瓷</string>
+    <string name="bezel_polished_gold">抛光黄金</string>
+    <string name="switch_show_brand_logo">1watch 品牌标识</string>
 </resources>

@@ -116,7 +116,9 @@ class Uno24AppWidgetProvider : AppWidgetProvider() {
                 bgMode = config.bgMode,
                 customColor = config.customColor,
                 bgBitmap = bgBitmap,
-                isWallpaper = false
+                isWallpaper = false,
+                bezelStyle = config.bezelStyle,
+                showBrandLogo = config.showBrandLogo
             )
 
             return bitmap

@@ -148,7 +148,9 @@ class Uno24WallpaperService : WallpaperService() {
                     bgMode = config.bgMode,
                     customColor = config.customColor,
                     bgBitmap = bgBitmap,
-                    isWallpaper = true
+                    isWallpaper = true,
+                    bezelStyle = config.bezelStyle,
+                    showBrandLogo = config.showBrandLogo
                 )
             } finally {
                 holder.unlockCanvasAndPost(canvas)

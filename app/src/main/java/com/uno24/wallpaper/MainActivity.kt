@@ -278,10 +278,35 @@ class MainActivity : AppCompatActivity() {
             clockView.refreshSettings()
         }
 
+        // Bezel Style Spinner setup
+        val spinnerBezelStyle = findViewById<Spinner>(R.id.spinnerBezelStyle)
+        val bezelStyles = BezelStyle.values()
+        val adapterBezel = ArrayAdapter(this, R.layout.spinner_item, bezelStyles.map { it.getTitle(this) })
+        adapterBezel.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        spinnerBezelStyle.adapter = adapterBezel
+        spinnerBezelStyle.setSelection(LocationHelper.getBezelStyle(this).ordinal)
+        spinnerBezelStyle.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedStyle = bezelStyles[position]
+                if (selectedStyle != LocationHelper.getBezelStyle(this@MainActivity)) {
+                    LocationHelper.saveBezelStyle(this@MainActivity, selectedStyle)
+                    clockView.refreshSettings()
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
         val switchUvIndex = findViewById<SwitchMaterial>(R.id.switchShowUvIndex)
         switchUvIndex.isChecked = LocationHelper.getShowUvIndex(this)
         switchUvIndex.setOnCheckedChangeListener { _, isChecked ->
             LocationHelper.saveShowUvIndex(this, isChecked)
+            clockView.refreshSettings()
+        }
+
+        val switchBrandLogo = findViewById<SwitchMaterial>(R.id.switchShowBrandLogo)
+        switchBrandLogo.isChecked = LocationHelper.getShowBrandLogo(this)
+        switchBrandLogo.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveShowBrandLogo(this, isChecked)
             clockView.refreshSettings()
         }
 

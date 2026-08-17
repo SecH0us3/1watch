@@ -78,6 +78,14 @@ class Uno24DialRenderer {
         style = Paint.Style.FILL
     }
 
+    private val bezelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+    }
+
+    private val bezelChamferPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+    }
+
     // Zero-allocation reusable geometry buffers
     private val dialRect = RectF()
     private val uvRect = RectF()
@@ -111,7 +119,9 @@ class Uno24DialRenderer {
         bgMode: BackgroundMode = BackgroundMode.THEME_DEFAULT,
         customColor: Int = Color.parseColor("#0A0F1D"),
         bgBitmap: Bitmap? = null,
-        isWallpaper: Boolean = false
+        isWallpaper: Boolean = false,
+        bezelStyle: BezelStyle = BezelStyle.NONE,
+        showBrandLogo: Boolean = true
     ) {
         dialBackgroundPaint.color = theme.dialBgColor
         dayZonePaint.color = theme.dayZoneColor
@@ -138,9 +148,15 @@ class Uno24DialRenderer {
 
         val cx = width / 2f
         val isPortraitWallpaper = isWallpaper && height > width * 1.25f
-        val radius = if (isPortraitWallpaper) width * 0.43f else min(width, height) * 0.42f
-        val cy = if (isPortraitWallpaper) (height * 0.10f + radius) else (height / 2f)
+        val outerRadius = if (isPortraitWallpaper) width * 0.43f else min(width, height) * 0.42f
+        val cy = if (isPortraitWallpaper) (height * 0.10f + outerRadius) else (height / 2f)
+        val radius = if (bezelStyle != BezelStyle.NONE) outerRadius * 0.885f else outerRadius
         dialRect.set(cx - radius, cy - radius, cx + radius, cy + radius)
+
+        // 1.5 Draw Bezel Ring if enabled
+        if (bezelStyle != BezelStyle.NONE) {
+            drawBezel(canvas, cx, cy, outerRadius, radius, bezelStyle)
+        }
 
         // 2. Draw Day/Night Sectors
         dayZonePath.reset()
@@ -301,7 +317,7 @@ class Uno24DialRenderer {
                 val currentHour = (timeHourFraction.toInt()).mod(24)
                 val currentUv = uvData?.getOrNull(currentHour) ?: 0.0f
                 val uvStr = if (currentUv > 0f) "UV %.1f".format(java.util.Locale.US, currentUv) else "UV 0"
-                val uvY = cy - radius * 0.38f
+                val uvY = if (showBrandLogo) cy - radius * 0.44f else cy - radius * 0.38f
 
                 // Colored risk dot
                 val dotRadius = radius * 0.014f
@@ -325,6 +341,23 @@ class Uno24DialRenderer {
                 canvas.drawText(uvStr, cx, uvY + uOffset, textPaint)
                 textPaint.textSize = oldSize
                 textPaint.letterSpacing = oldTracking
+            }
+
+            // Complication 3: Brand Logo ("1watch" minimal typography)
+            if (showBrandLogo) {
+                val logoY = if (showUvIndex) cy - radius * 0.22f else cy - radius * 0.30f
+                val oldSize = textPaint.textSize
+                val oldTracking = textPaint.letterSpacing
+                val oldTypeface = textPaint.typeface
+                textPaint.typeface = Typeface.create("sans-serif", Typeface.NORMAL)
+                textPaint.textSize = radius * 0.050f * fontSizeScale
+                textPaint.letterSpacing = 0.12f
+                val lMetrics = textPaint.fontMetrics
+                val lOffset = -(lMetrics.descent + lMetrics.ascent) / 2f
+                canvas.drawText("1watch", cx, logoY + lOffset, textPaint)
+                textPaint.textSize = oldSize
+                textPaint.letterSpacing = oldTracking
+                textPaint.typeface = oldTypeface
             }
         }
 
@@ -630,5 +663,76 @@ class Uno24DialRenderer {
         }
 
         canvas.restore()
+    }
+
+    private fun drawBezel(
+        canvas: Canvas,
+        cx: Float,
+        cy: Float,
+        outerRadius: Float,
+        innerRadius: Float,
+        style: BezelStyle
+    ) {
+        if (style == BezelStyle.NONE) return
+        val ringWidth = outerRadius - innerRadius
+        val midRadius = (outerRadius + innerRadius) / 2f
+
+        val (colors, positions) = when (style) {
+            BezelStyle.TITANIUM_BRUSHED -> Pair(
+                intArrayOf(
+                    0xFFD6DCE2.toInt(),
+                    0xFF8B97A4.toInt(),
+                    0xFFF2F6FA.toInt(),
+                    0xFF7B8795.toInt(),
+                    0xFFD0D8E0.toInt()
+                ),
+                floatArrayOf(0.0f, 0.25f, 0.50f, 0.75f, 1.0f)
+            )
+            BezelStyle.BLACK_CERAMIC -> Pair(
+                intArrayOf(
+                    0xFF323842.toInt(),
+                    0xFF121418.toInt(),
+                    0xFF3C434E.toInt(),
+                    0xFF181A20.toInt(),
+                    0xFF282E38.toInt()
+                ),
+                floatArrayOf(0.0f, 0.25f, 0.50f, 0.75f, 1.0f)
+            )
+            BezelStyle.POLISHED_GOLD -> Pair(
+                intArrayOf(
+                    0xFFF3E3B6.toInt(),
+                    0xFFBA964C.toInt(),
+                    0xFFFFF6DA.toInt(),
+                    0xFFA17C30.toInt(),
+                    0xFFEBD498.toInt()
+                ),
+                floatArrayOf(0.0f, 0.25f, 0.50f, 0.75f, 1.0f)
+            )
+            BezelStyle.NONE -> return
+        }
+
+        // 1. Base metallic ring with directional gradient
+        bezelPaint.shader = LinearGradient(
+            cx - outerRadius, cy - outerRadius,
+            cx + outerRadius, cy + outerRadius,
+            colors, positions, Shader.TileMode.CLAMP
+        )
+        bezelPaint.strokeWidth = ringWidth
+        canvas.drawCircle(cx, cy, midRadius, bezelPaint)
+
+        // 2. Outer rim chamfer highlight & shadow
+        bezelChamferPaint.shader = null
+        bezelChamferPaint.strokeWidth = outerRadius * 0.008f
+        bezelChamferPaint.color = 0x66FFFFFF.toInt()
+        canvas.drawCircle(cx, cy, outerRadius - bezelChamferPaint.strokeWidth / 2f, bezelChamferPaint)
+
+        // 3. Inner step groove shadow & specular rim
+        bezelChamferPaint.strokeWidth = innerRadius * 0.012f
+        bezelChamferPaint.color = 0x55000000.toInt()
+        canvas.drawCircle(cx, cy, innerRadius - bezelChamferPaint.strokeWidth / 2f, bezelChamferPaint)
+
+        bezelChamferPaint.strokeWidth = innerRadius * 0.006f
+        bezelChamferPaint.color = 0x44FFFFFF.toInt()
+        canvas.drawCircle(cx, cy, innerRadius + bezelChamferPaint.strokeWidth / 2f, bezelChamferPaint)
     }
 }

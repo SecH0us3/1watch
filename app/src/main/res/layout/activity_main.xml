@@ -159,6 +159,36 @@
                             android:backgroundTint="#8A91A4"
                             android:popupBackground="#1F2430" />
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#1E2333"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp" />
+
+                    <!-- Watch Bezel -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/label_bezel_style"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp" />
+
+                        <Spinner
+                            android:id="@+id/spinnerBezelStyle"
+                            android:layout_width="160dp"
+                            android:layout_height="48dp"
+                            android:backgroundTint="#8A91A4"
+                            android:popupBackground="#1F2430" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -456,6 +486,20 @@
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:text="@string/switch_show_uv_index"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        app:switchPadding="16dp" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E2333" android:layout_marginHorizontal="16dp"/>
+
+                    <!-- Show 1watch Brand Logo -->
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchShowBrandLogo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:text="@string/switch_show_brand_logo"
                         android:textColor="#FFFFFF"
                         android:textSize="15sp"
                         app:switchPadding="16dp" />

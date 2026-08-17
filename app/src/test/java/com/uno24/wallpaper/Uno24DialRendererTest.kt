@@ -155,4 +155,14 @@ class Uno24DialRendererTest {
         assertEquals(0xFF9C27B0.toInt(), Uno24DialRenderer.getUvColor(11.0f)) // 10.5..11.4 (Amethyst Purple)
         assertEquals(0xFF6A1B9A.toInt(), Uno24DialRenderer.getUvColor(12.0f)) // 11.5+ (Deep UV Violet)
     }
+
+    @Test
+    fun testBezelStyleEnum() {
+        assertEquals(BezelStyle.NONE, BezelStyle.fromName("NONE"))
+        assertEquals(BezelStyle.TITANIUM_BRUSHED, BezelStyle.fromName("TITANIUM_BRUSHED"))
+        assertEquals(BezelStyle.BLACK_CERAMIC, BezelStyle.fromName("BLACK_CERAMIC"))
+        assertEquals(BezelStyle.POLISHED_GOLD, BezelStyle.fromName("POLISHED_GOLD"))
+        // fallback
+        assertEquals(BezelStyle.NONE, BezelStyle.fromName("UNKNOWN"))
+    }
 }

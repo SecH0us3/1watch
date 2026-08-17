@@ -20,7 +20,9 @@ data class ClockConfig(
     val numeralFont: NumeralFont,
     val handStyle: HandStyle,
     val bgMode: BackgroundMode,
-    val customColor: Int
+    val customColor: Int,
+    val bezelStyle: BezelStyle = BezelStyle.NONE,
+    val showBrandLogo: Boolean = true
 )
 
 object LocationHelper {
@@ -41,6 +43,8 @@ object LocationHelper {
     private const val KEY_CUSTOM_COLOR = "key_custom_color"
     private const val KEY_FONT_SIZE_SCALE = "key_font_size_scale"
     private const val KEY_APP_LANGUAGE = "key_app_language"
+    private const val KEY_BEZEL_STYLE = "key_bezel_style"
+    private const val KEY_SHOW_BRAND_LOGO = "key_show_brand_logo"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
@@ -65,7 +69,9 @@ object LocationHelper {
             numeralFont = getNumeralFont(context),
             handStyle = getHandStyle(context),
             bgMode = getBackgroundMode(context),
-            customColor = getCustomColor(context)
+            customColor = getCustomColor(context),
+            bezelStyle = getBezelStyle(context),
+            showBrandLogo = getShowBrandLogo(context)
         )
     }
 
@@ -222,6 +228,27 @@ object LocationHelper {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_APP_LANGUAGE, language.code).apply()
         applyAppLanguage(language)
+    }
+
+    fun getBezelStyle(context: Context): BezelStyle {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val name = prefs.getString(KEY_BEZEL_STYLE, BezelStyle.NONE.name)
+        return BezelStyle.fromName(name)
+    }
+
+    fun saveBezelStyle(context: Context, style: BezelStyle) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(KEY_BEZEL_STYLE, style.name).apply()
+    }
+
+    fun getShowBrandLogo(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_SHOW_BRAND_LOGO, true)
+    }
+
+    fun saveShowBrandLogo(context: Context, enabled: Boolean) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_SHOW_BRAND_LOGO, enabled).apply()
     }
 
     fun applyAppLanguage(language: AppLanguage) {

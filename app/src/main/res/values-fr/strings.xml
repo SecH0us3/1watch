@@ -113,4 +113,11 @@
     <string name="color_titanium_slate">Gris titane (Titanium Slate)</string>
     <string name="color_warm_espresso">Moka chaud (Warm Espresso)</string>
     <string name="color_pure_light">Clair épuré (Pure Light)</string>
+    <!-- Bezel & Branding -->
+    <string name="label_bezel_style">Lunette du boîtier</string>
+    <string name="bezel_none">Sans lunette</string>
+    <string name="bezel_titanium_brushed">Titane satiné</string>
+    <string name="bezel_black_ceramic">Céramique noire</string>
+    <string name="bezel_polished_gold">Or poli</string>
+    <string name="switch_show_brand_logo">Logo de marque 1watch</string>
 </resources>

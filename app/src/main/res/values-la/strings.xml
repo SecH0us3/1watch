@@ -113,4 +113,11 @@
     <string name="color_titanium_slate">Titanium Canum</string>
     <string name="color_warm_espresso">Moca Calida</string>
     <string name="color_pure_light">Lux Pura</string>
+    <!-- Bezel & Branding -->
+    <string name="label_bezel_style">Corona horologii</string>
+    <string name="bezel_none">Nulla</string>
+    <string name="bezel_titanium_brushed">Titanium politum</string>
+    <string name="bezel_black_ceramic">Ceramica nigra</string>
+    <string name="bezel_polished_gold">Aurum politum</string>
+    <string name="switch_show_brand_logo">Insigne 1watch</string>
 </resources>

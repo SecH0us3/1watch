@@ -113,4 +113,11 @@
     <string name="color_titanium_slate">チタンスレート (Titanium Slate)</string>
     <string name="color_warm_espresso">ウォームエスプレッソ (Warm Espresso)</string>
     <string name="color_pure_light">ピュアライト (Pure Light)</string>
+    <!-- Bezel & Branding -->
+    <string name="label_bezel_style">ケースベゼル</string>
+    <string name="bezel_none">なし</string>
+    <string name="bezel_titanium_brushed">サテンチタン</string>
+    <string name="bezel_black_ceramic">ブラックセラミック</string>
+    <string name="bezel_polished_gold">ポリッシュゴールド</string>
+    <string name="switch_show_brand_logo">1watch ブランドロゴ</string>
 </resources>

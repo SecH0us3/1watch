@@ -113,4 +113,11 @@
     <string name="color_titanium_slate">Τιτανιοῦχος Σποδός (Titanium Slate)</string>
     <string name="color_warm_espresso">Θερμὸν Ἐσπρέσσο (Warm Espresso)</string>
     <string name="color_pure_light">Καθαρὸν Φῶς (Pure Light)</string>
+    <!-- Bezel & Branding -->
+    <string name="label_bezel_style">Στεφάνη κάσας</string>
+    <string name="bezel_none">Καμία</string>
+    <string name="bezel_titanium_brushed">Σατινέ τιτάνιο</string>
+    <string name="bezel_black_ceramic">Μαύρο κεραμικό</string>
+    <string name="bezel_polished_gold">Γυαλισμένος χρυσός</string>
+    <string name="switch_show_brand_logo">Λογότυπο 1watch</string>
 </resources>

@@ -99,7 +99,9 @@ class Uno24ClockView @JvmOverloads constructor(
             bgMode = config.bgMode,
             customColor = config.customColor,
             bgBitmap = bgBitmap,
-            isWallpaper = false
+            isWallpaper = false,
+            bezelStyle = config.bezelStyle,
+            showBrandLogo = config.showBrandLogo
         )
     }
 }

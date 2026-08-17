@@ -117,4 +117,12 @@
     <string name="color_polar_ice">Полярный лед (Polar Ice)</string>
     <string name="color_sage_mint">Мятный шалфей (Nordic Sage)</string>
     <string name="color_rose_silk">Розовый шелк (Rose Silk)</string>
+
+    <!-- Bezel & Branding -->
+    <string name="label_bezel_style">Безель корпуса</string>
+    <string name="bezel_none">Без безеля</string>
+    <string name="bezel_titanium_brushed">Сатинированный титан</string>
+    <string name="bezel_black_ceramic">Чёрная керамика</string>
+    <string name="bezel_polished_gold">Полированное золото</string>
+    <string name="switch_show_brand_logo">Логотип 1watch</string>
 </resources>

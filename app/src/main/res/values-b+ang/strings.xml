@@ -113,4 +113,11 @@
     <string name="color_titanium_slate">Stīelhār</string>
     <string name="color_warm_espresso">Wearm Mocca</string>
     <string name="color_pure_light">Hlūttor Lēoht</string>
+    <!-- Bezel & Branding -->
+    <string name="label_bezel_style">Cáses bézel</string>
+    <string name="bezel_none">Nán</string>
+    <string name="bezel_titanium_brushed">Satin titán</string>
+    <string name="bezel_black_ceramic">Sweart ceramik</string>
+    <string name="bezel_polished_gold">Glæd gold</string>
+    <string name="switch_show_brand_logo">1watch tácen</string>
 </resources>
