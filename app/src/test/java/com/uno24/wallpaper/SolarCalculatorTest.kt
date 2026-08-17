@@ -15,5 +15,31 @@ class SolarCalculatorTest {
         )
         assertEquals(6.0, sunTimes.sunriseHour, 0.5)
         assertEquals(18.0, sunTimes.sunsetHour, 0.5)
+        assertEquals(false, sunTimes.isPolarDay)
+        assertEquals(false, sunTimes.isPolarNight)
+    }
+
+    @Test
+    fun testMidnightSunPolarDay() {
+        val sunTimes = SolarCalculator.calculateSunTimes(
+            latitude = 80.0,
+            longitude = 0.0,
+            date = LocalDate.of(2026, 6, 21),
+            timeZoneOffsetHours = 0.0
+        )
+        assertEquals(true, sunTimes.isPolarDay)
+        assertEquals(false, sunTimes.isPolarNight)
+    }
+
+    @Test
+    fun testPolarNight() {
+        val sunTimes = SolarCalculator.calculateSunTimes(
+            latitude = 80.0,
+            longitude = 0.0,
+            date = LocalDate.of(2026, 12, 21),
+            timeZoneOffsetHours = 0.0
+        )
+        assertEquals(false, sunTimes.isPolarDay)
+        assertEquals(true, sunTimes.isPolarNight)
     }
 }
