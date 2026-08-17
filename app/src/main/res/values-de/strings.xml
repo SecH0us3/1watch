@@ -73,6 +73,7 @@
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Als Hintergrund festlegen</string>
+    <string name="btn_add_widget">Widget zum Startbildschirm hinzufügen</string>
 
     <!-- Dial Themes -->
     <string name="theme_classic_dark">Classic Dark (Dunkel)</string>

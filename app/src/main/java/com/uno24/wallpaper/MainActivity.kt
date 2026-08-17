@@ -285,6 +285,16 @@ class MainActivity : AppCompatActivity() {
             clockView.refreshSettings()
         }
 
+        findViewById<Button>(R.id.btnAddWidget).setOnClickListener {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                val appWidgetManager = getSystemService(android.appwidget.AppWidgetManager::class.java)
+                val provider = ComponentName(this, Uno24AppWidgetProvider::class.java)
+                if (appWidgetManager != null && appWidgetManager.isRequestPinAppWidgetSupported) {
+                    appWidgetManager.requestPinAppWidget(provider, null, null)
+                }
+            }
+        }
+
         findViewById<Button>(R.id.btnSetWallpaper).setOnClickListener {
             try {
                 val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {

@@ -73,6 +73,7 @@
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">壁紙として設定</string>
+    <string name="btn_add_widget">ホーム画面にウィジェットを追加</string>
 
     <!-- Dial Themes -->
     <string name="theme_classic_dark">クラシックダーク (Classic Dark)</string>

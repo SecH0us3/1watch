@@ -72,7 +72,8 @@
     <string name="switch_show_uv_index">Ætīewan UV-mearc</string>
 
     <!-- Action Button -->
-    <string name="btn_set_wallpaper">Settan tō Grundweorce</string>
+    <string name="btn_set_wallpaper">Settan tō weallwebbe</string>
+    <string name="btn_add_widget">Gedō wicget on heafod-tīde</string>
 
     <!-- Dial Themes -->
     <string name="theme_classic_dark">Classic Dark (Eald Deorc)</string>

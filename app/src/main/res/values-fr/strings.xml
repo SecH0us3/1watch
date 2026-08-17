@@ -73,6 +73,7 @@
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Définir comme fond d\'écran</string>
+    <string name="btn_add_widget">Ajouter le widget à l\'écran d\'accueil</string>
 
     <!-- Dial Themes -->
     <string name="theme_classic_dark">Classic Dark (Sombre)</string>

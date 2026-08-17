@@ -72,7 +72,8 @@
     <string name="switch_show_uv_index">Ἐμφάνιση δείκτη UV</string>
 
     <!-- Action Button -->
-    <string name="btn_set_wallpaper">Ὁρισμὸς ὡς Ταπετσαρία</string>
+    <string name="btn_set_wallpaper">Ορισμός ως ταπετσαρία</string>
+    <string name="btn_add_widget">Προσθήκη widget στην αρχική οθόνη</string>
 
     <!-- Dial Themes -->
     <string name="theme_classic_dark">Classic Dark (Σκοτεινόν)</string>

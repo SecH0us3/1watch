@@ -466,24 +466,41 @@
     </ScrollView>
 
     <!-- Bottom Button Container -->
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_gradient"
         android:padding="16dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddWidget"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/btn_add_widget"
+            android:textAllCaps="false"
+            android:textSize="13sp"
+            android:textColor="#FFFFFF"
+            app:strokeColor="#3A435A"
+            app:cornerRadius="14dp" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSetWallpaper"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
             android:text="@string/btn_set_wallpaper"
             android:textAllCaps="false"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textStyle="bold"
-            app:cornerRadius="16dp" />
-    </FrameLayout>
+            app:cornerRadius="14dp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

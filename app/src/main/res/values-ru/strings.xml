@@ -70,8 +70,11 @@
     <string name="switch_show_date">Отображать дату</string>
     <string name="switch_show_uv_index">Отображать UV индекс</string>
 
-    <!-- Buttons & Toasts -->
+    <!-- Action Button -->
     <string name="btn_set_wallpaper">Установить как обои</string>
+    <string name="btn_add_widget">Добавить виджет на экран</string>
+
+    <!-- Buttons & Toasts -->
     <string name="toast_theme_prefix">Тема: %1$s</string>
     <string name="toast_font_prefix">Шрифт: %1$s</string>
     <string name="toast_style_prefix">Стиль цифр: %1$s</string>
