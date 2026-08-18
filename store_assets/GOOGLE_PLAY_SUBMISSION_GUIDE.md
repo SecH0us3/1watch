@@ -9,7 +9,7 @@
 | **App Bundle (.aab)** | `app/build/outputs/bundle/release/app-release.aab` | Релизный подписанный бандл (2.8 MB, R8 Minified, Key: `1watch-release`) |
 | **Иконка приложения** | `playstore-icon.png` | 512x512 32-bit PNG |
 | **Главный баннер** | `store_assets/feature-graphic.png` | 1024x500 PNG (Feature Graphic) |
-| **Скриншоты витрины** | `store_assets/screenshots/` (5 шт.) | 1080x2400 PNG (от 2 до 8 скриншотов) |
+| **Скриншоты витрины** | `store_assets/screenshots/` (7 шт.) | 1080x2400 PNG (от 2 до 8 скриншотов) |
 | **Политика конфиденциальности** | `privacy-policy.html` или `PRIVACY_POLICY.md` | Готовая страница для размещения на GitHub Pages |
 | **Тексты описания** | `store_assets/listing_ru.md` и `listing_en.md` | Заголовок, краткое и полное описание (RU + EN) |
 
