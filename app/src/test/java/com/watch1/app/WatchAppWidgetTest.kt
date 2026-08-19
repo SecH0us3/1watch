@@ -1,14 +1,14 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 
-class Uno24AppWidgetTest {
+class WatchAppWidgetTest {
 
     @Test
     fun testWidgetConstants() {
-        assertEquals("com.uno24.wallpaper.ACTION_UPDATE_WIDGETS", Uno24AppWidgetProvider.ACTION_UPDATE_WIDGETS)
+        assertEquals("com.watch1.app.ACTION_UPDATE_WIDGETS", WatchAppWidgetProvider.ACTION_UPDATE_WIDGETS)
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

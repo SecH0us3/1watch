@@ -1,26 +1,26 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import android.graphics.Color
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class Uno24DialRendererTest {
+class WatchDialRendererTest {
     @Test
     fun testTimeToAngle() {
-        assertEquals(0f, Uno24DialRenderer.timeToAngle(12.0), 0.01f)
-        assertEquals(90f, Uno24DialRenderer.timeToAngle(18.0), 0.01f)
-        assertEquals(180f, Uno24DialRenderer.timeToAngle(0.0), 0.01f)
-        assertEquals(270f, Uno24DialRenderer.timeToAngle(6.0), 0.01f)
+        assertEquals(0f, WatchDialRenderer.timeToAngle(12.0), 0.01f)
+        assertEquals(90f, WatchDialRenderer.timeToAngle(18.0), 0.01f)
+        assertEquals(180f, WatchDialRenderer.timeToAngle(0.0), 0.01f)
+        assertEquals(270f, WatchDialRenderer.timeToAngle(6.0), 0.01f)
     }
 
     @Test
     fun testTimeToAngleQuarterHours() {
         // 12:15 = 12.25h -> 0.25 * 15 = 3.75 deg
-        assertEquals(3.75f, Uno24DialRenderer.timeToAngle(12.25), 0.01f)
+        assertEquals(3.75f, WatchDialRenderer.timeToAngle(12.25), 0.01f)
         // 12:30 = 12.5h -> 0.5 * 15 = 7.5 deg
-        assertEquals(7.5f, Uno24DialRenderer.timeToAngle(12.5), 0.01f)
+        assertEquals(7.5f, WatchDialRenderer.timeToAngle(12.5), 0.01f)
         // 12:45 = 12.75h -> 0.75 * 15 = 11.25 deg
-        assertEquals(11.25f, Uno24DialRenderer.timeToAngle(12.75), 0.01f)
+        assertEquals(11.25f, WatchDialRenderer.timeToAngle(12.75), 0.01f)
     }
 
     @Test
@@ -140,20 +140,20 @@ class Uno24DialRendererTest {
 
     @Test
     fun test12TierUvColorScale() {
-        assertEquals(0, Uno24DialRenderer.getUvColor(0.0f))
-        assertEquals(0, Uno24DialRenderer.getUvColor(0.4f))
-        assertEquals(0xFF4CAF50.toInt(), Uno24DialRenderer.getUvColor(1.0f))  // 0.5..1.4 (Emerald Green)
-        assertEquals(0xFF8BC34A.toInt(), Uno24DialRenderer.getUvColor(2.0f))  // 1.5..2.4 (Lime)
-        assertEquals(0xFFCDDC39.toInt(), Uno24DialRenderer.getUvColor(3.0f))  // 2.5..3.4 (Chartreuse)
-        assertEquals(0xFFFFEB3B.toInt(), Uno24DialRenderer.getUvColor(4.0f))  // 3.5..4.4 (Lemon Yellow)
-        assertEquals(0xFFFDD835.toInt(), Uno24DialRenderer.getUvColor(5.0f))  // 4.5..5.4 (Amber Gold)
-        assertEquals(0xFFFFB300.toInt(), Uno24DialRenderer.getUvColor(6.0f))  // 5.5..6.4 (Honey Amber)
-        assertEquals(0xFFFB8C00.toInt(), Uno24DialRenderer.getUvColor(7.0f))  // 6.5..7.4 (Tangerine Orange)
-        assertEquals(0xFFFF5722.toInt(), Uno24DialRenderer.getUvColor(8.0f))  // 7.5..8.4 (Flame Coral - Paphos UV 8)
-        assertEquals(0xFFE53935.toInt(), Uno24DialRenderer.getUvColor(9.0f))  // 8.5..9.4 (Crimson Red)
-        assertEquals(0xFFD81B60.toInt(), Uno24DialRenderer.getUvColor(10.0f)) // 9.5..10.4 (Ruby Magenta)
-        assertEquals(0xFF9C27B0.toInt(), Uno24DialRenderer.getUvColor(11.0f)) // 10.5..11.4 (Amethyst Purple)
-        assertEquals(0xFF6A1B9A.toInt(), Uno24DialRenderer.getUvColor(12.0f)) // 11.5+ (Deep UV Violet)
+        assertEquals(0, WatchDialRenderer.getUvColor(0.0f))
+        assertEquals(0, WatchDialRenderer.getUvColor(0.4f))
+        assertEquals(0xFF4CAF50.toInt(), WatchDialRenderer.getUvColor(1.0f))  // 0.5..1.4 (Emerald Green)
+        assertEquals(0xFF8BC34A.toInt(), WatchDialRenderer.getUvColor(2.0f))  // 1.5..2.4 (Lime)
+        assertEquals(0xFFCDDC39.toInt(), WatchDialRenderer.getUvColor(3.0f))  // 2.5..3.4 (Chartreuse)
+        assertEquals(0xFFFFEB3B.toInt(), WatchDialRenderer.getUvColor(4.0f))  // 3.5..4.4 (Lemon Yellow)
+        assertEquals(0xFFFDD835.toInt(), WatchDialRenderer.getUvColor(5.0f))  // 4.5..5.4 (Amber Gold)
+        assertEquals(0xFFFFB300.toInt(), WatchDialRenderer.getUvColor(6.0f))  // 5.5..6.4 (Honey Amber)
+        assertEquals(0xFFFB8C00.toInt(), WatchDialRenderer.getUvColor(7.0f))  // 6.5..7.4 (Tangerine Orange)
+        assertEquals(0xFFFF5722.toInt(), WatchDialRenderer.getUvColor(8.0f))  // 7.5..8.4 (Flame Coral - Paphos UV 8)
+        assertEquals(0xFFE53935.toInt(), WatchDialRenderer.getUvColor(9.0f))  // 8.5..9.4 (Crimson Red)
+        assertEquals(0xFFD81B60.toInt(), WatchDialRenderer.getUvColor(10.0f)) // 9.5..10.4 (Ruby Magenta)
+        assertEquals(0xFF9C27B0.toInt(), WatchDialRenderer.getUvColor(11.0f)) // 10.5..11.4 (Amethyst Purple)
+        assertEquals(0xFF6A1B9A.toInt(), WatchDialRenderer.getUvColor(12.0f)) // 11.5+ (Deep UV Violet)
     }
 
     @Test

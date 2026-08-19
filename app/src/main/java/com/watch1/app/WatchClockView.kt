@@ -1,4 +1,4 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,13 +11,13 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 
-class Uno24ClockView @JvmOverloads constructor(
+class WatchClockView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private val renderer = Uno24DialRenderer()
+    private val renderer = WatchDialRenderer()
     private val handler = Handler(Looper.getMainLooper())
     private var isAttached = false
 
@@ -46,7 +46,7 @@ class Uno24ClockView @JvmOverloads constructor(
         }
         invalidate()
         try {
-            Uno24AppWidgetProvider.updateAllWidgets(context)
+            WatchAppWidgetProvider.updateAllWidgets(context)
         } catch (e: Exception) {
             // Ignore in environments where widget manager is unavailable
         }

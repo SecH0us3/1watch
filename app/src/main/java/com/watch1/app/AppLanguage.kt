@@ -1,4 +1,4 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 enum class AppLanguage(val code: String, val displayName: String) {
     SYSTEM("", "System Default (По умолчанию)"),

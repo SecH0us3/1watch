@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.uno24.wallpaper.Uno24ClockView
+        <com.watch1.app.WatchClockView
             android:id="@+id/clockView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

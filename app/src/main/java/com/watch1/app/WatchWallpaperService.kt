@@ -1,4 +1,4 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -13,18 +13,18 @@ import java.time.LocalTime
 import java.time.ZoneId
 import kotlin.math.abs
 
-class Uno24WallpaperService : WallpaperService() {
+class WatchWallpaperService : WallpaperService() {
     override fun onCreateEngine(): Engine = Uno24Engine()
 
     inner class Uno24Engine : Engine(), SharedPreferences.OnSharedPreferenceChangeListener {
         private val handler = Handler(Looper.getMainLooper())
-        private val renderer = Uno24DialRenderer()
+        private val renderer = WatchDialRenderer()
         private var visible = false
 
-        private var config: ClockConfig = LocationHelper.loadConfig(this@Uno24WallpaperService)
+        private var config: ClockConfig = LocationHelper.loadConfig(this@WatchWallpaperService)
         private var bgBitmap: Bitmap? = null
 
-        private val gestureDetector = GestureDetector(this@Uno24WallpaperService, object : GestureDetector.SimpleOnGestureListener() {
+        private val gestureDetector = GestureDetector(this@WatchWallpaperService, object : GestureDetector.SimpleOnGestureListener() {
             override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
                 if (e1 == null) return false
                 val diffX = e2.x - e1.x
@@ -32,7 +32,7 @@ class Uno24WallpaperService : WallpaperService() {
                 if (abs(diffX) > abs(diffY) && abs(diffX) > 100 && abs(velocityX) > 100) {
                     val currentTheme = config.theme
                     val newTheme = if (diffX < 0) currentTheme.next() else currentTheme.previous()
-                    LocationHelper.saveTheme(this@Uno24WallpaperService, newTheme)
+                    LocationHelper.saveTheme(this@WatchWallpaperService, newTheme)
                     // The shared preferences listener will reload config and trigger drawFrame()
                     return true
                 }
@@ -50,7 +50,7 @@ class Uno24WallpaperService : WallpaperService() {
             super.onCreate(surfaceHolder)
             setTouchEventsEnabled(true)
             reloadConfig()
-            LocationHelper.getPrefs(this@Uno24WallpaperService).registerOnSharedPreferenceChangeListener(this)
+            LocationHelper.getPrefs(this@WatchWallpaperService).registerOnSharedPreferenceChangeListener(this)
             UvRepository.addListener(uvListener)
         }
 
@@ -62,9 +62,9 @@ class Uno24WallpaperService : WallpaperService() {
         }
 
         private fun reloadConfig() {
-            config = LocationHelper.loadConfig(this@Uno24WallpaperService)
+            config = LocationHelper.loadConfig(this@WatchWallpaperService)
             bgBitmap = if (config.bgMode == BackgroundMode.CUSTOM_IMAGE) {
-                BackgroundImageHelper.loadBitmap(this@Uno24WallpaperService)
+                BackgroundImageHelper.loadBitmap(this@WatchWallpaperService)
             } else {
                 null
             }
@@ -111,7 +111,7 @@ class Uno24WallpaperService : WallpaperService() {
             super.onDestroy()
             visible = false
             handler.removeCallbacks(drawRunnable)
-            LocationHelper.getPrefs(this@Uno24WallpaperService).unregisterOnSharedPreferenceChangeListener(this)
+            LocationHelper.getPrefs(this@WatchWallpaperService).unregisterOnSharedPreferenceChangeListener(this)
             UvRepository.removeListener(uvListener)
         }
 
@@ -125,7 +125,7 @@ class Uno24WallpaperService : WallpaperService() {
                 val zoneOffsetHours = ZoneId.systemDefault().rules.getOffset(java.time.Instant.now()).totalSeconds / 3600.0
 
                 val sunTimes = SolarCalculator.calculateSunTimes(config.lat, config.lon, date, zoneOffsetHours)
-                val uvData = if (config.showUv || config.showUvIndex) UvRepository.getCachedOrFallbackUv(this@Uno24WallpaperService, config.lat, config.lon, date) else null
+                val uvData = if (config.showUv || config.showUvIndex) UvRepository.getCachedOrFallbackUv(this@WatchWallpaperService, config.lat, config.lon, date) else null
 
                 renderer.draw(
                     canvas = canvas,

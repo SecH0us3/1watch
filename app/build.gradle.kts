@@ -14,11 +14,11 @@ val localProperties = Properties().apply {
 }
 
 android {
-    namespace = "com.uno24.wallpaper"
+    namespace = "com.watch1.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.uno24.wallpaper"
+        applicationId = "com.watch1.app"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

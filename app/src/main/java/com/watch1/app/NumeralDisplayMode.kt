@@ -1,4 +1,4 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import android.content.Context
 import androidx.annotation.StringRes

@@ -1,4 +1,4 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -19,16 +19,16 @@ import java.time.ZoneId
 import kotlin.math.max
 import kotlin.math.min
 
-class Uno24AppWidgetProvider : AppWidgetProvider() {
+class WatchAppWidgetProvider : AppWidgetProvider() {
 
     companion object {
-        const val ACTION_UPDATE_WIDGETS = "com.uno24.wallpaper.ACTION_UPDATE_WIDGETS"
+        const val ACTION_UPDATE_WIDGETS = "com.watch1.app.ACTION_UPDATE_WIDGETS"
         private const val ALARM_REQUEST_CODE = 2001
-        private val renderer = Uno24DialRenderer()
+        private val renderer = WatchDialRenderer()
 
         fun updateAllWidgets(context: Context) {
             val appWidgetManager = AppWidgetManager.getInstance(context) ?: return
-            val componentName = ComponentName(context, Uno24AppWidgetProvider::class.java)
+            val componentName = ComponentName(context, WatchAppWidgetProvider::class.java)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(componentName)
             if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
                 for (appWidgetId in appWidgetIds) {
@@ -55,7 +55,7 @@ class Uno24AppWidgetProvider : AppWidgetProvider() {
 
             val bitmap = renderWidgetBitmap(context, sizePx, sizePx)
 
-            val views = RemoteViews(context.packageName, R.layout.widget_uno24_layout)
+            val views = RemoteViews(context.packageName, R.layout.widget_watch_layout)
             views.setImageViewBitmap(R.id.widgetClockImage, bitmap)
 
             val launchIntent = Intent(context, MainActivity::class.java).apply {
@@ -126,7 +126,7 @@ class Uno24AppWidgetProvider : AppWidgetProvider() {
 
         fun scheduleNextMinuteAlarm(context: Context) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager ?: return
-            val intent = Intent(context, Uno24AppWidgetProvider::class.java).apply {
+            val intent = Intent(context, WatchAppWidgetProvider::class.java).apply {
                 action = ACTION_UPDATE_WIDGETS
             }
             val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -179,7 +179,7 @@ class Uno24AppWidgetProvider : AppWidgetProvider() {
 
         fun cancelMinuteAlarm(context: Context) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager ?: return
-            val intent = Intent(context, Uno24AppWidgetProvider::class.java).apply {
+            val intent = Intent(context, WatchAppWidgetProvider::class.java).apply {
                 action = ACTION_UPDATE_WIDGETS
             }
             val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

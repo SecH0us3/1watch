@@ -1,10 +1,10 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import android.graphics.*
 import java.time.LocalDate
 import kotlin.math.*
 
-class Uno24DialRenderer {
+class WatchDialRenderer {
     companion object {
         fun timeToAngle(hourFraction: Double): Float {
             // 12:00 is top (0 deg). 24h = 360 deg -> 15 deg per hour.

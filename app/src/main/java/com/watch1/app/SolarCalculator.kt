@@ -1,4 +1,4 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import java.time.LocalDate
 import kotlin.math.*

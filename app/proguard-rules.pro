@@ -1,32 +1,32 @@
 # 1watch ProGuard / R8 Rules
 
 # Keep View classes referenced in layout XML
--keep public class com.uno24.wallpaper.Uno24ClockView {
+-keep public class com.watch1.app.WatchClockView {
     public <init>(android.content.Context);
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
 # Keep Wallpaper Service and AppWidget Provider
--keep public class com.uno24.wallpaper.Uno24WallpaperService { *; }
--keep public class com.uno24.wallpaper.Uno24AppWidgetProvider { *; }
+-keep public class com.watch1.app.WatchWallpaperService { *; }
+-keep public class com.watch1.app.WatchAppWidgetProvider { *; }
 
 # Keep Enums and their values / valueOf methods
--keepclassmembers enum com.uno24.wallpaper.* {
+-keepclassmembers enum com.watch1.app.* {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
 
 # Keep Data classes and model helpers
--keep class com.uno24.wallpaper.ClockConfig { *; }
--keep class com.uno24.wallpaper.SunTimes { *; }
--keep class com.uno24.wallpaper.UvDataPoint { *; }
--keep class com.uno24.wallpaper.BezelStyle { *; }
--keep class com.uno24.wallpaper.DialTheme { *; }
--keep class com.uno24.wallpaper.HandStyle { *; }
--keep class com.uno24.wallpaper.NumeralStyle { *; }
--keep class com.uno24.wallpaper.NumeralFont { *; }
--keep class com.uno24.wallpaper.NumeralOrientation { *; }
--keep class com.uno24.wallpaper.NumeralDisplayMode { *; }
--keep class com.uno24.wallpaper.BackgroundMode { *; }
--keep class com.uno24.wallpaper.AppLanguage { *; }
+-keep class com.watch1.app.ClockConfig { *; }
+-keep class com.watch1.app.SunTimes { *; }
+-keep class com.watch1.app.UvDataPoint { *; }
+-keep class com.watch1.app.BezelStyle { *; }
+-keep class com.watch1.app.DialTheme { *; }
+-keep class com.watch1.app.HandStyle { *; }
+-keep class com.watch1.app.NumeralStyle { *; }
+-keep class com.watch1.app.NumeralFont { *; }
+-keep class com.watch1.app.NumeralOrientation { *; }
+-keep class com.watch1.app.NumeralDisplayMode { *; }
+-keep class com.watch1.app.BackgroundMode { *; }
+-keep class com.watch1.app.AppLanguage { *; }

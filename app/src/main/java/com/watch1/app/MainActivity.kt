@@ -1,4 +1,4 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import android.Manifest
 import android.app.WallpaperManager
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private lateinit var clockView: Uno24ClockView
+    private lateinit var clockView: WatchClockView
     private lateinit var tvThemeTitle: TextView
     private lateinit var tvSizeValue: TextView
     private lateinit var btnPickImage: MaterialButton
@@ -313,7 +313,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnAddWidget).setOnClickListener {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 val appWidgetManager = getSystemService(android.appwidget.AppWidgetManager::class.java)
-                val provider = ComponentName(this, Uno24AppWidgetProvider::class.java)
+                val provider = ComponentName(this, WatchAppWidgetProvider::class.java)
                 if (appWidgetManager != null && appWidgetManager.isRequestPinAppWidgetSupported) {
                     appWidgetManager.requestPinAppWidget(provider, null, null)
                 }
@@ -325,7 +325,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
                     putExtra(
                         WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                        ComponentName(this@MainActivity, Uno24WallpaperService::class.java)
+                        ComponentName(this@MainActivity, WatchWallpaperService::class.java)
                     )
                 }
                 startActivity(intent)

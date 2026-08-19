@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Uno24" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Watch1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">#FF3D00</item>
         <item name="colorPrimaryVariant">#D83000</item>
         <item name="colorOnPrimary">#FFFFFF</item>

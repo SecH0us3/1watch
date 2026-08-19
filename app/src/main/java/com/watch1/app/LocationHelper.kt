@@ -1,4 +1,4 @@
-package com.uno24.wallpaper
+package com.watch1.app
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -26,7 +26,7 @@ data class ClockConfig(
 )
 
 object LocationHelper {
-    const val PREFS_NAME = "Uno24Prefs"
+    const val PREFS_NAME = "WatchPrefs"
     private const val KEY_LAT = "key_lat"
     private const val KEY_LON = "key_lon"
     private const val KEY_THEME = "key_theme"
