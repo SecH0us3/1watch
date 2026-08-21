@@ -31,10 +31,15 @@ android {
         create("release") {
             val storeFilePath = localProperties.getProperty("RELEASE_STORE_FILE")
             if (!storeFilePath.isNullOrEmpty()) {
-                storeFile = file(storeFilePath)
-                storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD")
-                keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS")
-                keyPassword = localProperties.getProperty("RELEASE_KEY_PASSWORD")
+                val candidate1 = rootProject.file(storeFilePath)
+                val candidate2 = file(storeFilePath)
+                val storeF = if (candidate1.exists()) candidate1 else candidate2
+                if (storeF.exists()) {
+                    storeFile = storeF
+                    storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD")
+                    keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS")
+                    keyPassword = localProperties.getProperty("RELEASE_KEY_PASSWORD")
+                }
             }
         }
     }
