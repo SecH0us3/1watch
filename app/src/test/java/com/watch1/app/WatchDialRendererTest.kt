@@ -200,5 +200,53 @@ class WatchDialRendererTest {
         }
         assertEquals(0f, stops.positions.first(), 0.001f)
         assertEquals(1f, stops.positions.last(), 0.001f)
+        assertEquals(stops.colors.first(), stops.colors.last())
+    }
+
+    @Test
+    fun testColorInterpolation() {
+        val white = 0xFFFFFFFF.toInt()
+        val black = 0xFF000000.toInt()
+        assertEquals(white, WatchDialRenderer.interpolateColor(white, black, 0.0f))
+        assertEquals(black, WatchDialRenderer.interpolateColor(white, black, 1.0f))
+        
+        val mid = WatchDialRenderer.interpolateColor(white, black, 0.5f)
+        val midR = (mid ushr 16) and 0xFF
+        val midG = (mid ushr 8) and 0xFF
+        val midB = mid and 0xFF
+        assertEquals(128, midR)
+        assertEquals(128, midG)
+        assertEquals(128, midB)
+    }
+
+    @Test
+    fun testGradientStopsSummerAndWinter() {
+        // Summer day: sunrise 04:00, sunset 22:00
+        val summerStops = WatchDialRenderer.calculateGradientStops(
+            sunsetHour = 22.0,
+            sunriseHour = 4.0,
+            dayColor = 0xFF222228.toInt(),
+            nightColor = 0xFF08080C.toInt()
+        )
+        for (i in 0 until summerStops.positions.size - 1) {
+            org.junit.Assert.assertTrue(summerStops.positions[i] <= summerStops.positions[i + 1])
+        }
+        assertEquals(0f, summerStops.positions.first(), 0.001f)
+        assertEquals(1f, summerStops.positions.last(), 0.001f)
+        assertEquals(summerStops.colors.first(), summerStops.colors.last())
+
+        // Winter day: sunrise 09:00, sunset 15:30
+        val winterStops = WatchDialRenderer.calculateGradientStops(
+            sunsetHour = 15.5,
+            sunriseHour = 9.0,
+            dayColor = 0xFF1C2541.toInt(),
+            nightColor = 0xFF050814.toInt()
+        )
+        for (i in 0 until winterStops.positions.size - 1) {
+            org.junit.Assert.assertTrue(winterStops.positions[i] <= winterStops.positions[i + 1])
+        }
+        assertEquals(0f, winterStops.positions.first(), 0.001f)
+        assertEquals(1f, winterStops.positions.last(), 0.001f)
+        assertEquals(winterStops.colors.first(), winterStops.colors.last())
     }
 }
