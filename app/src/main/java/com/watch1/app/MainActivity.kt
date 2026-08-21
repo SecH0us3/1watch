@@ -264,6 +264,13 @@ class MainActivity : AppCompatActivity() {
             clockView.refreshSettings()
         }
 
+        val switchGradient = findViewById<SwitchMaterial>(R.id.switchGradientDayNight)
+        switchGradient.isChecked = LocationHelper.getGradientDayNight(this)
+        switchGradient.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveGradientDayNight(this, isChecked)
+            clockView.refreshSettings()
+        }
+
         val switchUv = findViewById<SwitchMaterial>(R.id.switchUvArc)
         switchUv.isChecked = LocationHelper.getShowUv(this)
         switchUv.setOnCheckedChangeListener { _, isChecked ->

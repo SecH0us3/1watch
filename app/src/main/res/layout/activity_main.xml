@@ -448,7 +448,19 @@
 
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E2333" android:layout_marginHorizontal="16dp"/>
 
+                    <!-- Day/Night Gradient -->
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchGradientDayNight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:text="@string/switch_gradient_day_night"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        app:switchPadding="16dp" />
 
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E2333" android:layout_marginHorizontal="16dp"/>
 
                     <!-- UV Arc -->
                     <com.google.android.material.switchmaterial.SwitchMaterial
