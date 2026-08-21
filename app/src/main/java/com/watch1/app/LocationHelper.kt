@@ -22,7 +22,8 @@ data class ClockConfig(
     val bgMode: BackgroundMode,
     val customColor: Int,
     val bezelStyle: BezelStyle = BezelStyle.NONE,
-    val showBrandLogo: Boolean = true
+    val showBrandLogo: Boolean = true,
+    val gradientDayNight: Boolean = false
 )
 
 object LocationHelper {
@@ -45,6 +46,7 @@ object LocationHelper {
     private const val KEY_APP_LANGUAGE = "key_app_language"
     private const val KEY_BEZEL_STYLE = "key_bezel_style"
     private const val KEY_SHOW_BRAND_LOGO = "key_show_brand_logo"
+    private const val KEY_GRADIENT_DAY_NIGHT = "key_gradient_day_night"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
@@ -71,7 +73,8 @@ object LocationHelper {
             bgMode = getBackgroundMode(context),
             customColor = getCustomColor(context),
             bezelStyle = getBezelStyle(context),
-            showBrandLogo = getShowBrandLogo(context)
+            showBrandLogo = getShowBrandLogo(context),
+            gradientDayNight = getGradientDayNight(context)
         )
     }
 
@@ -249,6 +252,16 @@ object LocationHelper {
     fun saveShowBrandLogo(context: Context, enabled: Boolean) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putBoolean(KEY_SHOW_BRAND_LOGO, enabled).apply()
+    }
+
+    fun getGradientDayNight(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_GRADIENT_DAY_NIGHT, false)
+    }
+
+    fun saveGradientDayNight(context: Context, enabled: Boolean) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_GRADIENT_DAY_NIGHT, enabled).apply()
     }
 
     fun applyAppLanguage(language: AppLanguage) {

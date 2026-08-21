@@ -165,4 +165,23 @@ class WatchDialRendererTest {
         // fallback
         assertEquals(BezelStyle.NONE, BezelStyle.fromName("UNKNOWN"))
     }
+
+    @Test
+    fun testClockConfigDefaultGradientDayNight() {
+        val config = ClockConfig(
+            lat = 55.75,
+            lon = 37.61,
+            theme = DialTheme.CLASSIC_DARK,
+            showUv = true,
+            numeralStyle = NumeralStyle.ARABIC,
+            numeralOrientation = NumeralOrientation.UPRIGHT,
+            numeralDisplayMode = NumeralDisplayMode.ALL,
+            fontSizeScale = 1.0f,
+            numeralFont = NumeralFont.SANS_SERIF,
+            handStyle = HandStyle.BOTTA_NEEDLE,
+            bgMode = BackgroundMode.THEME_DEFAULT,
+            customColor = 0
+        )
+        assertEquals(false, config.gradientDayNight)
+    }
 }
