@@ -67,6 +67,7 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">数字を中心に向ける</string>
+    <string name="switch_gradient_day_night">昼夜のスムーズグラデーション</string>
     <string name="switch_show_uv_arc">UVアクティビティアークを表示</string>
     <string name="switch_show_date">日付を表示</string>
     <string name="switch_show_uv_index">UVインデックスを表示</string>

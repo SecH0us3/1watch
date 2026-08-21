@@ -67,6 +67,7 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">数字朝向表盘中心</string>
+    <string name="switch_gradient_day_night">昼夜平滑渐变</string>
     <string name="switch_show_uv_arc">显示紫外线活动弧</string>
     <string name="switch_show_date">显示日期</string>
     <string name="switch_show_uv_index">显示紫外线指数</string>

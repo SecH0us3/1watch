@@ -68,6 +68,7 @@
     <string name="switch_radial_orientation">Rotate numerals toward center</string>
     <string name="switch_rotate_with_dial">Rotate numerals toward center</string>
     <string name="switch_roman_numerals">Roman numerals (I, II … XXIV)</string>
+    <string name="switch_gradient_day_night">Day &amp; night smooth gradient</string>
     <string name="switch_uv_arc">Display UV activity arc</string>
     <string name="switch_show_uv_arc">Display UV activity arc</string>
     <string name="switch_show_date">Display date</string>

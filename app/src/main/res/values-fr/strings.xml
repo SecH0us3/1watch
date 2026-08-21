@@ -67,6 +67,7 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">Chiffres orientés vers le centre</string>
+    <string name="switch_gradient_day_night">Dégradé fluide jour &amp; nuit</string>
     <string name="switch_show_uv_arc">Afficher l\'arc d\'activité UV</string>
     <string name="switch_show_date">Afficher la date</string>
     <string name="switch_show_uv_index">Afficher l\'indice UV</string>

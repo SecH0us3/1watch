@@ -66,6 +66,7 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">Цифры повернуты к центру</string>
+    <string name="switch_gradient_day_night">Градиентный переход дня и ночи</string>
     <string name="switch_show_uv_arc">Отображать шкалу активности UV</string>
     <string name="switch_show_date">Отображать дату</string>
     <string name="switch_show_uv_index">Отображать UV индекс</string>

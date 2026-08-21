@@ -67,6 +67,7 @@
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">Ziffern zur Mitte ausgerichtet</string>
     <string name="switch_roman_numerals">Römische Ziffern (I, II … XXIV)</string>
+    <string name="switch_gradient_day_night">Sanfter Tag- &amp; Nacht-Farbverlauf</string>
     <string name="switch_uv_arc">UV-Aktivitätsbogen anzeigen</string>
     <string name="switch_show_date">Datum anzeigen</string>
     <string name="switch_show_uv_index">UV-Index anzeigen</string>

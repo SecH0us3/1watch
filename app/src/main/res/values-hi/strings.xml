@@ -67,6 +67,7 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">अंकों को केंद्र की ओर घुमाएं</string>
+    <string name="switch_gradient_day_night">दिन और रात का स्मूथ ग्रेडिएंट</string>
     <string name="switch_show_uv_arc">यूवी गतिविधि चाप दिखाएं</string>
     <string name="switch_show_date">दिनांक दिखाएं</string>
     <string name="switch_show_uv_index">यूवी सूचकांक दिखाएं</string>

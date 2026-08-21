@@ -67,6 +67,7 @@
     <!-- Parameters / Switches -->
     <string name="switch_radial_orientation">Girar números hacia el centro</string>
     <string name="switch_roman_numerals">Números romanos (I, II … XXIV)</string>
+    <string name="switch_gradient_day_night">Gradiente suave de día y noche</string>
     <string name="switch_uv_arc">Mostrar arco de actividad UV</string>
     <string name="switch_show_date">Mostrar fecha</string>
     <string name="switch_show_uv_index">Mostrar índice UV</string>

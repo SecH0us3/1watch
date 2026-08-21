@@ -67,6 +67,7 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">Περιστροφὴ ἀριθμῶν πρὸς τὸ κέντρον</string>
+    <string name="switch_gradient_day_night">Ομαλή διαβάθμιση ημέρας και νύχτας</string>
     <string name="switch_show_uv_arc">Ἐμφάνιση τόξου UV</string>
     <string name="switch_show_date">Ἐμφάνιση ἡμερομηνίας</string>
     <string name="switch_show_uv_index">Ἐμφάνιση δείκτη UV</string>
