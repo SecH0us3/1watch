@@ -101,7 +101,8 @@ class WatchClockView @JvmOverloads constructor(
             bgBitmap = bgBitmap,
             isWallpaper = false,
             bezelStyle = config.bezelStyle,
-            showBrandLogo = config.showBrandLogo
+            showBrandLogo = config.showBrandLogo,
+            gradientDayNight = config.gradientDayNight
         )
     }
 }
