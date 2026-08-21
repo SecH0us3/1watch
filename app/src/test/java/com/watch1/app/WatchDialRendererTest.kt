@@ -184,4 +184,21 @@ class WatchDialRendererTest {
         )
         assertEquals(false, config.gradientDayNight)
     }
+
+    @Test
+    fun testGradientAngleCalculation() {
+        // Sunset at 18:00 (90 deg canvas angle) and sunrise at 06:00 (270 deg canvas angle)
+        val stops = WatchDialRenderer.calculateGradientStops(
+            sunsetHour = 18.0,
+            sunriseHour = 6.0,
+            dayColor = 0xFFFFFFFF.toInt(),
+            nightColor = 0xFF000000.toInt()
+        )
+        // Check that stops are sorted monotonically in [0f..1f]
+        for (i in 0 until stops.positions.size - 1) {
+            org.junit.Assert.assertTrue(stops.positions[i] <= stops.positions[i + 1])
+        }
+        assertEquals(0f, stops.positions.first(), 0.001f)
+        assertEquals(1f, stops.positions.last(), 0.001f)
+    }
 }

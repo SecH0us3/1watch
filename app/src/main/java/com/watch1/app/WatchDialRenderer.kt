@@ -32,9 +32,99 @@ class WatchDialRenderer {
 
         private val ARABIC_LABELS = Array(24) { String.format("%02d", it) }
         private val ROMAN_LABELS = Array(24) { NumeralStyle.toRoman(it) }
+
+        data class GradientStops(val colors: IntArray, val positions: FloatArray)
+
+        fun interpolateColor(c1: Int, c2: Int, ratio: Float): Int {
+            val r = ratio.coerceIn(0f, 1f)
+            val a1 = (c1 ushr 24) and 0xFF
+            val r1 = (c1 ushr 16) and 0xFF
+            val g1 = (c1 ushr 8) and 0xFF
+            val b1 = c1 and 0xFF
+
+            val a2 = (c2 ushr 24) and 0xFF
+            val r2 = (c2 ushr 16) and 0xFF
+            val g2 = (c2 ushr 8) and 0xFF
+            val b2 = c2 and 0xFF
+
+            val a = (a1 + (a2 - a1) * r).roundToInt()
+            val red = (r1 + (r2 - r1) * r).roundToInt()
+            val green = (g1 + (g2 - g1) * r).roundToInt()
+            val blue = (b1 + (b2 - b1) * r).roundToInt()
+
+            return (a shl 24) or (red shl 16) or (green shl 8) or blue
+        }
+
+        fun calculateGradientStops(
+            sunsetHour: Double,
+            sunriseHour: Double,
+            dayColor: Int,
+            nightColor: Int
+        ): GradientStops {
+            val sunsetAngle = (timeToAngle(sunsetHour) - 90f).mod(360f)
+            val sunriseAngle = (timeToAngle(sunriseHour) - 90f).mod(360f)
+            val delta = 11.25f // 45 min twilight transition half-width (1.5h total)
+
+            val nightSpan = (sunriseAngle - sunsetAngle).mod(360f)
+
+            fun colorAt(angle: Float): Int {
+                val a = angle.mod(360f)
+
+                // Check sunset twilight
+                val sunsetDiff = (a - sunsetAngle + 180f).mod(360f) - 180f
+                if (abs(sunsetDiff) <= delta) {
+                    val t = (sunsetDiff + delta) / (2f * delta)
+                    return interpolateColor(dayColor, nightColor, t)
+                }
+
+                // Check sunrise twilight
+                val sunriseDiff = (a - sunriseAngle + 180f).mod(360f) - 180f
+                if (abs(sunriseDiff) <= delta) {
+                    val t = (sunriseDiff + delta) / (2f * delta)
+                    return interpolateColor(nightColor, dayColor, t)
+                }
+
+                val fromSunset = (a - sunsetAngle).mod(360f)
+                return if (fromSunset < nightSpan) nightColor else dayColor
+            }
+
+            val rawAngles = mutableListOf(
+                0f,
+                (sunsetAngle - delta).mod(360f),
+                sunsetAngle,
+                (sunsetAngle + delta).mod(360f),
+                (sunriseAngle - delta).mod(360f),
+                sunriseAngle,
+                (sunriseAngle + delta).mod(360f),
+                360f
+            )
+            rawAngles.sort()
+
+            val distinctAngles = mutableListOf<Float>()
+            for (ang in rawAngles) {
+                if (distinctAngles.isEmpty() || abs(ang - distinctAngles.last()) > 0.01f) {
+                    distinctAngles.add(ang)
+                }
+            }
+            if (distinctAngles.first() > 0.001f) {
+                distinctAngles.add(0, 0f)
+            }
+            if (distinctAngles.last() < 359.999f) {
+                distinctAngles.add(360f)
+            }
+
+            val colors = IntArray(distinctAngles.size) { colorAt(distinctAngles[it]) }
+            val positions = FloatArray(distinctAngles.size) { (distinctAngles[it] / 360f).coerceIn(0f, 1f) }
+
+            return GradientStops(colors, positions)
+        }
     }
 
     private val dialBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+    }
+
+    private val gradientPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
     }
     
@@ -121,7 +211,8 @@ class WatchDialRenderer {
         bgBitmap: Bitmap? = null,
         isWallpaper: Boolean = false,
         bezelStyle: BezelStyle = BezelStyle.NONE,
-        showBrandLogo: Boolean = true
+        showBrandLogo: Boolean = true,
+        gradientDayNight: Boolean = false
     ) {
         dialBackgroundPaint.color = theme.dialBgColor
         dayZonePaint.color = theme.dayZoneColor
@@ -164,8 +255,18 @@ class WatchDialRenderer {
 
         if (sunTimes.isPolarNight) {
             nightZonePath.addCircle(cx, cy, radius, Path.Direction.CW)
+            if (gradientDayNight) {
+                canvas.drawCircle(cx, cy, radius, nightZonePaint)
+            } else {
+                canvas.drawPath(nightZonePath, nightZonePaint)
+            }
         } else if (sunTimes.isPolarDay) {
             dayZonePath.addCircle(cx, cy, radius, Path.Direction.CW)
+            if (gradientDayNight) {
+                canvas.drawCircle(cx, cy, radius, dayZonePaint)
+            } else {
+                canvas.drawPath(dayZonePath, dayZonePaint)
+            }
         } else {
             val sunsetAngle = timeToAngle(sunTimes.sunsetHour) - 90f
             val sunriseAngle = timeToAngle(sunTimes.sunriseHour) - 90f
@@ -181,13 +282,24 @@ class WatchDialRenderer {
             dayZonePath.moveTo(cx, cy)
             dayZonePath.arcTo(dialRect, sunriseAngle, 360f - sweepAngle)
             dayZonePath.close()
-        }
 
-        if (!dayZonePath.isEmpty) {
-            canvas.drawPath(dayZonePath, dayZonePaint)
-        }
-        if (!nightZonePath.isEmpty) {
-            canvas.drawPath(nightZonePath, nightZonePaint)
+            if (gradientDayNight) {
+                val stops = calculateGradientStops(
+                    sunTimes.sunsetHour,
+                    sunTimes.sunriseHour,
+                    theme.dayZoneColor,
+                    theme.nightZoneColor
+                )
+                gradientPaint.shader = SweepGradient(cx, cy, stops.colors, stops.positions)
+                canvas.drawCircle(cx, cy, radius, gradientPaint)
+            } else {
+                if (!dayZonePath.isEmpty) {
+                    canvas.drawPath(dayZonePath, dayZonePaint)
+                }
+                if (!nightZonePath.isEmpty) {
+                    canvas.drawPath(nightZonePath, nightZonePaint)
+                }
+            }
         }
 
         // 3. Draw UV Activity Arc on Daytime Sector if enabled
