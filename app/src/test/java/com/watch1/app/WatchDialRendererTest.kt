@@ -183,6 +183,10 @@ class WatchDialRendererTest {
             customColor = 0
         )
         assertEquals(false, config.gradientDayNight)
+        assertEquals(true, config.showMoonPhase)
+        assertEquals(false, config.showGoldenHour)
+        assertEquals(false, config.showSolarNoon)
+        assertEquals(false, config.redNightMode)
     }
 
     @Test

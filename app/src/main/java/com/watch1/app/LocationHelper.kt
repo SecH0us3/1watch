@@ -23,7 +23,11 @@ data class ClockConfig(
     val customColor: Int,
     val bezelStyle: BezelStyle = BezelStyle.NONE,
     val showBrandLogo: Boolean = true,
-    val gradientDayNight: Boolean = false
+    val gradientDayNight: Boolean = false,
+    val showMoonPhase: Boolean = true,
+    val showGoldenHour: Boolean = false,
+    val showSolarNoon: Boolean = false,
+    val redNightMode: Boolean = false
 )
 
 object LocationHelper {
@@ -47,6 +51,10 @@ object LocationHelper {
     private const val KEY_BEZEL_STYLE = "key_bezel_style"
     private const val KEY_SHOW_BRAND_LOGO = "key_show_brand_logo"
     private const val KEY_GRADIENT_DAY_NIGHT = "key_gradient_day_night"
+    private const val KEY_SHOW_MOON_PHASE = "key_show_moon_phase"
+    private const val KEY_SHOW_GOLDEN_HOUR = "key_show_golden_hour"
+    private const val KEY_SHOW_SOLAR_NOON = "key_show_solar_noon"
+    private const val KEY_RED_NIGHT_MODE = "key_red_night_mode"
 
     private const val DEFAULT_LAT = 55.7558 // Moscow default
     private const val DEFAULT_LON = 37.6173
@@ -74,7 +82,11 @@ object LocationHelper {
             customColor = getCustomColor(context),
             bezelStyle = getBezelStyle(context),
             showBrandLogo = getShowBrandLogo(context),
-            gradientDayNight = getGradientDayNight(context)
+            gradientDayNight = getGradientDayNight(context),
+            showMoonPhase = getShowMoonPhase(context),
+            showGoldenHour = getShowGoldenHour(context),
+            showSolarNoon = getShowSolarNoon(context),
+            redNightMode = getRedNightMode(context)
         )
     }
 
@@ -262,6 +274,46 @@ object LocationHelper {
     fun saveGradientDayNight(context: Context, enabled: Boolean) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putBoolean(KEY_GRADIENT_DAY_NIGHT, enabled).apply()
+    }
+
+    fun getShowMoonPhase(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_SHOW_MOON_PHASE, true)
+    }
+
+    fun saveShowMoonPhase(context: Context, enabled: Boolean) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_SHOW_MOON_PHASE, enabled).apply()
+    }
+
+    fun getShowGoldenHour(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_SHOW_GOLDEN_HOUR, false)
+    }
+
+    fun saveShowGoldenHour(context: Context, enabled: Boolean) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_SHOW_GOLDEN_HOUR, enabled).apply()
+    }
+
+    fun getShowSolarNoon(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_SHOW_SOLAR_NOON, false)
+    }
+
+    fun saveShowSolarNoon(context: Context, enabled: Boolean) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_SHOW_SOLAR_NOON, enabled).apply()
+    }
+
+    fun getRedNightMode(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_RED_NIGHT_MODE, false)
+    }
+
+    fun saveRedNightMode(context: Context, enabled: Boolean) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_RED_NIGHT_MODE, enabled).apply()
     }
 
     fun applyAppLanguage(language: AppLanguage) {
