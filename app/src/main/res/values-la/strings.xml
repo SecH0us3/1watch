@@ -71,6 +71,10 @@
     <string name="switch_show_uv_arc">Arcum activitatis UV ostendere</string>
     <string name="switch_show_date">Diem in horologio ostendere</string>
     <string name="switch_show_uv_index">Indicem UV ostendere</string>
+    <string name="switch_show_moon_phase">Indicator phasis lunae</string>
+    <string name="switch_show_golden_hour">Hora aurea et caerulea</string>
+    <string name="switch_show_solar_noon">Nota meridiei solaris</string>
+    <string name="switch_red_night_mode">Modus nocturnus ruber (Cockpit)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Pone ut Fundum</string>

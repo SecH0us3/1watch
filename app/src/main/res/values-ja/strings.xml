@@ -71,6 +71,10 @@
     <string name="switch_show_uv_arc">UVアクティビティアークを表示</string>
     <string name="switch_show_date">日付を表示</string>
     <string name="switch_show_uv_index">UVインデックスを表示</string>
+    <string name="switch_show_moon_phase">月相インジケーター</string>
+    <string name="switch_show_golden_hour">ゴールデン＆ブルーアワー</string>
+    <string name="switch_show_solar_noon">正午の太陽マーカー</string>
+    <string name="switch_red_night_mode">赤色夜間モード（コックピット）</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">壁紙として設定</string>

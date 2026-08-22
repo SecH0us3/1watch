@@ -73,6 +73,10 @@
     <string name="switch_show_uv_arc">Display UV activity arc</string>
     <string name="switch_show_date">Display date</string>
     <string name="switch_show_uv_index">Display UV index</string>
+    <string name="switch_show_moon_phase">Moon phase indicator</string>
+    <string name="switch_show_golden_hour">Golden &amp; blue hours</string>
+    <string name="switch_show_solar_noon">True solar noon marker</string>
+    <string name="switch_red_night_mode">Red night mode (Cockpit)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Set as Wallpaper</string>

@@ -71,6 +71,10 @@
     <string name="switch_uv_arc">UV-Aktivitätsbogen anzeigen</string>
     <string name="switch_show_date">Datum anzeigen</string>
     <string name="switch_show_uv_index">UV-Index anzeigen</string>
+    <string name="switch_show_moon_phase">Mondphasenanzeige</string>
+    <string name="switch_show_golden_hour">Goldene und blaue Stunde</string>
+    <string name="switch_show_solar_noon">Wahrer Sonnenmittag-Marker</string>
+    <string name="switch_red_night_mode">Roter Nachtmodus (Cockpit)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Als Hintergrund festlegen</string>

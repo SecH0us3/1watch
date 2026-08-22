@@ -71,6 +71,10 @@
     <string name="switch_show_uv_arc">Ἐμφάνιση τόξου UV</string>
     <string name="switch_show_date">Ἐμφάνιση ἡμερομηνίας</string>
     <string name="switch_show_uv_index">Ἐμφάνιση δείκτη UV</string>
+    <string name="switch_show_moon_phase">Ένδειξη φάσης σελήνης</string>
+    <string name="switch_show_golden_hour">Χρυσή &amp; μπλε ώρα</string>
+    <string name="switch_show_solar_noon">Δείκτης ηλιακού μεσημεριού</string>
+    <string name="switch_red_night_mode">Κόκκινη νυχτερινή λειτουργία (Cockpit)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Ορισμός ως ταπετσαρία</string>

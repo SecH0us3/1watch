@@ -71,6 +71,10 @@
     <string name="switch_uv_arc">Mostrar arco de actividad UV</string>
     <string name="switch_show_date">Mostrar fecha</string>
     <string name="switch_show_uv_index">Mostrar índice UV</string>
+    <string name="switch_show_moon_phase">Indicador de fase lunar</string>
+    <string name="switch_show_golden_hour">Hora dorada y azul</string>
+    <string name="switch_show_solar_noon">Marca del mediodía solar</string>
+    <string name="switch_red_night_mode">Modo nocturno rojo (Cabina)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Establecer como fondo</string>

@@ -71,6 +71,10 @@
     <string name="switch_show_uv_arc">显示紫外线活动弧</string>
     <string name="switch_show_date">显示日期</string>
     <string name="switch_show_uv_index">显示紫外线指数</string>
+    <string name="switch_show_moon_phase">月相指示器</string>
+    <string name="switch_show_golden_hour">黄金时刻与蓝色时刻</string>
+    <string name="switch_show_solar_noon">真太阳正午标记</string>
+    <string name="switch_red_night_mode">红色夜间模式（驾驶舱）</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">设为动态壁纸</string>
