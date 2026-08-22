@@ -515,6 +515,62 @@
                         android:textColor="#FFFFFF"
                         android:textSize="15sp"
                         app:switchPadding="16dp" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E2333" android:layout_marginHorizontal="16dp"/>
+
+                    <!-- Moon Phase Indicator -->
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchShowMoonPhase"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:text="@string/switch_show_moon_phase"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        app:switchPadding="16dp" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E2333" android:layout_marginHorizontal="16dp"/>
+
+                    <!-- Golden & Blue Hours -->
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchShowGoldenHour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:text="@string/switch_show_golden_hour"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        app:switchPadding="16dp" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E2333" android:layout_marginHorizontal="16dp"/>
+
+                    <!-- True Solar Noon Marker -->
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchShowSolarNoon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:text="@string/switch_show_solar_noon"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        app:switchPadding="16dp" />
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1E2333" android:layout_marginHorizontal="16dp"/>
+
+                    <!-- Red Night Mode (Cockpit) -->
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchRedNightMode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:text="@string/switch_red_night_mode"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        app:switchPadding="16dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

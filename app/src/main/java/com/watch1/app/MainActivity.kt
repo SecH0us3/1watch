@@ -317,6 +317,34 @@ class MainActivity : AppCompatActivity() {
             clockView.refreshSettings()
         }
 
+        val switchMoon = findViewById<SwitchMaterial>(R.id.switchShowMoonPhase)
+        switchMoon.isChecked = LocationHelper.getShowMoonPhase(this)
+        switchMoon.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveShowMoonPhase(this, isChecked)
+            clockView.refreshSettings()
+        }
+
+        val switchGolden = findViewById<SwitchMaterial>(R.id.switchShowGoldenHour)
+        switchGolden.isChecked = LocationHelper.getShowGoldenHour(this)
+        switchGolden.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveShowGoldenHour(this, isChecked)
+            clockView.refreshSettings()
+        }
+
+        val switchSolarNoon = findViewById<SwitchMaterial>(R.id.switchShowSolarNoon)
+        switchSolarNoon.isChecked = LocationHelper.getShowSolarNoon(this)
+        switchSolarNoon.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveShowSolarNoon(this, isChecked)
+            clockView.refreshSettings()
+        }
+
+        val switchRedNight = findViewById<SwitchMaterial>(R.id.switchRedNightMode)
+        switchRedNight.isChecked = LocationHelper.getRedNightMode(this)
+        switchRedNight.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveRedNightMode(this, isChecked)
+            clockView.refreshSettings()
+        }
+
         findViewById<Button>(R.id.btnAddWidget).setOnClickListener {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 val appWidgetManager = getSystemService(android.appwidget.AppWidgetManager::class.java)
