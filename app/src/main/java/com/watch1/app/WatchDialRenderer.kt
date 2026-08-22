@@ -352,34 +352,90 @@ class WatchDialRenderer {
             }
         }
 
-        // 2.5 Draw Golden & Blue Hour Arcs along dial rim
+        // 2.5 Draw Golden & Blue Hour Arcs along dial rim with subtle gradient transition
         if (showGoldenHour && !sunTimes.isPolarDay && !sunTimes.isPolarNight) {
             val goldenArcRadius = radius * 0.885f
             goldenArcRect.set(cx - goldenArcRadius, cy - goldenArcRadius, cx + goldenArcRadius, cy + goldenArcRadius)
             goldenArcPaint.strokeWidth = radius * 0.016f
 
-            fun drawRimArc(startHour: Double?, endHour: Double?, color: Int) {
-                if (startHour != null && endHour != null) {
-                    val startAngle = (timeToAngle(startHour) - 90f).mod(360f)
-                    val endAngle = (timeToAngle(endHour) - 90f).mod(360f)
-                    var sweep = (endAngle - startAngle).mod(360f)
-                    if (sweep <= 0f) sweep += 360f
-                    goldenArcPaint.color = color
-                    canvas.drawArc(goldenArcRect, startAngle, sweep, false, goldenArcPaint)
-                }
+            fun blendColors(c1: Int, c2: Int, ratio: Float): Int {
+                val r = ratio.coerceIn(0f, 1f)
+                val ir = 1f - r
+                val a = (Color.alpha(c1) * ir + Color.alpha(c2) * r).toInt()
+                val red = (Color.red(c1) * ir + Color.red(c2) * r).toInt()
+                val green = (Color.green(c1) * ir + Color.green(c2) * r).toInt()
+                val blue = (Color.blue(c1) * ir + Color.blue(c2) * r).toInt()
+                return Color.argb(a, red, green, blue)
             }
 
             val blueColor = if (isRedActive) 0x99D32F2F.toInt() else 0xCC0288D1.toInt()
             val goldColor = if (isRedActive) 0xEEFF5252.toInt() else 0xEEFFB300.toInt()
 
-            // Morning blue hour (civil dawn to sunrise)
-            drawRimArc(sunTimes.morningBlueHourStart, sunTimes.sunriseHour, blueColor)
-            // Morning golden hour (sunrise to golden hour end)
-            drawRimArc(sunTimes.sunriseHour, sunTimes.morningGoldenHourEnd, goldColor)
-            // Evening golden hour (golden hour start to sunset)
-            drawRimArc(sunTimes.eveningGoldenHourStart, sunTimes.sunsetHour, goldColor)
-            // Evening blue hour (sunset to civil dusk)
-            drawRimArc(sunTimes.sunsetHour, sunTimes.eveningBlueHourEnd, blueColor)
+            fun drawGradientTwilightBand(
+                startHour: Double,
+                horizonHour: Double,
+                endHour: Double,
+                isMorning: Boolean
+            ) {
+                val totalHours = if (endHour >= startHour) endHour - startHour else (endHour + 24) - startHour
+                if (totalHours <= 0.05) return
+
+                val steps = 48
+                val stepHours = totalHours / steps
+                val transitionWindow = 0.35 // ~21 minutes subtle gradient transition around sunrise/sunset
+
+                for (i in 0 until steps) {
+                    val h1 = (startHour + i * stepHours).mod(24.0)
+                    val hMid = (startHour + (i + 0.5) * stepHours).mod(24.0)
+                    val startAngle = (timeToAngle(h1) - 90f).mod(360f)
+                    val sweep = (timeToAngle(h1 + stepHours) - timeToAngle(h1)).toFloat()
+
+                    val distToHorizon = if (isMorning) {
+                        (hMid - horizonHour).let { if (it > 12) it - 24 else if (it < -12) it + 24 else it }
+                    } else {
+                        (horizonHour - hMid).let { if (it > 12) it - 24 else if (it < -12) it + 24 else it }
+                    }
+
+                    val blendFactor = ((distToHorizon + transitionWindow / 2.0) / transitionWindow).toFloat().coerceIn(0f, 1f)
+                    val baseColor = blendColors(blueColor, goldColor, blendFactor)
+
+                    val progress = i.toFloat() / (steps - 1)
+                    val edgeFade = when {
+                        progress < 0.12f -> progress / 0.12f
+                        progress > 0.88f -> (1f - progress) / 0.12f
+                        else -> 1f
+                    }
+                    val finalAlpha = (Color.alpha(baseColor) * edgeFade).toInt()
+                    goldenArcPaint.color = Color.argb(
+                        finalAlpha,
+                        Color.red(baseColor),
+                        Color.green(baseColor),
+                        Color.blue(baseColor)
+                    )
+
+                    canvas.drawArc(goldenArcRect, startAngle, sweep + 0.25f, false, goldenArcPaint)
+                }
+            }
+
+            // Morning twilight band: civil dawn -> sunrise -> golden hour end
+            if (sunTimes.morningBlueHourStart != null && sunTimes.morningGoldenHourEnd != null) {
+                drawGradientTwilightBand(
+                    sunTimes.morningBlueHourStart,
+                    sunTimes.sunriseHour,
+                    sunTimes.morningGoldenHourEnd,
+                    isMorning = true
+                )
+            }
+
+            // Evening twilight band: golden hour start -> sunset -> civil dusk
+            if (sunTimes.eveningGoldenHourStart != null && sunTimes.eveningBlueHourEnd != null) {
+                drawGradientTwilightBand(
+                    sunTimes.eveningGoldenHourStart,
+                    sunTimes.sunsetHour,
+                    sunTimes.eveningBlueHourEnd,
+                    isMorning = false
+                )
+            }
         }
 
         // 2.6 Draw True Solar Noon Marker
