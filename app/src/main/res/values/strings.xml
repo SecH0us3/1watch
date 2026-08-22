@@ -77,6 +77,7 @@
     <string name="switch_show_golden_hour">Golden &amp; blue hours</string>
     <string name="switch_show_solar_noon">True solar noon marker</string>
     <string name="switch_red_night_mode">Red night mode (Cockpit)</string>
+    <string name="github_repo_title">Source Code (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Set as Wallpaper</string>

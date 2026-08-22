@@ -75,6 +75,7 @@
     <string name="switch_show_golden_hour">Hora aurea et caerulea</string>
     <string name="switch_show_solar_noon">Nota meridiei solaris</string>
     <string name="switch_red_night_mode">Modus nocturnus ruber (Cockpit)</string>
+    <string name="github_repo_title">Codex fontis (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Pone ut Fundum</string>

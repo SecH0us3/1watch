@@ -345,6 +345,15 @@ class MainActivity : AppCompatActivity() {
             clockView.refreshSettings()
         }
 
+        findViewById<View>(R.id.btnOpenGithub).setOnClickListener {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/SecH0us3/1watch"))
+                startActivity(intent)
+            } catch (e: Exception) {
+                // Ignore if no browser installed
+            }
+        }
+
         findViewById<Button>(R.id.btnAddWidget).setOnClickListener {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 val appWidgetManager = getSystemService(android.appwidget.AppWidgetManager::class.java)

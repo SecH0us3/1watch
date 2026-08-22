@@ -75,6 +75,7 @@
     <string name="switch_show_golden_hour">गोल्डन और ब्लू आवर</string>
     <string name="switch_show_solar_noon">सटीक सौर दोपहर मार्कर</string>
     <string name="switch_red_night_mode">लाल रात्रि मोड (कॉकपिट)</string>
+    <string name="github_repo_title">स्रोत कोड (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">वॉलपेपर के रूप में सेट करें</string>

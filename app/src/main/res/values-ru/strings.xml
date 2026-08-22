@@ -74,6 +74,7 @@
     <string name="switch_show_golden_hour">«Золотой» и «синий» час</string>
     <string name="switch_show_solar_noon">Метка истинного полудня</string>
     <string name="switch_red_night_mode">Красный ночной режим (Cockpit)</string>
+    <string name="github_repo_title">Исходный код (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Установить как обои</string>

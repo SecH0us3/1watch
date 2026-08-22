@@ -75,6 +75,7 @@
     <string name="switch_show_golden_hour">Goldene und blaue Stunde</string>
     <string name="switch_show_solar_noon">Wahrer Sonnenmittag-Marker</string>
     <string name="switch_red_night_mode">Roter Nachtmodus (Cockpit)</string>
+    <string name="github_repo_title">Quellcode (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Als Hintergrund festlegen</string>

@@ -75,6 +75,7 @@
     <string name="switch_show_golden_hour">Heures dorée et bleue</string>
     <string name="switch_show_solar_noon">Repère du midi solaire</string>
     <string name="switch_red_night_mode">Mode nuit rouge (Cockpit)</string>
+    <string name="github_repo_title">Code source (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Définir comme fond d\'écran</string>
