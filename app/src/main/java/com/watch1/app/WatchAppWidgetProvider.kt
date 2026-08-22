@@ -119,7 +119,11 @@ class WatchAppWidgetProvider : AppWidgetProvider() {
                 isWallpaper = false,
                 bezelStyle = config.bezelStyle,
                 showBrandLogo = config.showBrandLogo,
-                gradientDayNight = config.gradientDayNight
+                gradientDayNight = config.gradientDayNight,
+                showMoonPhase = config.showMoonPhase,
+                showGoldenHour = config.showGoldenHour,
+                showSolarNoon = config.showSolarNoon,
+                redNightMode = config.redNightMode
             )
 
             return bitmap

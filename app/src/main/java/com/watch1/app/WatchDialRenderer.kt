@@ -176,9 +176,31 @@ class WatchDialRenderer {
         style = Paint.Style.STROKE
     }
 
+    private val moonBasePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+    }
+
+    private val moonLightPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+    }
+
+    private val moonStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+    }
+
+    private val goldenArcPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.ROUND
+    }
+
+    private val solarNoonPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+    }
+
     // Zero-allocation reusable geometry buffers
     private val dialRect = RectF()
     private val uvRect = RectF()
+    private val goldenArcRect = RectF()
     private val srcRect = Rect()
     private val destRect = Rect()
     private val handPath = Path()
@@ -212,25 +234,53 @@ class WatchDialRenderer {
         isWallpaper: Boolean = false,
         bezelStyle: BezelStyle = BezelStyle.NONE,
         showBrandLogo: Boolean = true,
-        gradientDayNight: Boolean = false
+        gradientDayNight: Boolean = false,
+        showMoonPhase: Boolean = true,
+        showGoldenHour: Boolean = false,
+        showSolarNoon: Boolean = false,
+        redNightMode: Boolean = false
     ) {
-        dialBackgroundPaint.color = theme.dialBgColor
-        dayZonePaint.color = theme.dayZoneColor
-        nightZonePaint.color = theme.nightZoneColor
-        tickPaint.color = theme.tickColor
-        textPaint.color = theme.textColor
+        val isDaytime = if (sunTimes.isPolarDay) true
+        else if (sunTimes.isPolarNight) false
+        else {
+            val t = timeHourFraction.mod(24.0)
+            if (sunTimes.sunriseHour < sunTimes.sunsetHour) {
+                t in sunTimes.sunriseHour..sunTimes.sunsetHour
+            } else {
+                t >= sunTimes.sunriseHour || t <= sunTimes.sunsetHour
+            }
+        }
+        val isRedActive = redNightMode && !isDaytime
+
+        val activeDialBgColor = if (isRedActive) 0xFF080101.toInt() else theme.dialBgColor
+        val activeDayZoneColor = if (isRedActive) 0xFF140202.toInt() else theme.dayZoneColor
+        val activeNightZoneColor = if (isRedActive) 0xFF050000.toInt() else theme.nightZoneColor
+        val activeTickColor = if (isRedActive) 0xFFD32F2F.toInt() else theme.tickColor
+        val activeTextColor = if (isRedActive) 0xFFEF5350.toInt() else theme.textColor
+        val activeHandColor = if (isRedActive) 0xFFFF1744.toInt() else theme.handColor
+        val activePivotColor = if (isRedActive) 0xFFFF5252.toInt() else theme.pivotColor
+        val activeDayTextColor = if (isRedActive) 0xFFEF5350.toInt() else theme.dayTextColor
+        val activeNightTextColor = if (isRedActive) 0xFFEF5350.toInt() else theme.nightTextColor
+        val activeDayTickColor = if (isRedActive) 0xFFD32F2F.toInt() else theme.dayTickColor
+        val activeNightTickColor = if (isRedActive) 0xFFD32F2F.toInt() else theme.nightTickColor
+
+        dialBackgroundPaint.color = activeDialBgColor
+        dayZonePaint.color = activeDayZoneColor
+        nightZonePaint.color = activeNightZoneColor
+        tickPaint.color = activeTickColor
+        textPaint.color = activeTextColor
         textPaint.typeface = numeralFont.typeface
-        handPaint.color = theme.handColor
-        pivotPaint.color = theme.pivotColor
+        handPaint.color = activeHandColor
+        pivotPaint.color = activePivotColor
 
         // 1. Draw Background (only fills full canvas for full-screen wallpaper)
         if (isWallpaper) {
-            if (bgMode == BackgroundMode.CUSTOM_IMAGE && bgBitmap != null) {
+            if (bgMode == BackgroundMode.CUSTOM_IMAGE && bgBitmap != null && !isRedActive) {
                 srcRect.set(0, 0, bgBitmap.width, bgBitmap.height)
                 destRect.set(0, 0, width, height)
                 canvas.drawBitmap(bgBitmap, srcRect, destRect, null)
                 canvas.drawRect(destRect, imageOverlayPaint)
-            } else if (bgMode == BackgroundMode.CUSTOM_COLOR) {
+            } else if (bgMode == BackgroundMode.CUSTOM_COLOR && !isRedActive) {
                 canvas.drawColor(customColor)
             } else {
                 canvas.drawColor(dialBackgroundPaint.color)
@@ -287,8 +337,8 @@ class WatchDialRenderer {
                 val stops = calculateGradientStops(
                     sunTimes.sunsetHour,
                     sunTimes.sunriseHour,
-                    theme.dayZoneColor,
-                    theme.nightZoneColor
+                    activeDayZoneColor,
+                    activeNightZoneColor
                 )
                 gradientPaint.shader = SweepGradient(cx, cy, stops.colors, stops.positions)
                 canvas.drawCircle(cx, cy, radius, gradientPaint)
@@ -302,6 +352,62 @@ class WatchDialRenderer {
             }
         }
 
+        // 2.5 Draw Golden & Blue Hour Arcs along dial rim
+        if (showGoldenHour && !sunTimes.isPolarDay && !sunTimes.isPolarNight) {
+            val goldenArcRadius = radius * 0.885f
+            goldenArcRect.set(cx - goldenArcRadius, cy - goldenArcRadius, cx + goldenArcRadius, cy + goldenArcRadius)
+            goldenArcPaint.strokeWidth = radius * 0.016f
+
+            fun drawRimArc(startHour: Double?, endHour: Double?, color: Int) {
+                if (startHour != null && endHour != null) {
+                    val startAngle = (timeToAngle(startHour) - 90f).mod(360f)
+                    val endAngle = (timeToAngle(endHour) - 90f).mod(360f)
+                    var sweep = (endAngle - startAngle).mod(360f)
+                    if (sweep <= 0f) sweep += 360f
+                    goldenArcPaint.color = color
+                    canvas.drawArc(goldenArcRect, startAngle, sweep, false, goldenArcPaint)
+                }
+            }
+
+            val blueColor = if (isRedActive) 0x99D32F2F.toInt() else 0xCC0288D1.toInt()
+            val goldColor = if (isRedActive) 0xEEFF5252.toInt() else 0xEEFFB300.toInt()
+
+            // Morning blue hour (civil dawn to sunrise)
+            drawRimArc(sunTimes.morningBlueHourStart, sunTimes.sunriseHour, blueColor)
+            // Morning golden hour (sunrise to golden hour end)
+            drawRimArc(sunTimes.sunriseHour, sunTimes.morningGoldenHourEnd, goldColor)
+            // Evening golden hour (golden hour start to sunset)
+            drawRimArc(sunTimes.eveningGoldenHourStart, sunTimes.sunsetHour, goldColor)
+            // Evening blue hour (sunset to civil dusk)
+            drawRimArc(sunTimes.sunsetHour, sunTimes.eveningBlueHourEnd, blueColor)
+        }
+
+        // 2.6 Draw True Solar Noon Marker
+        if (showSolarNoon && !sunTimes.isPolarNight) {
+            val noonAngle = (timeToAngle(sunTimes.solarNoonHour) - 90f).mod(360f)
+            val noonRad = Math.toRadians(noonAngle.toDouble())
+            val markerRadius = radius * 0.855f
+            val mx = (cx + markerRadius * cos(noonRad)).toFloat()
+            val my = (cy + markerRadius * sin(noonRad)).toFloat()
+
+            solarNoonPaint.style = Paint.Style.FILL
+            solarNoonPaint.color = if (isRedActive) 0xFFFF5252.toInt() else 0xFFFFD54F.toInt()
+            canvas.drawCircle(mx, my, radius * 0.015f, solarNoonPaint)
+
+            // Radial micro-tick pointing outward
+            solarNoonPaint.style = Paint.Style.STROKE
+            solarNoonPaint.strokeWidth = radius * 0.007f
+            val r1 = radius * 0.83f
+            val r2 = radius * 0.88f
+            canvas.drawLine(
+                (cx + r1 * cos(noonRad)).toFloat(),
+                (cy + r1 * sin(noonRad)).toFloat(),
+                (cx + r2 * cos(noonRad)).toFloat(),
+                (cy + r2 * sin(noonRad)).toFloat(),
+                solarNoonPaint
+            )
+        }
+
         // 3. Draw UV Activity Arc on Daytime Sector if enabled
         if (showUv && uvData != null && uvData.size >= 24 && !sunTimes.isPolarNight) {
             val uvArcRadius = radius * 0.94f
@@ -311,7 +417,11 @@ class WatchDialRenderer {
 
             for (h in 0 until 24) {
                 val uvVal = uvData[h]
-                val color = getUvColor(uvVal)
+                val color = if (isRedActive) {
+                    if (uvVal > 0.5f) 0xFFD32F2F.toInt() else Color.TRANSPARENT
+                } else {
+                    getUvColor(uvVal)
+                }
                 if (color != Color.TRANSPARENT) {
                     val startAngle = timeToAngle(h.toDouble()) - 90f
                     uvArcPaint.color = color
@@ -410,7 +520,7 @@ class WatchDialRenderer {
             // Complication 1: Date (clean typography below center pivot)
             if (showDate) {
                 val dateStr = "${date.dayOfMonth} ${date.month.name.take(3)}"
-                val dateY = cy + radius * 0.38f
+                val dateY = if (showMoonPhase) cy + radius * 0.38f else cy + radius * 0.38f
 
                 // Date text
                 val oldSize = textPaint.textSize
@@ -420,6 +530,62 @@ class WatchDialRenderer {
                 val dMetrics = textPaint.fontMetrics
                 val dOffset = -(dMetrics.descent + dMetrics.ascent) / 2f
                 canvas.drawText(dateStr, cx, dateY + dOffset, textPaint)
+                textPaint.textSize = oldSize
+                textPaint.letterSpacing = oldTracking
+            }
+
+            // Complication: Moon Phase Indicator
+            if (showMoonPhase) {
+                val moonInfo = MoonCalculator.calculateMoonInfo(date)
+                val moonY = if (showDate) cy + radius * 0.22f else cy + radius * 0.32f
+                val mr = radius * 0.045f * fontSizeScale
+
+                moonBasePaint.color = if (isRedActive) 0xFF220505.toInt() else 0xFF1E2333.toInt()
+                moonLightPaint.color = if (isRedActive) 0xFFEF5350.toInt() else 0xFFF1F5F9.toInt()
+                moonStrokePaint.color = if (isRedActive) 0x66EF5350.toInt() else 0x44FFFFFF.toInt()
+                moonStrokePaint.strokeWidth = max(1f, mr * 0.10f)
+
+                // 1. Draw base dark disk
+                canvas.drawCircle(cx, moonY, mr, moonBasePaint)
+
+                val p = moonInfo.phase
+                val clipRect = RectF(cx - mr, moonY - mr, cx + mr, moonY + mr)
+
+                if (p in 0.47..0.53) {
+                    // Full Moon
+                    canvas.drawCircle(cx, moonY, mr, moonLightPaint)
+                } else if (p >= 0.03 && p < 0.97) {
+                    val isWaxing = p < 0.5
+                    val k = cos(p * 2.0 * PI).toFloat() // +1 at new, 0 at quarter, -1 at full
+
+                    canvas.save()
+                    canvas.clipRect(clipRect)
+
+                    // Draw the illuminated half
+                    val startAngle = if (isWaxing) -90f else 90f
+                    canvas.drawArc(clipRect, startAngle, 180f, true, moonLightPaint)
+
+                    // Terminator ellipse
+                    val terminatorW = abs(k) * mr
+                    val terminatorRect = RectF(cx - terminatorW, moonY - mr, cx + terminatorW, moonY + mr)
+                    val terminatorPaint = if (k < 0) moonLightPaint else moonBasePaint
+                    canvas.drawOval(terminatorRect, terminatorPaint)
+
+                    canvas.restore()
+                }
+
+                // Outer border
+                canvas.drawCircle(cx, moonY, mr, moonStrokePaint)
+
+                // Illumination percentage
+                val pctStr = "${(moonInfo.illumination * 100).roundToInt()}%"
+                val oldSize = textPaint.textSize
+                val oldTracking = textPaint.letterSpacing
+                textPaint.textSize = radius * 0.032f * fontSizeScale
+                textPaint.letterSpacing = 0.04f
+                val pctMetrics = textPaint.fontMetrics
+                val pctOffset = -(pctMetrics.descent + pctMetrics.ascent) / 2f
+                canvas.drawText(pctStr, cx, moonY + mr * 1.55f + pctOffset, textPaint)
                 textPaint.textSize = oldSize
                 textPaint.letterSpacing = oldTracking
             }
@@ -440,7 +606,11 @@ class WatchDialRenderer {
                 val uMetrics = textPaint.fontMetrics
                 val uOffset = -(uMetrics.descent + uMetrics.ascent) / 2f
 
-                val uvColor = getUvColor(currentUv)
+                val uvColor = if (isRedActive) {
+                    if (currentUv > 0.5f) 0xFFD32F2F.toInt() else Color.TRANSPARENT
+                } else {
+                    getUvColor(currentUv)
+                }
                 if (uvColor != Color.TRANSPARENT) {
                     val textW = textPaint.measureText(uvStr)
                     val dotX = cx - (textW / 2f) - dotRadius * 2.2f
@@ -477,7 +647,7 @@ class WatchDialRenderer {
         if (!dayZonePath.isEmpty) {
             canvas.save()
             canvas.clipPath(dayZonePath)
-            drawTicksAndNumerals(theme.dayTextColor, theme.dayTickColor)
+            drawTicksAndNumerals(activeDayTextColor, activeDayTickColor)
             canvas.restore()
         }
 
@@ -485,7 +655,7 @@ class WatchDialRenderer {
         if (!nightZonePath.isEmpty) {
             canvas.save()
             canvas.clipPath(nightZonePath)
-            drawTicksAndNumerals(theme.nightTextColor, theme.nightTickColor)
+            drawTicksAndNumerals(activeNightTextColor, activeNightTickColor)
             canvas.restore()
         }
 

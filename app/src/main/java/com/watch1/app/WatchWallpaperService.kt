@@ -151,7 +151,11 @@ class WatchWallpaperService : WallpaperService() {
                     isWallpaper = true,
                     bezelStyle = config.bezelStyle,
                     showBrandLogo = config.showBrandLogo,
-                    gradientDayNight = config.gradientDayNight
+                    gradientDayNight = config.gradientDayNight,
+                    showMoonPhase = config.showMoonPhase,
+                    showGoldenHour = config.showGoldenHour,
+                    showSolarNoon = config.showSolarNoon,
+                    redNightMode = config.redNightMode
                 )
             } finally {
                 holder.unlockCanvasAndPost(canvas)
