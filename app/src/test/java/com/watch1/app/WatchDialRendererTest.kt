@@ -2,6 +2,7 @@ package com.watch1.app
 
 import android.graphics.Color
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class WatchDialRendererTest {
@@ -252,5 +253,31 @@ class WatchDialRendererTest {
         assertEquals(0f, winterStops.positions.first(), 0.001f)
         assertEquals(1f, winterStops.positions.last(), 0.001f)
         assertEquals(winterStops.colors.first(), winterStops.colors.last())
+    }
+
+    @Test
+    fun testAstronomicalComplicationsConfig() {
+        val config = ClockConfig(
+            lat = 55.75,
+            lon = 37.61,
+            theme = DialTheme.CLASSIC_DARK,
+            showUv = true,
+            numeralStyle = NumeralStyle.ARABIC,
+            numeralOrientation = NumeralOrientation.UPRIGHT,
+            numeralDisplayMode = NumeralDisplayMode.ALL,
+            fontSizeScale = 1.0f,
+            numeralFont = NumeralFont.SANS_SERIF,
+            handStyle = HandStyle.BOTTA_NEEDLE,
+            bgMode = BackgroundMode.THEME_DEFAULT,
+            customColor = 0,
+            showMoonPhase = true,
+            showGoldenHour = true,
+            showSolarNoon = true,
+            redNightMode = true
+        )
+        assertTrue(config.showMoonPhase)
+        assertTrue(config.showGoldenHour)
+        assertTrue(config.showSolarNoon)
+        assertTrue(config.redNightMode)
     }
 }
