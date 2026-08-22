@@ -66,9 +66,15 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">Цифры повернуты к центру</string>
+    <string name="switch_gradient_day_night">Градиентный переход дня и ночи</string>
     <string name="switch_show_uv_arc">Отображать шкалу активности UV</string>
     <string name="switch_show_date">Отображать дату</string>
     <string name="switch_show_uv_index">Отображать UV индекс</string>
+    <string name="switch_show_moon_phase">Индикатор фазы Луны</string>
+    <string name="switch_show_golden_hour">«Золотой» и «синий» час</string>
+    <string name="switch_show_solar_noon">Метка истинного полудня</string>
+    <string name="switch_red_night_mode">Красный ночной режим (Cockpit)</string>
+    <string name="github_repo_title">Исходный код (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Установить как обои</string>

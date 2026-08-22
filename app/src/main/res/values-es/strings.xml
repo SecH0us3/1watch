@@ -67,9 +67,15 @@
     <!-- Parameters / Switches -->
     <string name="switch_radial_orientation">Girar números hacia el centro</string>
     <string name="switch_roman_numerals">Números romanos (I, II … XXIV)</string>
+    <string name="switch_gradient_day_night">Gradiente suave de día y noche</string>
     <string name="switch_uv_arc">Mostrar arco de actividad UV</string>
     <string name="switch_show_date">Mostrar fecha</string>
     <string name="switch_show_uv_index">Mostrar índice UV</string>
+    <string name="switch_show_moon_phase">Indicador de fase lunar</string>
+    <string name="switch_show_golden_hour">Hora dorada y azul</string>
+    <string name="switch_show_solar_noon">Marca del mediodía solar</string>
+    <string name="switch_red_night_mode">Modo nocturno rojo (Cabina)</string>
+    <string name="github_repo_title">Código fuente (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Establecer como fondo</string>

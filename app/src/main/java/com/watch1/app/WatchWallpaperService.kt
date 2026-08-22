@@ -150,7 +150,12 @@ class WatchWallpaperService : WallpaperService() {
                     bgBitmap = bgBitmap,
                     isWallpaper = true,
                     bezelStyle = config.bezelStyle,
-                    showBrandLogo = config.showBrandLogo
+                    showBrandLogo = config.showBrandLogo,
+                    gradientDayNight = config.gradientDayNight,
+                    showMoonPhase = config.showMoonPhase,
+                    showGoldenHour = config.showGoldenHour,
+                    showSolarNoon = config.showSolarNoon,
+                    redNightMode = config.redNightMode
                 )
             } finally {
                 holder.unlockCanvasAndPost(canvas)

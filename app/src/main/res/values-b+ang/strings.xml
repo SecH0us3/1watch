@@ -67,9 +67,15 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">Wendan rīmtācn tō middan</string>
+    <string name="switch_gradient_day_night">Dæges and nihte smēðe scirung</string>
     <string name="switch_show_uv_arc">Ætīewan sunnan UV-boga</string>
     <string name="switch_show_date">Ætīewan dæġ on dægmǣle</string>
     <string name="switch_show_uv_index">Ætīewan UV-mearc</string>
+    <string name="switch_show_moon_phase">Mōnan hīwes tācnung</string>
+    <string name="switch_show_golden_hour">Gylden &amp; hǣwen tīd</string>
+    <string name="switch_show_solar_noon">Sōnlīc middægmearc</string>
+    <string name="switch_red_night_mode">Rēad nihtendebȳrding (Cockpit)</string>
+    <string name="github_repo_title">Frumtīd-rīm (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">Settan tō weallwebbe</string>

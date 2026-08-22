@@ -67,9 +67,15 @@
 
     <!-- Parameters / Switches -->
     <string name="switch_rotate_with_dial">अंकों को केंद्र की ओर घुमाएं</string>
+    <string name="switch_gradient_day_night">दिन और रात का स्मूथ ग्रेडिएंट</string>
     <string name="switch_show_uv_arc">यूवी गतिविधि चाप दिखाएं</string>
     <string name="switch_show_date">दिनांक दिखाएं</string>
     <string name="switch_show_uv_index">यूवी सूचकांक दिखाएं</string>
+    <string name="switch_show_moon_phase">चंद्रमा चरण सूचक</string>
+    <string name="switch_show_golden_hour">गोल्डन और ब्लू आवर</string>
+    <string name="switch_show_solar_noon">सटीक सौर दोपहर मार्कर</string>
+    <string name="switch_red_night_mode">लाल रात्रि मोड (कॉकपिट)</string>
+    <string name="github_repo_title">स्रोत कोड (GitHub)</string>
 
     <!-- Action Button -->
     <string name="btn_set_wallpaper">वॉलपेपर के रूप में सेट करें</string>

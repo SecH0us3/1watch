@@ -2,6 +2,7 @@ package com.watch1.app
 
 import android.graphics.Color
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class WatchDialRendererTest {
@@ -164,5 +165,119 @@ class WatchDialRendererTest {
         assertEquals(BezelStyle.POLISHED_GOLD, BezelStyle.fromName("POLISHED_GOLD"))
         // fallback
         assertEquals(BezelStyle.NONE, BezelStyle.fromName("UNKNOWN"))
+    }
+
+    @Test
+    fun testClockConfigDefaultGradientDayNight() {
+        val config = ClockConfig(
+            lat = 55.75,
+            lon = 37.61,
+            theme = DialTheme.CLASSIC_DARK,
+            showUv = true,
+            numeralStyle = NumeralStyle.ARABIC,
+            numeralOrientation = NumeralOrientation.UPRIGHT,
+            numeralDisplayMode = NumeralDisplayMode.ALL,
+            fontSizeScale = 1.0f,
+            numeralFont = NumeralFont.SANS_SERIF,
+            handStyle = HandStyle.BOTTA_NEEDLE,
+            bgMode = BackgroundMode.THEME_DEFAULT,
+            customColor = 0
+        )
+        assertEquals(false, config.gradientDayNight)
+        assertEquals(true, config.showMoonPhase)
+        assertEquals(false, config.showGoldenHour)
+        assertEquals(false, config.showSolarNoon)
+        assertEquals(false, config.redNightMode)
+    }
+
+    @Test
+    fun testGradientAngleCalculation() {
+        // Sunset at 18:00 (90 deg canvas angle) and sunrise at 06:00 (270 deg canvas angle)
+        val stops = WatchDialRenderer.calculateGradientStops(
+            sunsetHour = 18.0,
+            sunriseHour = 6.0,
+            dayColor = 0xFFFFFFFF.toInt(),
+            nightColor = 0xFF000000.toInt()
+        )
+        // Check that stops are sorted monotonically in [0f..1f]
+        for (i in 0 until stops.positions.size - 1) {
+            org.junit.Assert.assertTrue(stops.positions[i] <= stops.positions[i + 1])
+        }
+        assertEquals(0f, stops.positions.first(), 0.001f)
+        assertEquals(1f, stops.positions.last(), 0.001f)
+        assertEquals(stops.colors.first(), stops.colors.last())
+    }
+
+    @Test
+    fun testColorInterpolation() {
+        val white = 0xFFFFFFFF.toInt()
+        val black = 0xFF000000.toInt()
+        assertEquals(white, WatchDialRenderer.interpolateColor(white, black, 0.0f))
+        assertEquals(black, WatchDialRenderer.interpolateColor(white, black, 1.0f))
+        
+        val mid = WatchDialRenderer.interpolateColor(white, black, 0.5f)
+        val midR = (mid ushr 16) and 0xFF
+        val midG = (mid ushr 8) and 0xFF
+        val midB = mid and 0xFF
+        assertEquals(128, midR)
+        assertEquals(128, midG)
+        assertEquals(128, midB)
+    }
+
+    @Test
+    fun testGradientStopsSummerAndWinter() {
+        // Summer day: sunrise 04:00, sunset 22:00
+        val summerStops = WatchDialRenderer.calculateGradientStops(
+            sunsetHour = 22.0,
+            sunriseHour = 4.0,
+            dayColor = 0xFF222228.toInt(),
+            nightColor = 0xFF08080C.toInt()
+        )
+        for (i in 0 until summerStops.positions.size - 1) {
+            org.junit.Assert.assertTrue(summerStops.positions[i] <= summerStops.positions[i + 1])
+        }
+        assertEquals(0f, summerStops.positions.first(), 0.001f)
+        assertEquals(1f, summerStops.positions.last(), 0.001f)
+        assertEquals(summerStops.colors.first(), summerStops.colors.last())
+
+        // Winter day: sunrise 09:00, sunset 15:30
+        val winterStops = WatchDialRenderer.calculateGradientStops(
+            sunsetHour = 15.5,
+            sunriseHour = 9.0,
+            dayColor = 0xFF1C2541.toInt(),
+            nightColor = 0xFF050814.toInt()
+        )
+        for (i in 0 until winterStops.positions.size - 1) {
+            org.junit.Assert.assertTrue(winterStops.positions[i] <= winterStops.positions[i + 1])
+        }
+        assertEquals(0f, winterStops.positions.first(), 0.001f)
+        assertEquals(1f, winterStops.positions.last(), 0.001f)
+        assertEquals(winterStops.colors.first(), winterStops.colors.last())
+    }
+
+    @Test
+    fun testAstronomicalComplicationsConfig() {
+        val config = ClockConfig(
+            lat = 55.75,
+            lon = 37.61,
+            theme = DialTheme.CLASSIC_DARK,
+            showUv = true,
+            numeralStyle = NumeralStyle.ARABIC,
+            numeralOrientation = NumeralOrientation.UPRIGHT,
+            numeralDisplayMode = NumeralDisplayMode.ALL,
+            fontSizeScale = 1.0f,
+            numeralFont = NumeralFont.SANS_SERIF,
+            handStyle = HandStyle.BOTTA_NEEDLE,
+            bgMode = BackgroundMode.THEME_DEFAULT,
+            customColor = 0,
+            showMoonPhase = true,
+            showGoldenHour = true,
+            showSolarNoon = true,
+            redNightMode = true
+        )
+        assertTrue(config.showMoonPhase)
+        assertTrue(config.showGoldenHour)
+        assertTrue(config.showSolarNoon)
+        assertTrue(config.redNightMode)
     }
 }

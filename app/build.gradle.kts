@@ -21,8 +21,8 @@ android {
         applicationId = "com.watch1.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.0.2"
+        versionCode = 4
+        versionName = "1.0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,10 +31,15 @@ android {
         create("release") {
             val storeFilePath = localProperties.getProperty("RELEASE_STORE_FILE")
             if (!storeFilePath.isNullOrEmpty()) {
-                storeFile = file(storeFilePath)
-                storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD")
-                keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS")
-                keyPassword = localProperties.getProperty("RELEASE_KEY_PASSWORD")
+                val candidate1 = rootProject.file(storeFilePath)
+                val candidate2 = file(storeFilePath)
+                val storeF = if (candidate1.exists()) candidate1 else candidate2
+                if (storeF.exists()) {
+                    storeFile = storeF
+                    storePassword = localProperties.getProperty("RELEASE_STORE_PASSWORD")
+                    keyAlias = localProperties.getProperty("RELEASE_KEY_ALIAS")
+                    keyPassword = localProperties.getProperty("RELEASE_KEY_PASSWORD")
+                }
             }
         }
     }
@@ -43,7 +48,10 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release")
+            val releaseSigning = signingConfigs.getByName("release")
+            if (releaseSigning.storeFile != null) {
+                signingConfig = releaseSigning
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -56,6 +64,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
     }
 }
 

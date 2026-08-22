@@ -264,6 +264,13 @@ class MainActivity : AppCompatActivity() {
             clockView.refreshSettings()
         }
 
+        val switchGradient = findViewById<SwitchMaterial>(R.id.switchGradientDayNight)
+        switchGradient.isChecked = LocationHelper.getGradientDayNight(this)
+        switchGradient.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveGradientDayNight(this, isChecked)
+            clockView.refreshSettings()
+        }
+
         val switchUv = findViewById<SwitchMaterial>(R.id.switchUvArc)
         switchUv.isChecked = LocationHelper.getShowUv(this)
         switchUv.setOnCheckedChangeListener { _, isChecked ->
@@ -308,6 +315,43 @@ class MainActivity : AppCompatActivity() {
         switchBrandLogo.setOnCheckedChangeListener { _, isChecked ->
             LocationHelper.saveShowBrandLogo(this, isChecked)
             clockView.refreshSettings()
+        }
+
+        val switchMoon = findViewById<SwitchMaterial>(R.id.switchShowMoonPhase)
+        switchMoon.isChecked = LocationHelper.getShowMoonPhase(this)
+        switchMoon.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveShowMoonPhase(this, isChecked)
+            clockView.refreshSettings()
+        }
+
+        val switchGolden = findViewById<SwitchMaterial>(R.id.switchShowGoldenHour)
+        switchGolden.isChecked = LocationHelper.getShowGoldenHour(this)
+        switchGolden.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveShowGoldenHour(this, isChecked)
+            clockView.refreshSettings()
+        }
+
+        val switchSolarNoon = findViewById<SwitchMaterial>(R.id.switchShowSolarNoon)
+        switchSolarNoon.isChecked = LocationHelper.getShowSolarNoon(this)
+        switchSolarNoon.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveShowSolarNoon(this, isChecked)
+            clockView.refreshSettings()
+        }
+
+        val switchRedNight = findViewById<SwitchMaterial>(R.id.switchRedNightMode)
+        switchRedNight.isChecked = LocationHelper.getRedNightMode(this)
+        switchRedNight.setOnCheckedChangeListener { _, isChecked ->
+            LocationHelper.saveRedNightMode(this, isChecked)
+            clockView.refreshSettings()
+        }
+
+        findViewById<View>(R.id.btnOpenGithub).setOnClickListener {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/SecH0us3/1watch"))
+                startActivity(intent)
+            } catch (e: Exception) {
+                // Ignore if no browser installed
+            }
         }
 
         findViewById<Button>(R.id.btnAddWidget).setOnClickListener {
