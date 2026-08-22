@@ -520,12 +520,12 @@ class WatchDialRenderer {
             // Complication 1: Date (clean typography below center pivot)
             if (showDate) {
                 val dateStr = "${date.dayOfMonth} ${date.month.name.take(3)}"
-                val dateY = if (showMoonPhase) cy + radius * 0.38f else cy + radius * 0.38f
+                val dateY = if (showMoonPhase) cy + radius * 0.44f else cy + radius * 0.38f
 
                 // Date text
                 val oldSize = textPaint.textSize
                 val oldTracking = textPaint.letterSpacing
-                textPaint.textSize = radius * 0.048f * fontSizeScale
+                textPaint.textSize = radius * 0.046f * fontSizeScale
                 textPaint.letterSpacing = 0.08f
                 val dMetrics = textPaint.fontMetrics
                 val dOffset = -(dMetrics.descent + dMetrics.ascent) / 2f
@@ -537,8 +537,8 @@ class WatchDialRenderer {
             // Complication: Moon Phase Indicator
             if (showMoonPhase) {
                 val moonInfo = MoonCalculator.calculateMoonInfo(date)
-                val moonY = if (showDate) cy + radius * 0.22f else cy + radius * 0.32f
-                val mr = radius * 0.045f * fontSizeScale
+                val moonY = if (showDate) cy + radius * 0.26f else cy + radius * 0.35f
+                val mr = radius * 0.043f * fontSizeScale
 
                 moonBasePaint.color = if (isRedActive) 0xFF220505.toInt() else 0xFF1E2333.toInt()
                 moonLightPaint.color = if (isRedActive) 0xFFEF5350.toInt() else 0xFFF1F5F9.toInt()
@@ -581,11 +581,11 @@ class WatchDialRenderer {
                 val pctStr = "${(moonInfo.illumination * 100).roundToInt()}%"
                 val oldSize = textPaint.textSize
                 val oldTracking = textPaint.letterSpacing
-                textPaint.textSize = radius * 0.032f * fontSizeScale
+                textPaint.textSize = radius * 0.030f * fontSizeScale
                 textPaint.letterSpacing = 0.04f
                 val pctMetrics = textPaint.fontMetrics
                 val pctOffset = -(pctMetrics.descent + pctMetrics.ascent) / 2f
-                canvas.drawText(pctStr, cx, moonY + mr * 1.55f + pctOffset, textPaint)
+                canvas.drawText(pctStr, cx, moonY + mr * 1.50f + pctOffset, textPaint)
                 textPaint.textSize = oldSize
                 textPaint.letterSpacing = oldTracking
             }
